@@ -2,6 +2,7 @@ import subprocess32 as subprocess
 import os
 import pandas as pd
 import configparser
+import sys as sys
 '''
 maindir = '/media/ElissarDisk/ADASTRA/'
 indir = maindir + 'data/'
@@ -238,7 +239,7 @@ def pipe_my_id(my_id):
 
 
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
-path = os.argv[1]
+path = sys.argv[1]
 maindir = readConfig_SNP(path,'maindir')
 indir = readConfig_SNP(path,'indir')
 processed_ref = readConfig_SNP(path,'processed_ref')
@@ -258,7 +259,7 @@ with open(maindir + 'parameters/idid', "w") as outfile:
 '''
 #for i in idid:
 #    pipe_my_id(i)
-my_id = os.argv[2]
+my_id = sys.argv[2]
 pipe_my_id(my_id)
 
 #subprocess.run(['parallel', '-j', '4', 'step2_snp_calling.py','::::',maindir + 'parameters/idid'],capture_output=True)

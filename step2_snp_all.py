@@ -2,7 +2,7 @@ import subprocess32 as subprocess
 import os
 import pandas as pd
 import configparser
-
+import sys as sys
 
 def readConfig_SNP(path, dir):
     config = configparser.ConfigParser()
@@ -48,7 +48,7 @@ def readConfig_SNP(path, dir):
         return (metadata)
 
 
-path = os.argv[1]
+path = sys.argv[1]
 maindir = readConfig_SNP(path,'maindir')
 indir = readConfig_SNP(path,'indir')
 processed_ref = readConfig_SNP(path,'processed_ref')
@@ -66,4 +66,5 @@ idid = list(idid)
 with open(maindir + 'parameters/idid', "w") as outfile:
     outfile.write("\n".join(idid))
 
-subprocess.run(['parallel', '-j', '4', 'step2_snp_calling.py',path,'::::',maindir + 'parameters/idid'],capture_output=True)
+subprocess.run(['parallel', '-j', '4','python', 'step2_snp_calling.py',path,'::::',maindir + 'parameters/idid'],
+               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
