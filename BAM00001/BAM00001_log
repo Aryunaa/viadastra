@@ -1,0 +1,254 @@
+[E::idx_find_and_load] Could not retrieve index file for '/media/ElissarDisk/ADASTRA/data/BAM00001.bam'
+[main_samview] random alignment retrieval only works for indexed BAM or CRAM files.
+INFO	2021-09-08 14:06:39	AddOrReplaceReadGroups	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    AddOrReplaceReadGroups -I /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_chop.bam -O /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_formatted.bam -RGLB lib1 -RGPL seq1 -RGPU unit1 -RGSM 20 -RGID 1
+**********
+
+
+14:06:39.515 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/picard-2.25.7-0/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Wed Sep 08 14:06:39 CEST 2021] AddOrReplaceReadGroups INPUT=/media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_chop.bam OUTPUT=/media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_formatted.bam RGID=1 RGLB=lib1 RGPL=seq1 RGPU=unit1 RGSM=20    VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Wed Sep 08 14:06:39 CEST 2021] Executing as adastra@disleg-Precision-Tower-7910 on Linux 4.15.0-151-generic amd64; OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.25.7
+INFO	2021-09-08 14:06:39	AddOrReplaceReadGroups	Created read-group ID=1 PL=seq1 LB=lib1 SM=20
+
+[Wed Sep 08 14:06:39 CEST 2021] picard.sam.AddOrReplaceReadGroups done. Elapsed time: 0.00 minutes.
+Runtime.totalMemory()=514850816
+INFO	2021-09-08 14:06:40	MarkDuplicates	
+
+********** NOTE: Picard's command line syntax is changing.
+**********
+********** For more information, please see:
+********** https://github.com/broadinstitute/picard/wiki/Command-Line-Syntax-Transition-For-Users-(Pre-Transition)
+**********
+********** The command line looks like this in the new syntax:
+**********
+**********    MarkDuplicates -I /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_formatted.bam -O /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_ready.bam -REMOVE_DUPLICATES true -M /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_metrics.txt
+**********
+
+
+14:06:40.231 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/picard-2.25.7-0/picard.jar!/com/intel/gkl/native/libgkl_compression.so
+[Wed Sep 08 14:06:40 CEST 2021] MarkDuplicates INPUT=[/media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_formatted.bam] OUTPUT=/media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_ready.bam METRICS_FILE=/media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_metrics.txt REMOVE_DUPLICATES=true    MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=50000 MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=8000 SORTING_COLLECTION_SIZE_RATIO=0.25 TAG_DUPLICATE_SET_MEMBERS=false REMOVE_SEQUENCING_DUPLICATES=false TAGGING_POLICY=DontTag CLEAR_DT=true DUPLEX_UMI=false ADD_PG_TAG_TO_READS=true ASSUME_SORTED=false DUPLICATE_SCORING_STRATEGY=SUM_OF_BASE_QUALITIES PROGRAM_RECORD_ID=MarkDuplicates PROGRAM_GROUP_NAME=MarkDuplicates READ_NAME_REGEX=<optimized capture of last three ':' separated fields as numeric values> OPTICAL_DUPLICATE_PIXEL_DISTANCE=100 MAX_OPTICAL_DUPLICATE_SET_SIZE=300000 VERBOSITY=INFO QUIET=false VALIDATION_STRINGENCY=STRICT COMPRESSION_LEVEL=5 MAX_RECORDS_IN_RAM=500000 CREATE_INDEX=false CREATE_MD5_FILE=false GA4GH_CLIENT_SECRETS=client_secrets.json USE_JDK_DEFLATER=false USE_JDK_INFLATER=false
+[Wed Sep 08 14:06:40 CEST 2021] Executing as adastra@disleg-Precision-Tower-7910 on Linux 4.15.0-151-generic amd64; OpenJDK 64-Bit Server VM 1.8.0_152-release-1056-b12; Deflater: Intel; Inflater: Intel; Provider GCS is not available; Picard version: 2.25.7
+INFO	2021-09-08 14:06:40	MarkDuplicates	Start of doWork freeMemory: 501870120; totalMemory: 514850816; maxMemory: 1908932608
+INFO	2021-09-08 14:06:40	MarkDuplicates	Reading input file and constructing read end information.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Will retain up to 6916422 data points before spilling to disk.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Read 0 records. 0 pairs never matched.
+INFO	2021-09-08 14:06:40	MarkDuplicates	After buildSortedReadEndLists freeMemory: 452646760; totalMemory: 514850816; maxMemory: 1908932608
+INFO	2021-09-08 14:06:40	MarkDuplicates	Will retain up to 59654144 duplicate indices before spilling to disk.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Traversing read pair information and detecting duplicates.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Traversing fragment information and detecting duplicates.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Sorting list of duplicate records.
+INFO	2021-09-08 14:06:40	MarkDuplicates	After generateDuplicateIndexes freeMemory: 508924240; totalMemory: 992477184; maxMemory: 1908932608
+INFO	2021-09-08 14:06:40	MarkDuplicates	Marking 0 records as duplicates.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Found 0 optical duplicate clusters.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Reads are assumed to be ordered by: coordinate
+INFO	2021-09-08 14:06:40	MarkDuplicates	Writing complete. Closing input iterator.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Duplicate Index cleanup.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Getting Memory Stats.
+INFO	2021-09-08 14:06:40	MarkDuplicates	Before output close freeMemory: 985726856; totalMemory: 992477184; maxMemory: 1908932608
+INFO	2021-09-08 14:06:40	MarkDuplicates	Closed outputs. Getting more Memory Stats.
+INFO	2021-09-08 14:06:40	MarkDuplicates	After output close freeMemory: 985796272; totalMemory: 992477184; maxMemory: 1908932608
+[Wed Sep 08 14:06:40 CEST 2021] picard.sam.markduplicates.MarkDuplicates done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=992477184
+14:06:43.225 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+Sep 08, 2021 2:06:43 PM shaded.cloud_nio.com.google.auth.oauth2.ComputeEngineCredentials runningOnComputeEngine
+INFO: Failed to detect whether we are running on Google Compute Engine.
+14:06:43.382 INFO  BaseRecalibrator - ------------------------------------------------------------
+14:06:43.382 INFO  BaseRecalibrator - The Genome Analysis Toolkit (GATK) v4.2.1.0
+14:06:43.383 INFO  BaseRecalibrator - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:06:43.383 INFO  BaseRecalibrator - Executing as adastra@disleg-Precision-Tower-7910 on Linux v4.15.0-151-generic amd64
+14:06:43.383 INFO  BaseRecalibrator - Java runtime: OpenJDK 64-Bit Server VM v1.8.0_152-release-1056-b12
+14:06:43.383 INFO  BaseRecalibrator - Start Date/Time: September 8, 2021 2:06:43 PM CEST
+14:06:43.383 INFO  BaseRecalibrator - ------------------------------------------------------------
+14:06:43.383 INFO  BaseRecalibrator - ------------------------------------------------------------
+14:06:43.384 INFO  BaseRecalibrator - HTSJDK Version: 2.24.1
+14:06:43.384 INFO  BaseRecalibrator - Picard Version: 2.25.4
+14:06:43.384 INFO  BaseRecalibrator - Built for Spark Version: 2.4.5
+14:06:43.384 INFO  BaseRecalibrator - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:06:43.384 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:06:43.384 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:06:43.384 INFO  BaseRecalibrator - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:06:43.384 INFO  BaseRecalibrator - Deflater: IntelDeflater
+14:06:43.384 INFO  BaseRecalibrator - Inflater: IntelInflater
+14:06:43.384 INFO  BaseRecalibrator - GCS max retries/reopens: 20
+14:06:43.384 INFO  BaseRecalibrator - Requester pays: disabled
+14:06:43.384 INFO  BaseRecalibrator - Initializing engine
+14:06:43.786 INFO  FeatureManager - Using codec VCFCodec to read file file:///media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz
+14:06:43.903 WARN  IndexUtils - Feature file "file:///media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz" appears to contain no sequence dictionary. Attempting to retrieve a sequence dictionary from the associated index file
+14:06:44.013 WARN  IntelInflater - Zero Bytes Written : 0
+14:06:44.018 INFO  BaseRecalibrator - Done initializing engine
+14:06:44.019 WARN  BaseRecalibrator - This tool has only been well tested on ILLUMINA-based sequencing data. For other data use at your own risk.
+14:06:44.021 INFO  BaseRecalibrationEngine - The covariates being used here: 
+14:06:44.021 INFO  BaseRecalibrationEngine - 	ReadGroupCovariate
+14:06:44.021 INFO  BaseRecalibrationEngine - 	QualityScoreCovariate
+14:06:44.021 INFO  BaseRecalibrationEngine - 	ContextCovariate
+14:06:44.021 INFO  BaseRecalibrationEngine - 	CycleCovariate
+14:06:44.026 INFO  ProgressMeter - Starting traversal
+14:06:44.027 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+14:06:44.031 WARN  IntelInflater - Zero Bytes Written : 0
+14:06:44.036 INFO  BaseRecalibrator - 0 read(s) filtered by: MappingQualityNotZeroReadFilter 
+0 read(s) filtered by: MappingQualityAvailableReadFilter 
+0 read(s) filtered by: MappedReadFilter 
+0 read(s) filtered by: NotSecondaryAlignmentReadFilter 
+0 read(s) filtered by: NotDuplicateReadFilter 
+0 read(s) filtered by: PassesVendorQualityCheckReadFilter 
+0 read(s) filtered by: WellformedReadFilter 
+0 total reads filtered
+14:06:44.037 INFO  ProgressMeter -             unmapped              0.0                     0              0.0
+14:06:44.037 INFO  ProgressMeter - Traversal complete. Processed 0 total reads in 0.0 minutes.
+14:06:44.037 INFO  BaseRecalibrator - Calculating quantized quality scores...
+14:06:44.048 INFO  BaseRecalibrator - Writing recalibration report...
+14:06:44.089 INFO  BaseRecalibrator - ...done!
+14:06:44.089 INFO  BaseRecalibrator - BaseRecalibrator was able to recalibrate 0 reads
+14:06:44.089 INFO  BaseRecalibrator - Shutting down engine
+[September 8, 2021 2:06:44 PM CEST] org.broadinstitute.hellbender.tools.walkers.bqsr.BaseRecalibrator done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=2128609280
+Using GATK jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx12G -XX:ParallelGCThreads=4 -jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar BaseRecalibrator -R /media/ElissarDisk/ADASTRA/processed_ref/genome-norm.fasta -I /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_ready.bam --known-sites /media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz -O /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001.table
+14:06:46.469 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+Sep 08, 2021 2:06:46 PM shaded.cloud_nio.com.google.auth.oauth2.ComputeEngineCredentials runningOnComputeEngine
+INFO: Failed to detect whether we are running on Google Compute Engine.
+14:06:46.622 INFO  ApplyBQSR - ------------------------------------------------------------
+14:06:46.622 INFO  ApplyBQSR - The Genome Analysis Toolkit (GATK) v4.2.1.0
+14:06:46.622 INFO  ApplyBQSR - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:06:46.623 INFO  ApplyBQSR - Executing as adastra@disleg-Precision-Tower-7910 on Linux v4.15.0-151-generic amd64
+14:06:46.623 INFO  ApplyBQSR - Java runtime: OpenJDK 64-Bit Server VM v1.8.0_152-release-1056-b12
+14:06:46.623 INFO  ApplyBQSR - Start Date/Time: September 8, 2021 2:06:46 PM CEST
+14:06:46.623 INFO  ApplyBQSR - ------------------------------------------------------------
+14:06:46.623 INFO  ApplyBQSR - ------------------------------------------------------------
+14:06:46.624 INFO  ApplyBQSR - HTSJDK Version: 2.24.1
+14:06:46.624 INFO  ApplyBQSR - Picard Version: 2.25.4
+14:06:46.624 INFO  ApplyBQSR - Built for Spark Version: 2.4.5
+14:06:46.624 INFO  ApplyBQSR - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:06:46.624 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:06:46.624 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:06:46.624 INFO  ApplyBQSR - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:06:46.624 INFO  ApplyBQSR - Deflater: IntelDeflater
+14:06:46.624 INFO  ApplyBQSR - Inflater: IntelInflater
+14:06:46.624 INFO  ApplyBQSR - GCS max retries/reopens: 20
+14:06:46.624 INFO  ApplyBQSR - Requester pays: disabled
+14:06:46.624 INFO  ApplyBQSR - Initializing engine
+14:06:47.075 INFO  ApplyBQSR - Done initializing engine
+14:06:47.089 WARN  ApplyBQSR - This tool has only been well tested on ILLUMINA-based sequencing data. For other data use at your own risk.
+14:06:47.089 INFO  ProgressMeter - Starting traversal
+14:06:47.089 INFO  ProgressMeter -        Current Locus  Elapsed Minutes       Reads Processed     Reads/Minute
+14:06:47.107 WARN  IntelInflater - Zero Bytes Written : 0
+14:06:47.113 INFO  ApplyBQSR - 0 read(s) filtered by: WellformedReadFilter 
+
+14:06:47.114 INFO  ProgressMeter -             unmapped              0.0                     0              0.0
+14:06:47.114 INFO  ProgressMeter - Traversal complete. Processed 0 total reads in 0.0 minutes.
+14:06:47.144 INFO  ApplyBQSR - Shutting down engine
+[September 8, 2021 2:06:47 PM CEST] org.broadinstitute.hellbender.tools.walkers.bqsr.ApplyBQSR done. Elapsed time: 0.01 minutes.
+Runtime.totalMemory()=2211446784
+Using GATK jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx12G -XX:ParallelGCThreads=4 -jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar ApplyBQSR -R /media/ElissarDisk/ADASTRA/processed_ref/genome-norm.fasta -I /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_ready.bam --bqsr-recal-file /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001.table -O /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_final.bam
+14:06:49.597 INFO  NativeLibraryLoader - Loading libgkl_compression.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar!/com/intel/gkl/native/libgkl_compression.so
+Sep 08, 2021 2:06:49 PM shaded.cloud_nio.com.google.auth.oauth2.ComputeEngineCredentials runningOnComputeEngine
+INFO: Failed to detect whether we are running on Google Compute Engine.
+14:06:49.733 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:06:49.733 INFO  HaplotypeCaller - The Genome Analysis Toolkit (GATK) v4.2.1.0
+14:06:49.733 INFO  HaplotypeCaller - For support and documentation go to https://software.broadinstitute.org/gatk/
+14:06:49.733 INFO  HaplotypeCaller - Executing as adastra@disleg-Precision-Tower-7910 on Linux v4.15.0-151-generic amd64
+14:06:49.733 INFO  HaplotypeCaller - Java runtime: OpenJDK 64-Bit Server VM v1.8.0_152-release-1056-b12
+14:06:49.734 INFO  HaplotypeCaller - Start Date/Time: September 8, 2021 2:06:49 PM CEST
+14:06:49.734 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:06:49.734 INFO  HaplotypeCaller - ------------------------------------------------------------
+14:06:49.734 INFO  HaplotypeCaller - HTSJDK Version: 2.24.1
+14:06:49.734 INFO  HaplotypeCaller - Picard Version: 2.25.4
+14:06:49.734 INFO  HaplotypeCaller - Built for Spark Version: 2.4.5
+14:06:49.734 INFO  HaplotypeCaller - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+14:06:49.734 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+14:06:49.734 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+14:06:49.734 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+14:06:49.735 INFO  HaplotypeCaller - Deflater: IntelDeflater
+14:06:49.735 INFO  HaplotypeCaller - Inflater: IntelInflater
+14:06:49.735 INFO  HaplotypeCaller - GCS max retries/reopens: 20
+14:06:49.735 INFO  HaplotypeCaller - Requester pays: disabled
+14:06:49.735 INFO  HaplotypeCaller - Initializing engine
+14:06:50.117 INFO  FeatureManager - Using codec VCFCodec to read file file:///media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz
+14:06:50.238 WARN  IndexUtils - Feature file "file:///media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz" appears to contain no sequence dictionary. Attempting to retrieve a sequence dictionary from the associated index file
+14:06:50.346 WARN  IntelInflater - Zero Bytes Written : 0
+14:06:50.361 INFO  HaplotypeCaller - Done initializing engine
+14:06:50.370 INFO  HaplotypeCallerEngine - Disabling physical phasing, which is supported only for reference-model confidence output
+14:06:50.383 INFO  NativeLibraryLoader - Loading libgkl_utils.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar!/com/intel/gkl/native/libgkl_utils.so
+14:06:50.384 INFO  NativeLibraryLoader - Loading libgkl_pairhmm_omp.so from jar:file:/media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar!/com/intel/gkl/native/libgkl_pairhmm_omp.so
+14:06:50.407 INFO  IntelPairHmm - Flush-to-zero (FTZ) is enabled when running PairHMM
+14:06:50.407 INFO  IntelPairHmm - Available threads: 40
+14:06:50.407 INFO  IntelPairHmm - Requested threads: 4
+14:06:50.407 INFO  PairHMM - Using the OpenMP multi-threaded AVX-accelerated native PairHMM implementation
+14:06:50.436 INFO  ProgressMeter - Starting traversal
+14:06:50.436 INFO  ProgressMeter -        Current Locus  Elapsed Minutes     Regions Processed   Regions/Minute
+14:07:00.437 INFO  ProgressMeter -        chr1:53489701              0.2                178300        1069800.0
+14:07:10.437 INFO  ProgressMeter -       chr1:120860701              0.3                402870        1208610.0
+14:07:20.436 INFO  ProgressMeter -       chr1:188807701              0.5                629360        1258720.0
+14:07:30.436 INFO  ProgressMeter -         chr2:5346901              0.7                848660        1272990.0
+14:07:40.436 INFO  ProgressMeter -        chr2:73110901              0.8               1074540        1289448.0
+14:07:50.436 INFO  ProgressMeter -       chr2:140286901              1.0               1298460        1298460.0
+14:08:00.436 INFO  ProgressMeter -       chr2:210690901              1.2               1533140        1314120.0
+14:08:10.436 INFO  ProgressMeter -        chr3:34298401              1.3               1755830        1316872.5
+14:08:20.436 INFO  ProgressMeter -       chr3:104708401              1.5               1990530        1327020.0
+14:08:30.436 INFO  ProgressMeter -       chr3:173996401              1.7               2221490        1332894.0
+14:08:40.436 INFO  ProgressMeter -        chr4:45255901              1.8               2452430        1337689.1
+14:08:50.436 INFO  ProgressMeter -       chr4:115278901              2.0               2685840        1342920.0
+14:09:00.436 INFO  ProgressMeter -       chr4:183483901              2.2               2913190        1344549.2
+14:09:10.436 INFO  ProgressMeter -        chr5:61542601              2.3               3143900        1347385.7
+14:09:20.436 INFO  ProgressMeter -       chr5:130893601              2.5               3375070        1350028.0
+14:09:30.436 INFO  ProgressMeter -        chr6:18810301              2.7               3604510        1351691.3
+14:09:40.436 INFO  ProgressMeter -        chr6:89493301              2.8               3840120        1355336.5
+14:09:50.436 INFO  ProgressMeter -       chr6:160266301              3.0               4076030        1358676.7
+14:10:00.436 INFO  ProgressMeter -        chr7:59960101              3.2               4312060        1361703.2
+14:10:10.436 INFO  ProgressMeter -       chr7:129347101              3.3               4543350        1363005.0
+14:10:20.436 INFO  ProgressMeter -        chr8:39037201              3.5               4772780        1363651.4
+14:10:30.436 INFO  ProgressMeter -       chr8:109837201              3.7               5008780        1366030.9
+14:10:40.436 INFO  ProgressMeter -        chr9:33567901              3.8               5242430        1367590.4
+14:10:50.436 INFO  ProgressMeter -       chr9:103434901              4.0               5475320        1368830.0
+14:11:00.436 INFO  ProgressMeter -       chr10:30681301              4.2               5703520        1368844.8
+14:11:10.436 INFO  ProgressMeter -       chr10:96042301              4.3               5921390        1366474.6
+14:11:20.436 INFO  ProgressMeter -       chr11:27404401              4.5               6144380        1365417.8
+14:11:30.436 INFO  ProgressMeter -       chr11:94709401              4.7               6368730        1364727.9
+14:11:40.436 INFO  ProgressMeter -       chr12:26356801              4.8               6590910        1363636.6
+14:11:50.439 INFO  ProgressMeter -       chr12:92686801              5.0               6812010        1362392.9
+14:12:00.438 INFO  ProgressMeter -       chr13:25572901              5.2               7034470        1361501.5
+14:12:10.439 INFO  ProgressMeter -       chr13:91392901              5.3               7253870        1360092.1
+14:12:20.438 INFO  ProgressMeter -       chr14:42105901              5.5               7473480        1358806.3
+14:12:30.438 INFO  ProgressMeter -        chr15:4062301              5.7               7704500        1359609.6
+14:12:40.438 INFO  ProgressMeter -       chr15:74541301              5.8               7939430        1361037.4
+14:12:50.438 INFO  ProgressMeter -       chr16:40892701              6.0               8169040        1361499.1
+14:13:00.438 INFO  ProgressMeter -       chr17:20458801              6.2               8402110        1362497.0
+14:13:10.438 INFO  ProgressMeter -        chr18:8740501              6.3               8633700        1363208.6
+14:13:20.438 INFO  ProgressMeter -         chr19:293101              6.5               8865800        1363962.2
+14:13:30.438 INFO  ProgressMeter -        chr20:8451001              6.7               9090090        1363506.7
+14:13:40.438 INFO  ProgressMeter -       chr21:14440201              6.8               9320140        1363916.3
+14:13:50.438 INFO  ProgressMeter -       chr22:31938301              7.0               9538900        1362693.5
+14:14:00.438 INFO  ProgressMeter -        chrX:46252501              7.2               9757630        1361523.4
+14:14:10.438 INFO  ProgressMeter -       chrX:111841501              7.3               9976260        1360392.9
+14:14:16.907 INFO  HaplotypeCaller - 0 read(s) filtered by: MappingQualityReadFilter 
+0 read(s) filtered by: MappingQualityAvailableReadFilter 
+0 read(s) filtered by: MappedReadFilter 
+0 read(s) filtered by: NotSecondaryAlignmentReadFilter 
+0 read(s) filtered by: NotDuplicateReadFilter 
+0 read(s) filtered by: PassesVendorQualityCheckReadFilter 
+0 read(s) filtered by: NonZeroReferenceLengthAlignmentReadFilter 
+0 read(s) filtered by: GoodCigarReadFilter 
+0 read(s) filtered by: WellformedReadFilter 
+0 total reads filtered
+14:14:16.908 INFO  ProgressMeter -       chrX:155269501              7.4              10121023        1360133.2
+14:14:16.908 INFO  ProgressMeter - Traversal complete. Processed 10121023 total regions in 7.4 minutes.
+14:14:16.910 INFO  VectorLoglessPairHMM - Time spent in setup for JNI call : 0.0
+14:14:16.911 INFO  PairHMM - Total compute time in PairHMM computeLogLikelihoods() : 0.0
+14:14:16.911 INFO  SmithWatermanAligner - Total compute time in java Smith-Waterman : 0.00 sec
+14:14:16.911 INFO  HaplotypeCaller - Shutting down engine
+[September 8, 2021 2:14:16 PM CEST] org.broadinstitute.hellbender.tools.walkers.haplotypecaller.HaplotypeCaller done. Elapsed time: 7.46 minutes.
+Runtime.totalMemory()=2491940864
+Using GATK jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -Xmx12G -XX:ParallelGCThreads=4 -jar /media/ElissarDisk/ADASTRA/envs/viadastra/share/gatk4-4.2.1.0-0/gatk-package-4.2.1.0-local.jar HaplotypeCaller -R /media/ElissarDisk/ADASTRA/processed_ref/genome-norm.fasta -I /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001_final.bam --dbsnp /media/ElissarDisk/ADASTRA/reference/00-common_all.vcf.gz -O /media/ElissarDisk/ADASTRA/processed_data/BAM00001/BAM00001.vcf
