@@ -1,6 +1,6 @@
 import subprocess32 as subprocess
 import os
-
+import configparser
 
 '''
 maindir = '/media/ElissarDisk/ADASTRA/'
@@ -39,7 +39,7 @@ def readConfig_ref(path, dir):
     elif (dir == 'logerr'):
         return (maindir + logdir + 'stderr')
 
-readConfig_ref(path,dir)
+path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
 maindir =readConfig_ref(path,'maindir')
 print(maindir)
 indir = readConfig_ref(path,'indir')
@@ -47,8 +47,8 @@ print(indir)
 logdir = readConfig_ref(path,'logdir')
 out1 = readConfig_ref(path,'out1')
 out2 = readConfig_ref(path,'out2')
-loglog = readConfig_ref(path,'stdout')
-logerr = readConfig_ref(path,'stderr')
+loglog = readConfig_ref(path,'loglog')
+logerr = readConfig_ref(path,'logerr')
 
 
 
