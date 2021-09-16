@@ -1,7 +1,8 @@
 import subprocess32 as subprocess
+import sys
 import os
 import configparser
-
+from config import readConfig_ref
 '''
 maindir = '/media/ElissarDisk/ADASTRA/'
 outdir = maindir + 'processed_ref/'
@@ -14,42 +15,25 @@ loglog = logdir + "stdout"
 logerr = logdir + "stderr"
 '''
 
+path = sys.argv[1]
+#path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
+#path ='C:/Users/Aryuna/Desktop/IB/viadastra_pretty/config.cfg'
+dicti = readConfig_ref(path)
 
-def readConfig_ref(path, dir):
-    config = configparser.ConfigParser()
-    config.read(path)
-    maindir = config.get("Directories", "maindir")
-    logdir = config.get("Directories", "ref_log")
-    indir = config.get("Files", "ref_in")
-    out1 = config.get("Files", "ref_out1")
-    out2 = config.get("Files", "ref_out2")
-
-    if (dir == 'maindir'):
-        return (maindir)
-    elif (dir == 'logdir'):
-        return (maindir + logdir)
-    elif (dir == 'indir'):
-        return (maindir + indir)
-    elif (dir == 'out1'):
-        return (maindir + out1)
-    elif (dir == 'out2'):
-        return (maindir + out2)
-    elif (dir == 'loglog'):
-        return (maindir + logdir + 'stdout')
-    elif (dir == 'logerr'):
-        return (maindir + logdir + 'stderr')
-
-path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
-maindir =readConfig_ref(path,'maindir')
+maindir = dicti['maindir']
 print(maindir)
-indir = readConfig_ref(path,'indir')
+indir = dicti['indir']
 print(indir)
-logdir = readConfig_ref(path,'logdir')
-out1 = readConfig_ref(path,'out1')
-out2 = readConfig_ref(path,'out2')
-loglog = readConfig_ref(path,'loglog')
-logerr = readConfig_ref(path,'logerr')
-
+logdir = dicti['logdir']
+print(logdir)
+out1 = dicti['out1']
+print(out1)
+out2 = dicti['out2']
+print(out2)
+loglog = dicti['loglog']
+print(loglog)
+logerr = dicti['logerr']
+print(logerr)
 
 
 #___________
