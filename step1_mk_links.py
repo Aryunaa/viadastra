@@ -38,6 +38,10 @@ for bam in id_bam:
     print('idbam '+id_bam[bam])
     #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
     #os.symlink(source +bam, dest + id_bam[bam]+'/'+id_bam[bam])
-    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+    if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
+        os.remove(dest + '/' + id_bam[bam]+'.bam')
+        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+    else:
+        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
     #os.symlink(source + bai, dest + '/' + id_bam[bam] + '.bai')
 print('symlinks created')
