@@ -36,8 +36,6 @@ with open(maindir + 'parameters/idid', "w") as outfile:
     outfile.write("\n".join(idid))
 
 
-
-
 subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',maindir + 'parameters/idid'],
                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 

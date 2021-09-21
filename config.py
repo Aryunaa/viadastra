@@ -20,6 +20,8 @@ def createConfig(path):
     config.set("Files", "ref_vcf", "reference/00-common_all.vcf.gz")
     config.set("Files", "ref_out1", "processed_ref/genome-norm.fasta")
     config.set("Files", "ref_out2", "processed_ref/genome-norm.dict")
+    config.set("Files", "exception_list", "logs/exception_list")
+    config.set("Files", "processing_list", "logs/processing_list")
 
     config.add_section("Parameters")
     config.set("Parameters", "JavaParameters", "-Xmx12G -XX:ParallelGCThreads=4")

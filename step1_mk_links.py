@@ -33,15 +33,16 @@ print('met '+met)
 metadata = pd.read_csv(met,sep='\t')
 df = metadata[['BAM','ID']]
 id_bam = dict(zip(df.BAM, df.ID))
+
+print(id_bam)
+print('start_cycle')
 for bam in id_bam:
     bai = bam.replace('.bam','.bai')
     print('idbam '+id_bam[bam])
     #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
-    #os.symlink(source +bam, dest + id_bam[bam]+'/'+id_bam[bam])
     if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
         os.remove(dest + '/' + id_bam[bam]+'.bam')
         os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
     else:
         os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-    #os.symlink(source + bai, dest + '/' + id_bam[bam] + '.bai')
 print('symlinks created')
