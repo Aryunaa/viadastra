@@ -64,7 +64,7 @@ maindir = config["Directories"]["maindir"]
 source = os.path.join(maindir,config["Directories"]["bam"])
 dest = os.path.join(maindir,config["Directories"]["data_in"])
 
-meta = os.path.join(maindir,config["Files"]["metadata"])
+met = os.path.join(maindir,config["Files"]["metadata"])
 path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
 path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
 
