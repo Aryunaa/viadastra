@@ -4,35 +4,112 @@ import pandas as pd
 import os
 import sys
 import configparser
+import pysam
 
-def readConfig(path, dir):
-    config = configparser.ConfigParser()
-    config.read(path)
 
-    maindir = config.get("Directories", "maindir")
-    bam = config.get("Directories", "bam")
-    data_in = config.get("Directories", "data_in")
-    metadata = config.get("Files", "metadata")
+def read_head(BAM):
+    samfile = pysam.view("-H", BAM)
 
-    if (dir == 'maindir'):
-        return (maindir)
-    elif (dir == 'metadata'):
-        return (maindir+metadata)
-    elif (dir == 'bam'):
-        return (maindir+bam)
-    elif (dir == 'data_in'):
-        return (maindir+data_in)
+    # for row in samfile:
+    # print(row)
 
+    # print(samfile)
+    return (samfile)
+
+def inters(samfile):
+    proper_head = ['SN:chr1',
+                   'SN:chr2',
+                   'SN:chr3',
+                   'SN:chr4',
+                   'SN:chr5',
+                   'SN:chr6',
+                   'SN:chr7',
+                   'SN:chr8',
+                   'SN:chr9',
+                   'SN:chr10',
+                   'SN:chr11',
+                   'SN:chr12',
+                   'SN:chr13',
+                   'SN:chr14',
+                   'SN:chr15',
+                   'SN:chr16',
+                   'SN:chr17',
+                   'SN:chr18',
+                   'SN:chr19',
+                   'SN:chr20',
+                   'SN:chr21',
+                   'SN:chr22',
+                   'SN:chrX',
+                   'SN:chrY'
+                   ]
+    x = pd.Series(samfile.split('\n'))
+    x2 = x.str.split('\t')
+    df = pd.DataFrame(x2.tolist())
+    heads_chr = df.iloc[:, 1].tolist()
+    inters = 0
+    for i in heads_chr:
+        for j in proper_head:
+            if i == j:
+                inters += 1
+    print(inters)
+    return (inters)
+
+
+# reading config -----------------------------
 path = sys.argv[1]
-met = readConfig(path,'metadata')
-maindir = readConfig(path,'maindir')
-source = readConfig(path, 'bam')
-dest = readConfig(path,'data_in')
+#path = 'CONFIG.cfg'
+config = configparser.ConfigParser()
+config.read(path)
+maindir = config["Directories"]["maindir"]
+source = os.path.join(maindir,config["Directories"]["bam"])
+dest = os.path.join(maindir,config["Directories"]["data_in"])
 
+meta = os.path.join(maindir,config["Files"]["metadata"])
+path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
+path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
+
+# reading metadata, filtrating by no RNA---------------
 print('met '+met)
 metadata = pd.read_csv(met,sep='\t')
-df = metadata[['BAM','ID']]
-id_bam = dict(zip(df.BAM, df.ID))
+norna = metadata[metadata["Extra1"] != 'RNA-seq']
+
+
+# creating exception list --------------------------
+# creating processing list -------------------------
+to_process_id = []
+to_process_bam = []
+exceptions_id = []
+exceptions_bam = []
+# creating filtrating by headers + append to lists -
+for i in range(norna.shape[0]):
+    pathfile = os.path.join(source,norna.iloc[i,0])
+    #pysam read -h
+    bam = read_head(pathfile)
+    #intersection by chr1,ch2 ...
+    bam_inters = inters(bam)
+    if(bam_inters>0):
+        print('true')
+        to_process_bam.append(norna.iloc[i,0])
+        to_process_id.append(norna.iloc[i,1])
+    else:
+        exceptions_bam.append(norna.iloc[i,0])
+        exceptions_id.append(norna.iloc[i,1])
+# to dicts
+to_process = dict(zip(to_process_bam,to_process_id))
+exceptions = dict(zip(exceptions_bam,exceptions_id))
+# dicts / lists to files -------------------------------------
+txt_exception_list = open(path_exception_list, "w")
+for key in exceptions:
+    txt_exception_list.write(exceptions[key]+"\t"+ key +"\n")
+txt_exception_list.close()
+
+txt_processing_list = open(path_processing_list,"w")
+for key in to_process:
+    txt_processing_list.write(to_process[key]+"\n")
+txt_processing_list.close()
+
+# creating dict for symlinks ---------------------------------
+id_bam = to_process
 
 print(id_bam)
 print('start_cycle')
@@ -46,3 +123,4 @@ for bam in id_bam:
     else:
         os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
 print('symlinks created')
+

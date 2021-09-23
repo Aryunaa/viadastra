@@ -3,16 +3,6 @@ import os
 from config import readConfig_SNP
 import configparser
 import sys as sys
-'''
-maindir = '/media/ElissarDisk/ADASTRA/'
-indir = maindir + 'data/'
-processed_ref = maindir + 'processed_ref/genome-norm.fasta'
-ref_vcf = maindir + 'reference/00-common_all.vcf.gz'
-
-outdir = maindir + 'processed_data/'
-logdir = maindir + 'logs/data_processing/'
-javapars = '-Xmx12G -XX:ParallelGCThreads=4'
-'''
 
 def loggi(tmp_log,tmp_err,stdout,stderr,k):
     stdout.split('\n')
@@ -198,6 +188,7 @@ def pipe_my_id(my_id):
 
 
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
+# reading config ------------------------------------------
 path = sys.argv[1]
 
 dicti = readConfig_SNP(path)
@@ -213,18 +204,7 @@ logdir = dicti['logdir']
 javapars = dicti['javapars']
 met = dicti['metadata']
 
-'''
-met = maindir + 'parameters/metadata.tsv'
-metadata = pd.read_csv(met,sep='\t')
-norna = metadata[metadata["Extra1"] != 'RNA-seq']
-idid = norna['ID']
-idid = list(idid)
-with open(maindir + 'parameters/idid', "w") as outfile:
-    outfile.write("\n".join(idid))
-'''
-#for i in idid:
-#    pipe_my_id(i)
+
+# pipe ----------------------------------------------------
 my_id = sys.argv[2]
 pipe_my_id(my_id)
-
-#subprocess.run(['parallel', '-j', '4', 'step2_snp_calling.py','::::',maindir + 'parameters/idid'],capture_output=True)

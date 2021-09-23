@@ -11,6 +11,7 @@ jobs = sys.argv[1]
 #jobs = 4
 path = sys.argv[2]
 #path ='C:/Users/Aryuna/Desktop/IB/viadastra_pretty/config.cfg'
+# reading config --------------------------
 dicti = readConfig_SNP(path)
 
 maindir = dicti['maindir']
@@ -23,19 +24,22 @@ outdir = dicti['outdir']
 logdir = dicti['logdir']
 javapars = dicti['javapars']
 met = dicti['metadata']
-
+processing_list = dicti['processing_list']
 
 dir = pathlib.Path(__file__).parent.absolute()
 script = os.path.join(dir,'step2_snp_calling.py')
 
+# reading metadata, filtrating ---------------
+'''
 metadata = pd.read_csv(met,sep='\t')
 norna = metadata[metadata["Extra1"] != 'RNA-seq']
+
 idid = norna['ID']
 idid = list(idid)
 with open(maindir + 'parameters/idid', "w") as outfile:
     outfile.write("\n".join(idid))
+'''
 
-
-subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',maindir + 'parameters/idid'],
+subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
