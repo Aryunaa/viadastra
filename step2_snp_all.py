@@ -38,8 +38,20 @@ idid = norna['ID']
 idid = list(idid)
 with open(maindir + 'parameters/idid', "w") as outfile:
     outfile.write("\n".join(idid))
-'''
+
 
 subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+'''
 
+process = subprocess.Popen(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               universal_newlines=True
+                               )
+stderr, stdout = process.communicate()
+tmp_log = os.path.join(maindir,'logs/whole_log')
+with open(tmp_log, "w") as log:
+    log.write(stdout)
+
+    

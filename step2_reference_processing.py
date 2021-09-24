@@ -3,17 +3,6 @@ import sys
 import os
 import configparser
 from config import readConfig_ref
-'''
-maindir = '/media/ElissarDisk/ADASTRA/'
-outdir = maindir + 'processed_ref/'
-logdir = maindir + 'logs/reference_processing/'
-
-indir = maindir + 'reference/hg19.fa'
-out1 = outdir +'genome-norm.fasta'
-out2 = outdir + 'genome-norm.dict'
-loglog = logdir + "stdout"
-logerr = logdir + "stderr"
-'''
 
 path = sys.argv[1]
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"

@@ -21,59 +21,99 @@ def loggi(tmp_log,tmp_err,stdout,stderr,k):
     print('logged')
 
 #___________snp for one file
-def SNP_func(my_id):
+def process_bam(my_id):
     print('start SNP')
     tmp_log = logdir+my_id+'_log'
     tmp_err = logdir+my_id+'_err'
+    with open(tmp_log, "w") as log:
+        log.write('STARTING!')
+    with open(tmp_err, "w") as err:
+        err.write('STARTING!')
+
     # ______
+    print('samtools sort')
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['samtools', 'sort', indir + my_id + '.bam',
+                                    '>', os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    print('done')
 
+    # ______
     print('samtools index')
-    process = subprocess.Popen(['samtools', 'index', indir + my_id + '.bam',
-                                outdir + my_id + '/' + my_id + '.bai'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'w')
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['samtools', 'index',os.path.join(outdir,my_id) + '/' + my_id + '_sortsam',
+                                    os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    print('done')
 
-    print('mk bai symlink')
-    os.symlink(outdir + my_id + '/' + my_id + '.bai', indir + my_id + '.bai')
-
+    # ______
     print('samtools view -b')
-    process = subprocess.Popen(['samtools', 'view', '-b', indir + my_id + '.bam',
-                                'chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10',
-                                'chr11', 'chr12',
-                                'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21',
-                                'chr22', 'chrX', 'chrY',
-                                '-o' + outdir + my_id + '/' + my_id + '_chop.bam'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
+    if(os.path.exists(outdir + my_id + '/' + my_id + '_chop.bam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['samtools', 'view', '-b', os.path.join(outdir,my_id) + '/' + my_id + '_sortsam',
+                                    'chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10',
+                                    'chr11', 'chr12',
+                                    'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21',
+                                    'chr22', 'chrX', 'chrY',
+                                    '-o' + outdir + my_id + '/' + my_id + '_chop.bam'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
 
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    print('done')
 
+    # ______
+    print('picard SortSam')
+    if(os.path.exists(outdir + my_id + '/' + my_id + '_sorted.bam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['picard', 'SortSam', 'I=' + outdir + my_id + '/' + my_id + '_chop.bam',
+                                    'O=' + outdir + my_id + '/' + my_id + '_sorted.bam',
+                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    print('done')
 
-
+    # ______
     print('picard addorreplace')
-    process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + outdir + my_id+'/'+my_id+'_chop.bam',
-                                'O=' + outdir + my_id+'/'+my_id+'_formatted.bam',
-                                'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-
-
+    if(os.path.exists(outdir + my_id+'/'+my_id+'_formatted.bam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + outdir + my_id+'/'+my_id+'_sorted.bam',
+                                    'O=' + outdir + my_id+'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
+                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
 
     # ______
     print('picard markduplicates')
     process = subprocess.Popen(['picard', 'MarkDuplicates',
                                 'I=' + outdir + my_id + '/' + my_id + '_formatted.bam',
                                 'O=' + outdir + my_id + '/' + my_id + '_ready.bam',
-                                'REMOVE_DUPLICATES=true',
+                                'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
                                 'M=' + outdir + my_id + '/' + my_id + '_metrics.txt'],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
@@ -126,28 +166,28 @@ def SNP_func(my_id):
     loggi(tmp_log, tmp_err, stdout, stderr, 'a')
 
 
-def stats(my_id,fini ):
-    if (fini == 2 ):
+def stats(my_id,clause ):
+    if (clause == '_ready.bam' ):
         strf = outdir + my_id + '/' + my_id +'_ready.bam'
         statfilecov = outdir + my_id + '/'  + 'stats_nodup_cov.txt'
         statfile = outdir + my_id + '/'  +'stats_nidup_num.txt'
 
-    elif (fini == 1 ):
+    elif (clause == '_final.bam' ):
         strf = outdir + my_id + '/' + my_id +'_final.bam'
         statfilecov = outdir + my_id + '/'  + 'stats_final_cov.txt'
         statfile = outdir + my_id + '/'  +'stats_final_num.txt'
 
-    elif (fini == 0):
+    elif (clause == '.bam'):
         strf = indir + my_id + '.bam'
         statfilecov = outdir + my_id + '/' + 'stats_start_cov.txt'
         statfile = outdir + my_id + '/' + 'stats_start_num.txt'
-    elif (fini == 3): #vcf
+    elif (clause == '.vcf'): #vcf
         strf = outdir + my_id + '/' + my_id +'.vcf'
         statfile = outdir + my_id + '/' +'vcf_stats.txt'
 
     ##########start#########################################
 
-    if (fini == 3): #vcf_number of peaks
+    if (clause == '.vcf'): #vcf_number of peaks
         with open(strf) as f:
             text = f.readlines()
             size = len(text)
@@ -175,14 +215,19 @@ def rm(my_id):
 def pipe_my_id(my_id):
     print('start SNP '+ my_id)
     #my_id = 'BAM00030'
-    os.mkdir(outdir+my_id)
+    tmp_path = os.path.join(outdir,my_id)
+    if (os.path.exists(tmp_path)):
+        process_bam(my_id)
+    else:
+        os.mkdir(tmp_path)
+        process_bam(my_id)
 
-    print("Begginng with " + my_id)
-    SNP_func(my_id)
-    stats(my_id,0)
-    stats(my_id,1)
-    stats(my_id,2)
-    stats(my_id,3)
+    print("Beginnig with " + my_id)
+    process_bam(my_id)
+    stats(my_id,'.bam')
+    stats(my_id,'_final.bam')
+    stats(my_id,'_ready.bam')
+    stats(my_id,'.vcf')
     rm(my_id)
 
 
