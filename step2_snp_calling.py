@@ -43,7 +43,7 @@ def process_bam(my_id):
                                    )
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-    print('done')
+        print('done')
 
     # ______
     print('samtools index')
@@ -58,7 +58,7 @@ def process_bam(my_id):
                                    )
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-    print('done')
+        print('done')
 
     # ______
     print('samtools view -b')
@@ -77,7 +77,7 @@ def process_bam(my_id):
 
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-    print('done')
+        print('done')
 
     # ______
     print('picard SortSam')
@@ -92,7 +92,8 @@ def process_bam(my_id):
                                    universal_newlines=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-    print('done')
+        print('done')
+
 
     # ______
     print('picard addorreplace')
@@ -107,63 +108,80 @@ def process_bam(my_id):
                                    universal_newlines=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
 
     # ______
     print('picard markduplicates')
-    process = subprocess.Popen(['picard', 'MarkDuplicates',
-                                'I=' + outdir + my_id + '/' + my_id + '_formatted.bam',
-                                'O=' + outdir + my_id + '/' + my_id + '_ready.bam',
-                                'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                'M=' + outdir + my_id + '/' + my_id + '_metrics.txt'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    if(os.path.exists(outdir + my_id + '/' + my_id + '_ready.bam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['picard', 'MarkDuplicates',
+                                    'I=' + outdir + my_id + '/' + my_id + '_formatted.bam',
+                                    'O=' + outdir + my_id + '/' + my_id + '_ready.bam',
+                                    'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
+                                    'M=' + outdir + my_id + '/' + my_id + '_metrics.txt'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
 
     # ______
 
     print('gatk baserecalibrator')
-    process = subprocess.Popen(['gatk', 'BaseRecalibrator',
-                                '--java-options',javapars,
-                                '-R', processed_ref,
-                                '-I', outdir + my_id + '/' + my_id + '_ready.bam',
-                                '--known-sites', ref_vcf,
-                                '-O', outdir + my_id + '/' + my_id +'.table'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    if(os.path.exists(outdir + my_id + '/' + my_id +'.table')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['gatk', 'BaseRecalibrator',
+                                    '--java-options',javapars,
+                                    '-R', processed_ref,
+                                    '-I', outdir + my_id + '/' + my_id + '_ready.bam',
+                                    '--known-sites', ref_vcf,
+                                    '-O', outdir + my_id + '/' + my_id +'.table'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
     # ______
 
     print('gatk applyBQSR')
-    process = subprocess.Popen(['gatk', 'ApplyBQSR',
-                                '-R',  processed_ref,
-                                '--java-options', javapars,
-                                '-I', outdir + my_id + '/' + my_id + '_ready.bam',
-                                '--bqsr-recal-file', outdir + my_id + '/' + my_id +'.table',
-                                '-O', outdir + my_id + '/' + my_id +'_final.bam' ],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    if(os.path.exists(outdir + my_id + '/' + my_id +'_final.bam')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['gatk', 'ApplyBQSR',
+                                    '-R',  processed_ref,
+                                    '--java-options', javapars,
+                                    '-I', outdir + my_id + '/' + my_id + '_ready.bam',
+                                    '--bqsr-recal-file', outdir + my_id + '/' + my_id +'.table',
+                                    '-O', outdir + my_id + '/' + my_id +'_final.bam' ],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
 
 
     # ______
     print('gatk haplotypecaller')
-    process = subprocess.Popen(['gatk', 'HaplotypeCaller',
-                                '--java-options', javapars,
-                                '-R', processed_ref,
-                                '-I', outdir + my_id + '/' + my_id +'_final.bam',
-                                '--dbsnp', ref_vcf,
-                                '-O', outdir + my_id + '/' + my_id +'.vcf'],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True)
-    stderr, stdout = process.communicate()
-    loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+    if(os.path.exists(outdir + my_id + '/' + my_id +'.vcf')):
+        print('already exists, go further')
+    else:
+        process = subprocess.Popen(['gatk', 'HaplotypeCaller',
+                                    '--java-options', javapars,
+                                    '-R', processed_ref,
+                                    '-I', outdir + my_id + '/' + my_id +'_final.bam',
+                                    '--dbsnp', ref_vcf,
+                                    '-O', outdir + my_id + '/' + my_id +'.vcf'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
 
 
 def stats(my_id,clause ):
