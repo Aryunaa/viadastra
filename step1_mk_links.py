@@ -68,11 +68,6 @@ met = os.path.join(maindir,config["Files"]["metadata"])
 path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
 path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
 
-# reading metadata, filtrating by no RNA---------------
-print('met '+met)
-metadata = pd.read_csv(met,sep='\t')
-norna = metadata[metadata["Extra1"] != 'RNA-seq']
-
 
 # creating exception list --------------------------
 # creating processing list -------------------------
@@ -80,7 +75,17 @@ to_process_id = []
 to_process_bam = []
 exceptions_id = []
 exceptions_bam = []
-# creating filtrating by headers + append to lists -
+exceptions_cause = []
+# reading metadata, filtrating by no RNA------------------------
+print('met '+met)
+metadata = pd.read_csv(met,sep='\t')
+norna = metadata[metadata["Extra1"] != 'RNA-seq']
+rna = metadata[metadata["Extra1"]=='RNA-seq']
+for i in range(rna.shape[0]):
+    exceptions_id.append(rna.iloc[i,1])
+    exceptions_bam.append(rna.iloc[i,0])
+    exceptions_cause.append('RNA-seq data')
+# creating filtrating by headers + append to lists -------------
 for i in range(norna.shape[0]):
     pathfile = os.path.join(source,norna.iloc[i,0])
     #pysam read -h
@@ -94,21 +99,26 @@ for i in range(norna.shape[0]):
     else:
         exceptions_bam.append(norna.iloc[i,0])
         exceptions_id.append(norna.iloc[i,1])
-# to dicts
+        exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
+
+# to dicts, to dataframes
 to_process = dict(zip(to_process_bam,to_process_id))
-exceptions = dict(zip(exceptions_bam,exceptions_id))
-# dicts / lists to files -------------------------------------
-txt_exception_list = open(path_exception_list, "w")
-for key in exceptions:
-    txt_exception_list.write(exceptions[key]+"\t"+ key +"\n")
-txt_exception_list.close()
+#exceptions = dict(zip(exceptions_bam,exceptions_id))
+exceptions = pd.DataFrame(
+    {'ID': exceptions_id,
+     'cause': exceptions_cause,
+     'bam': exceptions_bam
+    })
+
+# dataframes /  lists to files -------------------------------------
+exceptions.to_csv(path_exception_list,sep='\t')
 
 txt_processing_list = open(path_processing_list,"w")
 for key in to_process:
     txt_processing_list.write(to_process[key]+"\n")
 txt_processing_list.close()
 
-# creating dict for symlinks ---------------------------------
+# creating dict for symlinks ----------------------------------------------
 id_bam = to_process
 
 print(id_bam)
