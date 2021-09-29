@@ -50,8 +50,6 @@ process = subprocess.Popen(['parallel', '-j', jobs,'python', script,path,'::::',
                                universal_newlines=True
                                )
 stderr, stdout = process.communicate()
-tmp_log = os.path.join(maindir,'logs/whole_log')
-with open(tmp_log, "w") as log:
-    log.write(stdout)
+
 
     

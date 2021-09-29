@@ -53,7 +53,7 @@ def readConfig_SNP(path):
     data_out = config.get("Directories", "data_out")
     data_log = config.get("Directories", "data_log")
     metadata = config.get("Files","metadata")
-    processing_list = config.get("Files","logs/processing_list")
+    processing_list = config.get("Files","processing_list")
     javapars = config.get("Parameters", "JavaParameters")
 
     confdict = {'maindir': maindir, 'indir': os.path.join(maindir,indir),
