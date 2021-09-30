@@ -14,9 +14,9 @@ python step2_snp_calling.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg BAM
 
 **snp calling for lots files:**
 
-python step2_snp_all.py 4 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg
+python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg
 
-python step2_snp_all.py 4 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
 **vcf_filtrate:**
 
