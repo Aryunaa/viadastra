@@ -4,6 +4,16 @@ import pysam
 import sys
 import configparser
 
+def stats_read_num(BAM):
+    samfile = pysam.view("-c", BAM)
+
+    # for row in samfile:
+    # print(row)
+
+    # print(samfile)
+    return (samfile)
+
+
 def stats_cov(BAM):
     samfile = pysam.coverage(BAM)
 
@@ -13,20 +23,9 @@ def stats_cov(BAM):
     # print(samfile)
     return (samfile)
 
-
-def stats_read_num(BAM):
-    samfile = pysam.view("-c", BAM)
-
-    # for row in samfile:
-    # print(row)
-
-    # print(samfile)
-    num = int(samfile.replace('\n', ''))
-    return (num)
-
 def vcf_filter_bad(my_id,treshold):
     print(my_id)
-    file = open(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), "r")
+    file = open(os.path.join(processed_data, my_id + '/' + my_id + '_annotated.vcf'), "r")
     line = file.readline()
     n = 0
     while line.startswith("##"):
@@ -34,7 +33,7 @@ def vcf_filter_bad(my_id,treshold):
         line = file.readline()
     file.close()
 
-    vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), sep='\t', skiprows=n)
+    vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_annotated.vcf'), sep='\t', skiprows=n)
     vcf_filtrated = pd.DataFrame(columns=vcf_data.columns)
     vcf_filtrated_by_rs = pd.DataFrame(columns=vcf_data.columns)
     #treshold = 5.5
@@ -52,8 +51,8 @@ def vcf_filter_bad(my_id,treshold):
             vcf_filtrated = vcf_filtrated.append(vcf_data.iloc[i, :], ignore_index=False)
             if(vcf_data.iloc[i,2] !='.'):
                 vcf_filtrated_by_rs = vcf_filtrated_by_rs.append(vcf_data.iloc[i, :], ignore_index=False)
-    vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_filtrated.vcf'), sep='\t')
-    vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_and_rs_filtrated.vcf'), sep='\t')
+    vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_annotated_filtrated.vcf'), sep='\t')
+    vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_annotated_and_rs_filtrated.vcf'), sep='\t')
     dict = {'nors':vcf_filtrated.shape[0],'rs':vcf_filtrated_by_rs.shape[0], 'num':n}
     return(dict)
 
@@ -86,29 +85,25 @@ def vcf_filter_asb(my_id,treshold):
             vcf_filtrated = vcf_filtrated.append(vcf_data.iloc[i, :], ignore_index=False)
             if(vcf_data.iloc[i,2] !='.'):
                 vcf_filtrated_by_rs = vcf_filtrated_by_rs.append(vcf_data.iloc[i, :], ignore_index=False)
-    vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_asb_filtrated.vcf'), sep='\t')
-    vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_asb_and_rs_filtrated.vcf'), sep='\t')
+    vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_asb_annotated_filtrated.vcf'), sep='\t')
+    vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_asb_annotated_and_rs_filtrated.vcf'), sep='\t')
     dict = {'nors':vcf_filtrated.shape[0],'rs':vcf_filtrated_by_rs.shape[0]}
     return(dict)
 
-
-path = sys.argv[3]
-#path = 'CONFIG.cfg'
+path = sys.argv[4]
 config = configparser.ConfigParser()
 config.read(path)
 maindir = config["Directories"]["maindir"]
 processed_data = os.path.join(maindir,config["Directories"]["data_out"])
 met = os.path.join(maindir,config["Files"]["metadata"])
-processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 indir = os.path.join(maindir,config["Directories"]["data_in"])
 
 
-list_file = open(processing_list_path, "r")
-listi = list_file.readlines()
+
 processing_list = []
-for i in listi:
-    i = i.replace('\n','')
-    processing_list.append(i)
+l = sys.argv[3]
+processing_list.append(l)
+
 
 treshold_bad = int(sys.argv[1])
 treshold_asb = int(sys.argv[2])
@@ -129,8 +124,7 @@ for my_id in processing_list:
     a_series = pd.Series(to_append, index=table.columns)
     table = table.append(a_series, ignore_index=True)
     print(a_series)
-
+    #print(table)
 
 print(table)
-table.to_csv(maindir+'logs/table.tsv',sep='\t')
-
+table.to_csv(maindir+'logs/' + l +'_table.tsv',sep='\t')
