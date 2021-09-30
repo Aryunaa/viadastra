@@ -36,6 +36,7 @@ def vcf_filter(my_id,treshold):
 
     vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), sep='\t', skiprows=n)
     vcf_filtrated = pd.DataFrame(columns=vcf_data.columns)
+    vcf_filtrated_by_rs = pd.DataFrame(columns=vcf_data.columns)
     #treshold = 5.5
     for i in range(vcf_data.shape[0]):
         temp = vcf_data.iloc[i, 9]
@@ -48,8 +49,12 @@ def vcf_filter(my_id,treshold):
         if ((temp_list[0] == '1/0' or temp_list[0] == '0/1') and (fad > treshold and sad > treshold)
                 and (vcf_data.iloc[i,3] in nucliotides) and (vcf_data.iloc[i,4] in nucliotides)) :
             vcf_filtrated = vcf_filtrated.append(vcf_data.iloc[i, :], ignore_index=False)
+            if(vcf_data.iloc[i,2] !='.'):
+                vcf_filtrated_by_rs = vcf_filtrated_by_rs.append(vcf_data.iloc[i, :], ignore_index=False)
     vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_filtrated.vcf'), sep='\t')
-    return(vcf_filtrated.shape[0])
+    vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_and_rs_filtrated.vcf'), sep='\t')
+    dict = {'nors':vcf_filtrated.shape[0],'rs':vcf_filtrated_by_rs.shape[0]}
+    return(dict)
 
 path = sys.argv[2]
 #path = 'CONFIG.cfg'
@@ -71,14 +76,16 @@ for i in listi:
 
 treshold = int(sys.argv[1])
 nucliotides = {'A', 'T', 'G', 'C'}
-table = pd.DataFrame(columns=['ID','Dataset reads number', 'Duplicate reads number', 'SNP number','SNP passed BAD treshold'])
+table = pd.DataFrame(columns=['ID','Dataset reads number', 'Duplicate reads number', 'SNP number','SNP passed BAD threshold', 'rsSNP passed BAD treshold'])
 for my_id in processing_list:
     num = stats_read_num(os.path.join(indir,my_id + '.bam'))
     num_dup = stats_read_num(os.path.join(processed_data, my_id + '/' + my_id + '_ready.bam'))
     vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), sep='\t', skiprows=48)
     snp_num = vcf_data.shape[0]
-    snp_badfiltr_num = vcf_filter(my_id,treshold)
-    to_append = [my_id, num, num_dup,snp_num,snp_badfiltr_num]
+    dict = vcf_filter(my_id,treshold)
+    snp_badfiltr_num = dict['nors']
+    snp_bad_rs_num = dict['rs']
+    to_append = [my_id, num, num_dup,snp_num,snp_badfiltr_num, snp_bad_rs_num]
     a_series = pd.Series(to_append, index=table.columns)
     table = table.append(a_series, ignore_index=True)
     print(a_series)

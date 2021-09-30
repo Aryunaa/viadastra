@@ -122,9 +122,9 @@ def readConfig(path, dir):
 '''
 
 
-#path = "C:/Users/Aryuna/Desktop/IB/viadastra_pretty/config.cfg"
+path = "C:/Users/Aryuna/Desktop/IB/viadastra_pretty/proper_config.cfg"
 #path = sys.argv[1]
-#createConfig(path)
+createConfig(path)
 
 """
 maindir = '/media/ElissarDisk/ADASTRA/'

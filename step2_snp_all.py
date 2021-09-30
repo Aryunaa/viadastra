@@ -12,19 +12,19 @@ jobs = sys.argv[1]
 path = sys.argv[2]
 #path ='C:/Users/Aryuna/Desktop/IB/viadastra_pretty/config.cfg'
 # reading config --------------------------
-dicti = readConfig_SNP(path)
-
-maindir = dicti['maindir']
+config = configparser.ConfigParser()
+config.read(path)
+maindir = config["Directories"]["maindir"]
 print(maindir)
-indir = dicti['indir']
+indir = os.path.join(maindir,config["Directories"]["data_in"])
 print(indir)
-processed_ref = dicti['processed_ref']
-ref_vcf = dicti['ref_vcf']
-outdir = dicti['outdir']
-logdir = dicti['logdir']
-javapars = dicti['javapars']
-met = dicti['metadata']
-processing_list = dicti['processing_list']
+processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
+ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
+outdir = os.path.join(maindir,config["Directories"]["data_out"])
+logdir = os.path.join(maindir,config["Directories"]["data_log"])
+javapars = config["Parameters"]["javaparameters"]
+met = os.path.join(maindir,config["Files"]["metadata"])
+processing_list = os.path.join(maindir, config["Files"]["processing_list"])
 
 dir = pathlib.Path(__file__).parent.absolute()
 script = os.path.join(dir,'step2_snp_calling.py')
@@ -43,7 +43,9 @@ with open(maindir + 'parameters/idid', "w") as outfile:
 subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 '''
-
+all_log = os.path.join(maindir, 'logs/whole_log')
+with open(all_log, "w") as log:
+    log.write('STARTING! all')
 process = subprocess.Popen(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
