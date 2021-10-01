@@ -54,13 +54,13 @@ def vcf_filter_bad(my_id,treshold):
                 vcf_filtrated_by_rs = vcf_filtrated_by_rs.append(vcf_data.iloc[i, :], ignore_index=False)
     vcf_filtrated.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_filtrated.vcf'), sep='\t')
     vcf_filtrated_by_rs.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_and_rs_filtrated.vcf'), sep='\t')
-    dict = {'nors':vcf_filtrated.shape[0],'rs':vcf_filtrated_by_rs.shape[0], 'num':n}
+    dict = {'nors':vcf_filtrated.shape[0],'rs':vcf_filtrated_by_rs.shape[0], 'num':vcf_data.shape[0]}
     return(dict)
 
 
 def vcf_filter_asb(my_id,treshold):
     print(my_id)
-    file = open(os.path.join(processed_data, my_id + '/' + my_id + '_annotated.vcf'), "r")
+    file = open(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), "r")
     line = file.readline()
     n = 0
     while line.startswith("##"):
@@ -68,7 +68,7 @@ def vcf_filter_asb(my_id,treshold):
         line = file.readline()
     file.close()
 
-    vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_annotated.vcf'), sep='\t', skiprows=n)
+    vcf_data = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), sep='\t', skiprows=n)
     vcf_filtrated = pd.DataFrame(columns=vcf_data.columns)
     vcf_filtrated_by_rs = pd.DataFrame(columns=vcf_data.columns)
     #treshold = 5.5
