@@ -122,7 +122,7 @@ for my_id in processing_list:
     snp_num = dict_bad['num']
     snp_badfiltr_num = dict_bad['nors']
     snp_bad_rs_num = dict_bad['rs']
-    dict_asb = vcf_filter_bad(my_id,treshold_asb)
+    dict_asb = vcf_filter_asb(my_id,treshold_asb)
     snp_asb_nors = dict_asb['nors']
     snp_asb_rs = dict_asb['rs']
     to_append = [my_id, num, num_dup,snp_num,snp_badfiltr_num, snp_bad_rs_num,snp_asb_nors,snp_asb_rs]
