@@ -79,12 +79,12 @@ exceptions_cause = []
 # reading metadata, filtrating by no RNA------------------------
 print('met '+met)
 metadata = pd.read_csv(met,sep='\t')
-norna = metadata[metadata["Extra1"] != 'RNA-seq']
-rna = metadata[metadata["Extra1"]=='RNA-seq']
+norna = metadata[metadata["Extra1"] != 'RNA_seq']
+rna = metadata[metadata["Extra1"]=='RNA_seq']
 for i in range(rna.shape[0]):
     exceptions_id.append(rna.iloc[i,1])
     exceptions_bam.append(rna.iloc[i,0])
-    exceptions_cause.append('RNA-seq data')
+    exceptions_cause.append('RNA_seq data')
 # creating filtrating by headers + append to lists -------------
 for i in range(norna.shape[0]):
     pathfile = os.path.join(source,norna.iloc[i,0])
