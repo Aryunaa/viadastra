@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a9a6a15-ddef-4943-a43d-25ff3c17d492" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/generate_ref_alt_count.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/filter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/step3_process_filtered_vcf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step3_filtrate_vcf_get_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/step3_filtrate_vcf_get_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generate_ref_alt_count.py" beforeDir="false" afterPath="$PROJECT_DIR$/generate_ref_alt_count.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/temp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +44,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ADASTRA-pipeline-master" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
