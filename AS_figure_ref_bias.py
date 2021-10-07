@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt, ticker
 import seaborn as sns
-
+import sys
 sns.set(font_scale=1.4, style="ticks", font="lato", palette=('#E69F00', '#56B4E9', '#009E73', '#F0E442', '#0072B2',
                                                              '#D55E00', '#CC79A7'))
 # sns.set_style({"xtick.direction": "in", "ytick.direction": "in"})
@@ -21,8 +21,11 @@ for max_c in 50, 100, 150:
     min_c = 0
     lw = 1.25
 
-    input_path = '~/Ref_bias/all_snps_statistics.tsv'  # File with ref/alt readcount statistics
-    out_path = '~/Ref_bias'  # Dir to save pics
+    #input_path = r'C:\Users\Aryuna\Desktop\IB\temp\Ref_bias\ref_alt_count.tsv'  # File with ref/alt readcount statistics
+    input_path = sys.argv[1]
+    #out_path = r'C:\Users\Aryuna\Desktop\IB\temp\Ref_bias'  # Dir to save pics
+    out_path = sys.argv[2]
+
 
     t = pd.read_table(os.path.expanduser(os.path.expanduser(input_path)))
     print(t['count'].sum(axis=0))
@@ -119,4 +122,4 @@ for max_c in 50, 100, 150:
     ax2.hlines(y=max_c + 1 - 5, xmin=5-lw/10, xmax=max_c + 1, colors=['#AAAAAA', ], linewidth=lw)
     ax2.vlines(x=5, ymin=0, ymax=max_c + 1 - 5 +lw/10, colors=['#AAAAAA', ], linewidth=lw)
 
-    plt.savefig(os.path.expanduser(os.path.join(out_path, 'Figure_AS_2_maxc={}.svg'.format(max_c))), dpi=300)
+    plt.savefig(os.path.expanduser(os.path.join(out_path, 'Figure_AS_2_maxc={}.png'.format(max_c))), dpi=300)

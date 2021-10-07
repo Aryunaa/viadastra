@@ -38,7 +38,7 @@ def ref_alt(my_id,rs):
     else:
         vcf_filtrated = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'r'))
         # vcf_filtrated_wr = vcf.Writer(open('data/BAM00030_alt_ref', 'w'), vcf_reader)
-        ref_alt = open(os.path.join(processed_data, my_id + '/' + my_id + '_alt_ref.tsv'), "w")
+        ref_alt = open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_alt_ref.tsv'), "w")
         ref_alt.write('ref' + '\t' + 'alt' + '\n')
         for record in vcf_filtrated:
             ref_alt.write(str(record.genotype('20')['AD'][0]))
@@ -67,24 +67,29 @@ for i in listi:
     processing_list.append(i)
 
 ref_alt_paths = []
+
 for my_id in processing_list:
+
     print(my_id)
+
     vcf_filter_nucli_getero(my_id,rs)
     ref_alt(my_id,rs)
+
     if(rs!='rs'):
-        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'))
+        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_alt_ref.tsv'))
     else:
-        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))
+        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_alt_ref.tsv'))
 
 
 output_file = os.path.join(processed_data,'ref_alt_count.tsv')
 
+print(ref_alt_paths)
 #combine all files in the list
-combined_csv = pd.concat([pd.read_csv(f) for f in ref_alt_paths ])
+combined_csv = pd.concat([pd.read_csv(f,sep='\t') for f in ref_alt_paths])
 #export to csv
 #combined_csv.to_csv(output_file, index=False)
 
 grp = (combined_csv.groupby(['ref', 'alt']).size()
        .reset_index(name='count'))
 
-grp.to_csv(output_file, index=False)
+grp.to_csv(output_file, index=False,sep='\t')
