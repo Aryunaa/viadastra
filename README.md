@@ -20,4 +20,6 @@ python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bas
 
 **vcf_filtrate:**
 
-python step2_filtrate_vcf_get_stats.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step3_filtrate_vcf_get_stats.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+
+python filter.py rs /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
