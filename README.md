@@ -23,4 +23,5 @@ python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bas
 python step3_filtrate_vcf_get_stats.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
 python filter.py rs /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
-AS_figure_ref_bias.py /media/ElissarDisk/ADASTRA/processed_data/ref_alt_count.tsv /media/ElissarDisk/ADASTRA/processed_data
+
+python AS_figure_ref_bias.py /media/ElissarDisk/ADASTRA/processed_data/ref_alt_count.tsv /media/ElissarDisk/ADASTRA/processed_data
