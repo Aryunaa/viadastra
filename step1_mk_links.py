@@ -61,9 +61,11 @@ path = sys.argv[1]
 config = configparser.ConfigParser()
 config.read(path)
 maindir = config["Directories"]["maindir"]
+print(maindir)
 source = os.path.join(maindir,config["Directories"]["bam"])
+print(source)
 dest = os.path.join(maindir,config["Directories"]["data_in"])
-
+print(dest)
 met = os.path.join(maindir,config["Files"]["metadata"])
 path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
 path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
@@ -87,7 +89,10 @@ for i in range(rna.shape[0]):
     exceptions_cause.append('RNA_seq data')
 # creating filtrating by headers + append to lists -------------
 for i in range(norna.shape[0]):
+    print(source)
+    print(norna.iloc[i,0])
     pathfile = os.path.join(source,norna.iloc[i,0])
+    print(pathfile)
     #pysam read -h
     bam = read_head(pathfile)
     #intersection by chr1,ch2 ...

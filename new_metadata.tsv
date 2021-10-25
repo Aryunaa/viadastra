@@ -1,0 +1,57 @@
+BAM	ID	BADgroup	ASBgroup	Extra1	Extra2	Extra3
+H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFalfmin_sequence.rmdups.bam	BAM00001	chip_seq	-	ChIP_seq	TF	CTCF
+HLNKYBGXC_Pool_ChIP-seq_legube_19s004478-1-1_Clouaire_lane1Rad21DIvA_sequence.exp.rmdups.bam	BAM00002	chip_seq	-	ChIP_seq	repair_protein	RAD21
+CCME6ANXX_SA2_DIVA_18s004261-1-1_Clouaire_lane118s004261_sequence.rmdups.bam	BAM00003	chip_seq	-	ChIP_seq	repair_protein	SA2
+HLNKYBGXC_Pool_ChIP-seq_legube_19s004478-1-1_Clouaire_lane1InputDIvA_sequence.input.rmdups.bam	BAM00004	input	-	ChIP_seq	input	input
+64HK1AAXX_RAD51_12s004588-1-1_Legube_lane812s004588_sequence.rmdups.bam	BAM00005	chip_seq	-	ChIP_seq	repair_protein	RAD51
+64HK1AAXX_XRCC4_12s004587-1-1_Legube_lane712s004587_sequence.rmdups.bam	BAM00006	chip_seq	-	ChIP_seq	repair_protein	XRCC4
+HYL5LBGX2_RNA_C1_1_17s002464-1-1_Clouaire_lane117s002464_hg19plusERCC.sorted.bam	BAM00008	rna_seq	-	RNA_seq	transcripts	RNA-seq_C1
+H3K4me3.nodups.bam	BAM00009	chip_seq	-	ChIP_seq	histone	H3K4me3
+H3K9me2.nodups.bam	BAM00010	chip_seq	-	ChIP_seq	histone	H3K9me2
+HMNY7BGXX_MacroH2A_DIVA_16s000416-1-1_Clouaire_lane116s000416_sequence.nodups.bam	BAM00011	chip_seq	-	ChIP_seq	histone	MacroH2A
+HMNY7BGXX_H2AZ_DIVA_16s000418-1-1_Clouaire_lane116s000418_sequence.nodups.bam	BAM00012	chip_seq	-	ChIP_seq	histone	H2AZ
+HWNTLBGX3_H3K9me3_DIVA_17s005723-1-1_Clouaire_lane117s005723_sequence.rmdups.bam	BAM00013	chip_seq	-	ChIP_seq	histone	H3K9me3
+HMNY7BGXX_H4K20me3_DIVA_16s000422-1-1_Clouaire_lane116s000422_sequence.nodups.bam	BAM00014	chip_seq	-	ChIP_seq	histone	H4K20me3
+HVW7VBGXX_53BP1_OHT_DIVA_16s000426-1-1_Clouaire_lane116s000426_sequence.nodups.bam	BAM00015	chip_seq	-	ChIP_seq	repair	53BP1_OHT
+HV5MYBGX5_53BP1_AS_DIVA_18s000864-1-1_Clouaire_lane118s000864_sequence.rmdups.bam	BAM00016	chip_seq	-	ChIP_seq	repair	53BP1_DIVA
+bwa_aln_hg19_blm.nodups.bam	BAM00017	chip_seq	-	ChIP_seq	repair	BLM
+HFJNHBGX5_Lig4_DIVA_17s005868-1-1_Clouaire_lane117s005868_sequence.rmdups.bam	BAM00018	chip_seq	-	ChIP_seq	repair	Lig4
+HK27MBGX7_MDC1_18s001901-1-1_Clouaire_lane118s001901_sequence.rmdups.bam	BAM00019	chip_seq	-	ChIP_seq	repair	MDC1
+HVW7VBGXX_NBS1_OHT_DIVA_16s000429-1-1_Clouaire_lane116s000429_sequence.nodups.bam	BAM00020	chip_seq	-	ChIP_seq	repair	NBS1
+631HJAAXX_MRE11_11s003029-1-1_LEGUBE_lane211s003029_sequence.bam	BAM00021	chip_seq	-	ChIP_seq	repair	MRE11
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqADIvA.rmdups.bam	BAM00022	atac_seq	-	ATAC_seq	accessibility	ATAC-seq_rep1
+HYG77BGX2_DRIP2_C1_DIVA_17s002460-1-1_Clouaire_lane117s002460_hg19.nodups.bam	BAM00023	drip_seq	-	DRIP_seq	R-loop	DRIP_C1
+H37HYBGX3_Ser5P_Pol2_DIVA_17s001626-1-1_Clouaire_lane117s001626_sequence.rmdups.bam	BAM00024	chip_seq	-	ChIP_seq	Pol2	Ser5P_Pol2
+HVW7VBGXX_Pol2S2P_DIVA_16s000427-1-1_Clouaire_lane116s000427_sequence.nodups.bam	BAM00025	chip_seq	-	ChIP_seq	Pol2	Pol2S2P
+H3LNWBGX3_Ser2P_Pol2_DIVA_17s001630-1-1_Clouaire_lane117s001630_sequence.rmdups.bam	BAM00026	chip_seq	-	ChIP_seq	Pol2	Ser2P
+H37HYBGX3_Ser7P_Pol2_DIVA_17s001628-1-1_Clouaire_lane117s001628_sequence.rmdups.bam	BAM00027	chip_seq	-	ChIP_seq	Pol2	Ser7P
+H3LNWBGX3_Tot_Pol2_DIVA_17s001632-1-1_Clouaire_lane117s001632_sequence.rmdups.bam	BAM00028	chip_seq	-	ChIP_seq	Pol2	Tot
+HKK2NBGX7_S2P_Pol2_DIVA_18s002030-1-1_Clouaire_lane118s002030_sequence.rmdups.bam	BAM00029	chip_seq	-	ChIP_seq	Pol2	S2P
+HKK2NBGX7_T1P_Pol2_DIVA_18s002028-1-1_Clouaire_lane118s002028_sequence.rmdups.bam	BAM00030	chip_seq	-	ChIP_seq	Pol2	T1P
+bwa_aln_hg19_polII.nodups.bam	BAM00031	chip_seq	-	ChIP_seq	Pol2	polII
+HVW7VBGXX_SETX_DIVA_16s000424-1-1_Clouaire_lane116s000424_sequence.nodups.bam	BAM00032	chip_seq	-	ChIP_seq	repair	SETX
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqBDIvA.rmdups.bam	BAM00033			ATAC_seq	accessibility	ATAC-seq_rep2
+HNMNLBGXC_ATAC_3_pool1_19s004480-1-1_Clouaire_lane1OHT.rmdups.bam	BAM00034			ATAC_seq	accessibility	ATAC-seq_rep3
+HNNNLBGXC_ATAC_2_pool1_19s004479-1-1_Clouaire_lane1MinusOHT.rmdups.bam	BAM00035			ATAC_seq	accessibility	ATAC-seq_rep4
+HYG77BGX2_DRIP2_STX_DIVA_17s002462-1-1_Clouaire_lane117s002462_hg19.nodups.bam	BAM00036			DRIP_seq	R-loop	DRIP_STX
+H2VK7BGX5_BRCA1_G1_OHT_17s005729-1-1_Clouaire_lane117s005729_sequence.rmdups.bam	BAM00037			ChIP_seq	repair	BRCA1_G1
+H2VK7BGX5_BRCA1_G2_OHT_17s005730-1-1_Clouaire_lane117s005730_sequence.rmdups.bam	BAM00038			ChIP_seq	repair	BRCA1_G2
+CCME6ANXX_IWS1_DIVA_18s003953-1-1_Clouaire_lane118s003953_sequence.rmdups.bam	BAM00039			ChIP_seq	repair	IWS1
+HK27MBGX7_H4K20me3_CS_18s001893-1-1_Clouaire_lane118s001893_sequence.rmdups.bam	BAM00040			ChIP_seq	histone	H4K20me3
+H2VFWBGX5_H4K20me3_G2_17s005721-1-1_Clouaire_lane117s005721_sequence.rmdups.bam	BAM00041			ChIP_seq	histone	H4K20me3_G2
+H2VFWBGX5_H4K20me3_G1_17s005719-1-1_Clouaire_lane117s005719_sequence.rmdups.bam	BAM00042			ChIP_seq	histone	H4K20me3_G1
+HYJW5BGX5_H4K20me3_AS_DIVA_18s000866-1-1_Clouaire_lane118s000866_sequence.rmdups.bam	BAM00043			ChIP_seq	histone	H4K20me3
+HYJW5BGX5_H4K20me3_S_DIVA_18s000860-1-1_Clouaire_lane118s000860_sequence.rmdups.bam	BAM00044			ChIP_seq	histone	H4K20me3_S
+HW5G7BGX5_H4K20me2_S_DIVA_18s000858-1-1_Clouaire_lane118s000858_sequence.rmdups.bam	BAM00045			ChIP_seq	histone	H4K20me2_S
+HFJNHBGX5_H4K20me2_DIVA_17s005866-1-1_Clouaire_lane117s005866_sequence.rmdups.bam	BAM00046			ChIP_seq	histone	H4K20me2
+HVL7VBGX5_H4K20me2_AS_DIVA_18s000862-1-1_Clouaire_lane118s000862_sequence.rmdups.bam	BAM00047			ChIP_seq	histone	H4K20me2
+H4K20me1Mono.nodups.bam	BAM00048			ChIP_seq	histone	H4K20me1
+C8LVDACXX_H2AZac_DIVA_16s000910-1-1_Clouaire_lane116s000910.nodups.bam	BAM00049			ChIP_seq	histone	H2AZac
+HVW7VBGXX_H4K16ac_DIVA_16s000430-1-1_Clouaire_lane116s000430_sequence.nodups.bam	BAM00050			ChIP_seq	histone	H4K16a
+H4K16ac_-OHT_hg19.sorted.nodups.bam	BAM00051			ChIP_seq	histone	H4K16ac
+C8LVDACXX_H3_DIVA_16s000906-1-1_Clouaire_lane116s000906.nodups.bam	BAM00052			ChIP_seq	histone	H3
+HMNY7BGXX_H2BK120ac_DIVA_16s000420-1-1_Clouaire_lane116s000420_sequence.nodups.bam	BAM00053			ChIP_seq	histone	H2BK120ac
+C8LVDACXX_H4K12ac_DIVA_16s000908-1-1_Clouaire_lane116s000908.nodups.bam	BAM00054			ChIP_seq	histone	H4K12ac
+H4K12ac_OHT.nodups.bam	BAM00055			ChIP_seq	histone	H4K12ac_OHT
+H4K12ac.nodups.bam	BAM00056			ChIP_seq	histone	H4K12ac
+H3K4me2_-OHT_hg19.sorted.nodups.bam	BAM00057			ChIP_seq	histone	H3K4me2
