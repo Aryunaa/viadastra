@@ -1,4 +1,4 @@
-
+import subprocess32 as subprocess
 import pandas as pd
 import os
 import pysam
@@ -16,10 +16,19 @@ met = os.path.join(maindir,config["Files"]["metadata"])
 processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 indir = os.path.join(maindir,config["Directories"]["data_in"])
 
+process = subprocess.run(['bcftools', 'sort',
+                            os.path.join(processed_data,'pulled_all_rs_getero_filtrated.vcf'), '--output-file',
+                            os.path.join(processed_data,'pulled_sorted_all_rs_getero_filtrated.vcf')],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE,
+                           universal_newlines=True
+                           )
+print('sorted')
 
 
-vcf_reader = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_chipseq_rs_getero_filtrated.vcf'), 'r'))
-vcf_writer = open(os.path.join(processed_data,'pulled_chipseq_tobabachi.vcf'), "w")
+
+vcf_reader = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_all_rs_getero_filtrated.vcf'), 'r'))
+vcf_writer = open(os.path.join(processed_data,'pulled_all_tobabachi.vcf'), "w")
 for record in vcf_reader:
     vcf_writer.write(record.CHROM)
     vcf_writer.write('\t')
@@ -38,24 +47,4 @@ for record in vcf_reader:
 vcf_writer.close()
 
 
-print('chipseq done')
-
-vcf_reader_atac = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_atacseq_rs_getero_filtrated.vcf'), 'r'))
-vcf_writer_atac = open(os.path.join(processed_data,'pulled_atacseq_tobabachi.vcf'), "w")
-for record in vcf_reader_atac:
-    vcf_writer_atac.write(record.CHROM)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.POS))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(record.ID)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(record.REF)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.ALT[0]))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.genotype('20')['AD'][0]))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.genotype('20')['AD'][1]))
-    vcf_writer_atac.write('\n')
-vcf_writer_atac.close()
-print('atacseq done')
+print('done')

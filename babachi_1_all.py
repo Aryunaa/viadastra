@@ -42,20 +42,8 @@ def tobabachi(my_id):
         vcf_writer.write('\n')
     vcf_writer.close()
 
-#!babachi data/BAM00022_tobabachi.vcf --output data/BAM00022.bed --visualize
-#babachi /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022_tobabachi.vcf --output /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022.bed --visualize
 print('start process')
-'''
-inp = '/media/ElissarDisk/ADASTRA/processed_data/BAM00028/BAM00028_tobabachi.vcf'
-outp = '/media/ElissarDisk/ADASTRA/processed_data/BAM00028/BAM00028.bed'
 
-process = subprocess.Popen(['babachi', inp,
-                            '--output', outp, '--visualize'],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           universal_newlines=True
-                           )
-'''
 
 path = sys.argv[1]
 #path = 'CONFIG.cfg'
@@ -76,8 +64,8 @@ for i in listi:
     processing_list.append(i)
 
 metadata = pd.read_csv(met,sep='\t')
-pull_chip = metadata[metadata['Extra1']=='ChIP_seq']
-
+#pull_chip = metadata[metadata['Extra1']=='ChIP_seq']
+pull_chip = metadata
 intersect = list(filter(lambda x:x in list(pull_chip['ID']),processing_list))
 paths_rs = []
 for my_id in intersect:
@@ -87,51 +75,22 @@ header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'F
        '20']
 pulled_chips_rs = pd.concat([pd.read_csv(f,sep='\t',comment='#',names=header_list) for f in paths_rs])
 vcf_rreader = vcf.Reader(open(paths_rs[0], 'r'))
-vcf_writer = vcf.Writer(open(os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'), 'w'), vcf_rreader)
+vcf_writer = vcf.Writer(open(os.path.join(processed_data,'pulled_all_rs_getero_filtrated.vcf'), 'w'), vcf_rreader)
 vcf_writer.close()
-pulled_chips_rs.to_csv(os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'),mode='a', header=False,index=False,sep='\t')
-print('chipseq pulled')
+pulled_chips_rs.to_csv(os.path.join(processed_data,'pulled_all_rs_getero_filtrated.vcf'),mode='a', header=False,index=False,sep='\t')
+print('pulled')
 process = subprocess.run(['bcftools', 'sort',
-                            os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'), '--output-file',
-                            os.path.join(processed_data,'pulled_sorted_chipseq_rs_getero_filtrated.vcf')],
+                            os.path.join(processed_data,'pulled_all_rs_getero_filtrated.vcf'), '--output-file',
+                            os.path.join(processed_data,'pulled_sorted_all_rs_getero_filtrated.vcf')],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
                            universal_newlines=True
                            )
-print('chipseq sorted')
-
-
-pull_atac = metadata[metadata['Extra1']=='ATAC_seq']
-intersect = list(filter(lambda x:x in list(pull_atac['ID']),processing_list))
-paths_rs = []
-for my_id in intersect:
-    paths_rs.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))
-
-header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-       '20']
-pulled_atac_rs = pd.concat([pd.read_csv(f,sep='\t',comment='#',names=header_list) for f in paths_rs])
-vcf_rreader = vcf.Reader(open(paths_rs[0], 'r'))
-vcf_writer = vcf.Writer(open(os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'), 'w'), vcf_rreader)
-vcf_writer.close()
-pulled_atac_rs.to_csv(os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'),mode='a', header=False,index=False,sep='\t')
-print('atacseq pulled')
-process = subprocess.run(['bcftools', 'sort',
-                            os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'), '--output-file',
-                            os.path.join(processed_data,'pulled_sorted_atacseq_rs_getero_filtrated.vcf')],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           universal_newlines=True
-                           )
-print('atacseq sorted')
-
-
-
-
-
+print('sorted')
 '''
 print('start to make available for babachi')
-vcf_read = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_chipseq_rs_getero_filtrated.vcf'), 'r'))
-vcf_writer = open(os.path.join(processed_data,'pulled_chipseq_tobabachi.vcf'), "w")
+vcf_read = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_all_rs_getero_filtrated.vcf'), 'r'))
+vcf_writer = open(os.path.join(processed_data,'pulled_all_tobabachi.vcf'), "w")
 print(vcf_read.infos)
 for record in vcf_read:
     vcf_writer.write(record.CHROM)

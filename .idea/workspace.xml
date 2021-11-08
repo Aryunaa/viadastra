@@ -2,8 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a9a6a15-ddef-4943-a43d-25ff3c17d492" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/additional/CONFIG.cfg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/CONFIG_v1.cfg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/another.cfg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/idid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/metadata.tsv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/new_metadata.tsv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/processing_list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/processing_list_old" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/step1_make_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/step1_mk_links.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/additional/tgsender_no_logs.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/babachi_1_all.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/babachi_2_all.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/filter_rs_getero_ad_get_refalt_table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/step1_mk_links.py" beforeDir="false" afterPath="$PROJECT_DIR$/step1_mk_links.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CONFIG.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/another.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/babachi_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/babachi_1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/babachi_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/babachi_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metadata.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_metadata.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/step3_filtrate_vcf_get_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/step3_filtrate_vcf_get_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/idid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/metadata.tsv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/step1_make_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/step1_mk_links.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/tgsender_no_logs.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +52,6 @@
     <setting file="file://$PROJECT_DIR$/step2_snp_calling.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/step1_mk_links.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/step2_reference_processing.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/CONFIG.cfg" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1yDgUZODhzlBZJklIelDsCoyIxP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -41,7 +66,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ADASTRA-pipeline-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">

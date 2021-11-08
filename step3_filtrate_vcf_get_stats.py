@@ -34,8 +34,8 @@ def vcf_filter_bad(my_id,treshold,qthreshold,rs):
         vcf_writer = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + 'bad_qual_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
         for record in vcf_reader:
             read_shape+=1
-            if((record.genotype('20')['GT']=='0/1') and record.QUAL> qthreshold and
-                record.genotype('20')['AD'][0]>treshold and record.genotype('20')['AD'][1]>treshold and
+            if((record.genotype('20')['GT']=='0/1') and record.QUAL>= qthreshold and
+                record.genotype('20')['AD'][0]>=treshold and record.genotype('20')['AD'][1]>=treshold and
                (record.REF in nucliotides) and (str(record.ALT[0]) in nucliotides)):
                 vcf_writer.write_record(record)
                 write_shape+=1
@@ -44,8 +44,8 @@ def vcf_filter_bad(my_id,treshold,qthreshold,rs):
         vcf_writer = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + 'bad_qual_rs_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
         for record in vcf_reader:
             read_shape += 1
-            if ((record.genotype('20')['GT'] == '0/1') and record.QUAL> qthreshold and
-                 record.genotype('20')['AD'][0]>treshold and record.genotype('20')['AD'][1]>treshold and
+            if ((record.genotype('20')['GT'] == '0/1') and record.QUAL>= qthreshold and
+                 record.genotype('20')['AD'][0]>=treshold and record.genotype('20')['AD'][1]>=treshold and
                 (record.REF in nucliotides) and (str(record.ALT[0]) in nucliotides) and (record.ID != None)):
                 vcf_writer.write_record(record)
                 write_shape += 1
