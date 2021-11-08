@@ -22,6 +22,10 @@ def vcf_filter_bad(my_id,treshold):
             write_shape += 1
     print(my_id + ' vcf_filter_bad finished')
 
+#def cut_to_bad(my_id, badgr):
+
+
+
 
 def ref_alt(my_id):
     vcf_filtrated = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.vcf'), 'r'))
