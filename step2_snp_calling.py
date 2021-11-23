@@ -282,8 +282,7 @@ def stats(my_id,clause ):
                                     '-o',statfile])
 
 def rm(my_id):
-    subprocess.run(['rm',
-                    os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
+    rm_list = [os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
                     os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
                     outdir + my_id + '/' + my_id + '_chop.bam',
                     outdir + my_id + '/' + my_id + '_sorted.bam',
@@ -291,9 +290,12 @@ def rm(my_id):
                     outdir + my_id + '/' + my_id + '_ready.bam',
                     outdir + my_id + '/' + my_id + '.table',
                     outdir + my_id + '/' + my_id + '_final.bai',
-                    outdir + my_id + '/' + my_id + '_final.bam'
+                    outdir + my_id + '/' + my_id + '_final.bam']
+    for i in rm_list:
+        if(os.path.exists(i)):
+            os.remove(i)
 
-                    ])
+
 
 
 ########my_id = 'BAM00030'#######################
