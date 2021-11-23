@@ -282,8 +282,18 @@ def stats(my_id,clause ):
                                     '-o',statfile])
 
 def rm(my_id):
-    subprocess.run(['rm', outdir + my_id + '/' + my_id + '_final.bai',
-                    outdir + my_id + '/' + my_id + '_final.bam'])
+    subprocess.run(['rm',
+                    os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
+                    os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
+                    outdir + my_id + '/' + my_id + '_chop.bam',
+                    outdir + my_id + '/' + my_id + '_sorted.bam',
+                    outdir + my_id + '/' + my_id + '_formatted.bam',
+                    outdir + my_id + '/' + my_id + '_ready.bam',
+                    outdir + my_id + '/' + my_id + '.table',
+                    outdir + my_id + '/' + my_id + '_final.bai',
+                    outdir + my_id + '/' + my_id + '_final.bam'
+
+                    ])
 
 
 ########my_id = 'BAM00030'#######################
@@ -295,13 +305,16 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-    process_bam(my_id)
+    if (os.path.exists(outdir + my_id + '/' + my_id + '.vcf')):
+        print(my_id+ ' vcf file from gatk already exists, skip processing')
+    else:
+        process_bam(my_id)
 
     #print("Beginnig with " + my_id)
     #process_bam(my_id)
-    stats(my_id,'.bam')
-    stats(my_id,'_final.bam')
-    stats(my_id,'_ready.bam')
+    #stats(my_id,'.bam')
+    #stats(my_id,'_final.bam')
+    #stats(my_id,'_ready.bam')
     stats(my_id,'.vcf')
     rm(my_id)
 

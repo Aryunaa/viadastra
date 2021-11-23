@@ -6,6 +6,7 @@ import configparser
 import pybedtools
 from pybedtools import BedTool
 import subprocess32 as subprocess
+import vcf
 #path = '/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg'
 threshold = int(sys.argv[1])
 path = sys.argv[2]
@@ -17,7 +18,9 @@ met = os.path.join(maindir,config["Files"]["metadata"])
 processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 indir = os.path.join(maindir,config["Directories"]["data_in"])
 
-######################################################
+
+#################################################################
+
 def group_by_bad(path_vcf, path_bed, out_path,threshold):
     header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'ref', 'alt']
     #vcf_data_atac = pd.read_csv(os.path.join(processed_data,'pulled_atacseq_tobabachi.vcf'),sep='\t', names = header_list)
@@ -26,6 +29,7 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     vcf_data_atac['POS2'] = vcf_data_atac['POS']
     vcf_data_atac = vcf_data_atac[['#CHROM', 'POS', 'POS2','ID', 'REF', 'ALT', 'ref', 'alt']]
     vcf_list = vcf_data_atac.values.tolist()
+    print(vcf_data_atac.iloc[0,:])
     test = BedTool(vcf_list)
 
     #bed_data = pd.read_csv(os.path.join(processed_data,'pulled_atacseq_tobabachi.bed'),sep='\t')
@@ -37,8 +41,8 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     df = i.to_dataframe()
     df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'ref', 'alt','chr','start','end','bad']
     annotated_vcf = df[['#CHROM', 'POS','ID', 'REF', 'ALT', 'ref', 'alt','bad']]
-    #annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
-    annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
+    annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
+    #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
     vcf_bad1 = annotated_vcf[annotated_vcf.bad == 1]
     vcf_bad1 = vcf_bad1.drop(['bad'], axis=1)
     vcf_bad2 = annotated_vcf[annotated_vcf.bad == 2]
@@ -51,7 +55,9 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     vcf_bad5 = vcf_bad5.drop(['bad'], axis=1)
     vcf_bad6 = annotated_vcf[annotated_vcf.bad == 6]
     vcf_bad6 = vcf_bad6.drop(['bad'], axis=1)
-
+    ##CHROM	POS	ID	REF	ALT	ref	alt	bad
+    annotated_vcf.columns = ['#CHROM', 'POS','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','BAD']
+    annotated_vcf.to_csv(os.path.join(processed_data, out_path + 'table_annotated.vcf'), header=True, index=False, sep='\t')
     vcf_bad1.to_csv(os.path.join(processed_data, out_path + '_table_BAD1.tsv'), header=True, index=False, sep='\t')
     vcf_bad2.to_csv(os.path.join(processed_data, out_path + '_table_BAD2.tsv'), header=True, index=False, sep='\t')
     vcf_bad3.to_csv(os.path.join(processed_data, out_path + '_table_BAD3.tsv'), header=True, index=False, sep='\t')
@@ -79,55 +85,37 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     grp_bad5.to_csv(os.path.join(processed_data, out_path + '_BAD5.tsv'),header=True,index=False,sep='\t')
     grp_bad6.to_csv(os.path.join(processed_data,out_path + '_BAD6.tsv'),header=True,index=False,sep='\t')
 
-def negbinfit(out_path,badn,badt, threshold):
-    #badt = '_BAD1.tsv'
-    print(os.path.join(processed_data,out_path + badt))
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin'), '--visualize', '-r'
-                              ],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'), '--visualize', '-r',
-                              ],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'), '--visualize', '-r','-l'
-                              ],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
+def tobabachi(my_id):
+    vcf_reader = vcf.Reader(open(os.path.join(processed_data,my_id+'/'+my_id+ '_rs_nucli_getero_filtrated.vcf'), 'r'))
+    vcf_writer = open(os.path.join(processed_data,my_id+'/'+my_id+ '_tobabachi.vcf'),"w")
+    for record in vcf_reader:
+        vcf_writer.write(record.CHROM)
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.POS))
+        vcf_writer.write('\t')
+        vcf_writer.write(record.ID)
+        vcf_writer.write('\t')
+        vcf_writer.write(record.REF)
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.ALT[0]))
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.genotype('20')['AD'][0]))
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.genotype('20')['AD'][1]))
+        vcf_writer.write('\n')
+    vcf_writer.close()
+
+#pathrad21 = 'BAM00002' + '/' + 'BAM00002' + '_rs_nucli_getero_filtrated.vcf'
+#pathrad21_out = 'BAM00002' + '/' + 'BAM00002' + 'tobabachi_filtrated.vcf'
+tobabachi('BAM00002')
+tobabachi('BAM00001')
+
+pathrad21 = 'BAM00002' + '/'+ 'BAM00002_tobabachi.vcf'
+#pathctcf = 'BAM00001' + '/' + 'BAM00001' + '_rs_nucli_getero_filtrated.vcf'
+pathctcf = 'BAM00001' + '/' + 'BAM00001_tobabachi.vcf'
 
 
 if(not os.path.isdir(os.path.join(processed_data,'grouped_bads'))):
     os.mkdir(os.path.join(processed_data,'grouped_bads'))
-print('atac_start')
-group_by_bad('pulled_atacseq_tobabachi.vcf','pulled_chipseq_tobabachi.bed', 'grouped_bads/atacseq_altref_counts',threshold)
-print('atac_end')
-print('chip start')
-group_by_bad('pulled_chipseq_tobabachi.vcf','pulled_chipseq_tobabachi.bed', 'grouped_bads/chipseq_altref_counts',threshold)
-print('chip_end')
-
-######################################################
-if(not os.path.isdir(os.path.join(processed_data,'grouped_bads/fitted_negbin'))):
-    os.mkdir(os.path.join(processed_data,'grouped_bads/fitted_negbin'))
-if(not os.path.isdir(os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'))):
-    os.mkdir(os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'))
-
-for i in range(6):
-    print(str(i+1)+'_BAD.tsv')
-    negbinfit('grouped_bads/atacseq_altref_counts',i+1,'_BAD'+str(i+1)+'.tsv',threshold)
-    negbinfit('grouped_bads/chipseq_altref_counts', i + 1, '_BAD' + str(i + 1) + '.tsv', threshold)
-
-#vcf_reader_atac = vcf.Reader(open(os.path.join(processed_data,'pulled_atacseq_tobabachi.vcf'), 'r'))
-#vcf_writer_atac = open(os.path.join(processed_data,'pulled_atacseq_bad_annotated.vcf'), "w")
-
+group_by_bad(pathrad21,'pulled_chipseq_tobabachi.bed', 'grouped_bads/chiprad21_altref_counts',threshold)
+group_by_bad(pathctcf,'pulled_chipseq_tobabachi.bed', 'grouped_bads/chipctcf_altref_counts',threshold)

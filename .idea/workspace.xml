@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a9a6a15-ddef-4943-a43d-25ff3c17d492" name="Changes" comment="try">
+      <change afterPath="$PROJECT_DIR$/ctcf_rad21.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_by_bad.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_by_bad.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step1_mk_links.py" beforeDir="false" afterPath="$PROJECT_DIR$/step1_mk_links.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/step2_snp_calling.py" beforeDir="false" afterPath="$PROJECT_DIR$/step2_snp_calling.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ADASTRA-pipeline-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../hobby/da_vk_api.py" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
