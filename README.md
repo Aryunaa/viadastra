@@ -3,8 +3,7 @@
 **1)** python step1_mk_links.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg
 
 **2)** python step2_reference_processing.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
-
-**3)** 
+ 
 
 **snp calling for one file:**
 
@@ -18,10 +17,22 @@ python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg
 
 python step2_snp_all.py 8 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
-**vcf_filtrate:**
+**3) vcf_filtrate:**
 
-python step3_filtrate_vcf_get_stats.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
-python filter.py rs /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step3_filtrate_vcf_get_stats.py 5 20 6 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
 python AS_figure_ref_bias.py /media/ElissarDisk/ADASTRA/processed_data/ref_alt_count.tsv /media/ElissarDisk/ADASTRA/processed_data
+
+
+**4) making bad maps**
+
+PULL ChIP_seq data into one file to babachi: 
+
+python babachi_1.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+
+python babachi_2.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+
+babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.vcf --visualize
+
+python group_by_bad.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
