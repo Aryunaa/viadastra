@@ -58,8 +58,7 @@ for i in bad_list:
                               os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf')],
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE,
-                             universal_newlines=True
-                             )
+                             universal_newlines=True)
     print(i+' sorted')
 
 

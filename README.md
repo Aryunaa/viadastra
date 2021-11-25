@@ -30,9 +30,8 @@ python AS_figure_ref_bias.py /media/ElissarDisk/ADASTRA/processed_data/ref_alt_c
 
 **4) making bad maps**
 
-PULL ChIP_seq data into one file to babachi: 
 
-python babachi_1.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step4_pullby_bads_and_sort.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
 python babachi_2.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
