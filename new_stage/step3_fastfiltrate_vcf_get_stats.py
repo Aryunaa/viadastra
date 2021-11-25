@@ -73,6 +73,24 @@ def vcf_to_tsv(my_id):
     vcf_writer.close()
 
 def filter_bad(my_id,threshold_bad):
+    rs_tsv_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),sep='\t',header=None)
+    rs_tsv_table.columns = header_list
+    #chip_c = cool_df[cool_df['BADgroup']=='chipseq']
+    rs_filtered_table = rs_tsv_table[(rs_tsv_table['REF_COUNTS']>=threshold_bad) & (rs_tsv_table['ALT_COUNTS']>=threshold_bad)]
+    rs_filtered_table.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.tsv'),index=False,sep='\t')
+
+    '''
+    nors_tsv_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.tsv'),
+                               sep='\t', header=None)
+    nors_tsv_table.columns = header_list
+    # chip_c = cool_df[cool_df['BADgroup']=='chipseq']
+    nors_filtered_table = nors_tsv_table[(nors_tsv_table['REF_COUNTS'] >= threshold_bad) & (nors_tsv_table['ALT_COUNTS'] >= threshold_bad)]
+    nors_filtered_table.to_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_nucli_getero_filtrated.tsv'),
+                             index=False, sep='\t')
+    
+    dict = {'write_shape_nors':nors_filtered_table.shape[0],'write_shape_rs':rs_filtered_table.shape[0]}
+    '''
+    return rs_filtered_table.shape[0]
 
 
 
@@ -100,52 +118,35 @@ header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']
 nucliotides = {'A', 'T', 'G', 'C'}
 
 table = pd.DataFrame(columns=['ID', 'BAM reads count', 'Total num. of SNVs', 'Total num. of rsSNPs',
-                              'SNVs passing ' + str(treshold_bad) + ' coverage',
-                              'rsSNPs passing' + str(treshold_bad) + ' coverage' ])
-bad_paths_rs = []
+                              'rsSNPs passing' + str(threshold_bad) + ' coverage'])
 ref_alt_paths = []
 for my_id in processing_list:
     # filtrate and get stats
     num = stats_read_num(os.path.join(indir, my_id + '.bam'))
     dict_vcf_filter = vcf_filter_nucli_getero(my_id)
-    snp_num = dict_vcf_filter['read_shape']
+    snv_num = dict_vcf_filter['read_shape']
     rssnp_num = dict_vcf_filter['write_shape_rs']
 
+    vcf_to_tsv(my_id)
+    snp_bad_rs_num = filter_bad(my_id,threshold_bad)
 
-    snp_bad_rs_num = dict_bad['write_shape']
-
-    snp_badfiltr_num = dict_bad['write_shape']
-
-    to_append = [my_id, num, snp_num, rssnp_num, snp_badfiltr_num, snp_bad_rs_num]
+    to_append = [my_id, num, snv_num, rssnp_num, snp_bad_rs_num]
     a_series = pd.Series(to_append, index=table.columns)
     table = table.append(a_series, ignore_index=True)
     print(a_series)
 
-    bad_paths_rs.append(os.path.join(processed_data, my_id + '/' + my_id + 'bad_qual_rs_nucli_getero_filtrated.vcf'))
-
     # get alt ref table
-    rs = 'rs'
-    ref_alt(my_id, rs)
-    if (rs != 'rs'):
-        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_alt_ref.tsv'))
-    else:
-        ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_alt_ref.tsv'))
+    rs_filtered_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.tsv'), sep='\t')
+    ref_alt = rs_filtered_table['REF_COUNTS','ALT_COUNTS']
+    ref_alt.columns = ['ref','alt']
+    ref_alt.to_csv(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
+    ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
 
 print(table)
 metadata = pd.read_csv(met, sep='\t')
 df = pd.merge(table, metadata, on="ID")
-df.to_csv(maindir + 'logs/vcf_filtration_stats.tsv', sep='\t')
+df.to_csv(maindir + 'logs/vcf_fast_filtration_stats.tsv', sep='\t',index=False)
 
-# make rsID_count_bad_qual
-for i in bad_paths_rs:
-    print(i)
-header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-               '20']
-combined_bad_rs = pd.concat([pd.read_csv(f, sep='\t', comment='#', names=header_list) for f in bad_paths_rs])
-grp = (combined_bad_rs.groupby(['ID']).size()
-       .reset_index(name='count'))
-output_file = os.path.join(maindir, 'logs/rsID_count_bad_qual.tsv')
-grp.to_csv(output_file, index=False, sep='\t')
 
 # make ref alt count for all
 output_file = os.path.join(processed_data, 'ref_alt_count.tsv')

@@ -36,3 +36,4 @@ python babachi_2.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgse
 babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.vcf --visualize
 
 python group_by_bad.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+
