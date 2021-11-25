@@ -5,33 +5,9 @@ import sys as sys
 import vcf
 import pandas as pd
 
-#my_id = sys.argv[1]
-def tobabachi(my_id):
-    vcf_reader = vcf.Reader(open('/media/ElissarDisk/ADASTRA/processed_data/'+my_id+'/'+my_id+ '_rs_nucli_getero_filtrated.vcf', 'r'))
-    vcf_writer = open('/media/ElissarDisk/ADASTRA/processed_data/'+my_id+'/'+my_id+ '_tobabachi.vcf',"w")
-    for record in vcf_reader:
-        vcf_writer.write(record.CHROM)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.POS))
-        vcf_writer.write('\t')
-        vcf_writer.write(record.ID)
-        vcf_writer.write('\t')
-        vcf_writer.write(record.REF)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.ALT[0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][1]))
-        vcf_writer.write('\n')
-    vcf_writer.close()
-
-#!babachi data/BAM00022_tobabachi.vcf --output data/BAM00022.bed --visualize
-#babachi /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022_tobabachi.vcf --output /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022.bed --visualize
 print('start process')
 
 path = sys.argv[1]
-#path = 'CONFIG.cfg'
 config = configparser.ConfigParser()
 config.read(path)
 maindir = config["Directories"]["maindir"]
@@ -51,52 +27,40 @@ for i in listi:
 metadata = pd.read_csv(met,sep='\t')
 #badgroup1 = sys.argv[1]
 #badgroup2 = sys.argv[2]
-pull_chip = metadata[metadata['BADgroup']=='chipseq']
-#pull_chip = metadata[metadata['BADgroup']==badgroup1]
-intersect = list(filter(lambda x:x in list(pull_chip['ID']),processing_list))
-paths_rs = []
-for my_id in intersect:
-    paths_rs.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))
+grp = (metadata.groupby(['BADgroup']).size()
+       .reset_index(name='count'))
+grp = grp[grp.BADgroup!='.']
+bad_list = []
+for i in grp.iloc[:,0]:
+    bad_list.append(i)
+print(bad_list)
 
-header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-       '20']
-pulled_chips_rs = pd.concat([pd.read_csv(f,sep='\t',comment='#',names=header_list) for f in paths_rs])
-vcf_rreader = vcf.Reader(open(paths_rs[0], 'r'))
-vcf_writer = vcf.Writer(open(os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'), 'w'), vcf_rreader)
-vcf_writer.close()
-pulled_chips_rs.to_csv(os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'),mode='a', header=False,index=False,sep='\t')
-print('chipseq pulled')
-process = subprocess.run(['bcftools', 'sort',
-                            os.path.join(processed_data,'pulled_chipseq_rs_getero_filtrated.vcf'), '--output-file',
-                            os.path.join(processed_data,'pulled_sorted_chipseq_rs_getero_filtrated.vcf')],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           universal_newlines=True
-                           )
-print('chipseq sorted')
+for i in bad_list:
+    pull = metadata[metadata['BADgroup'] == i]
+    # pull_chip = metadata[metadata['BADgroup']==badgroup1]
+    intersect = list(filter(lambda x: x in list(pull['ID']), processing_list))
+    paths_rs = []
+    for my_id in intersect:
+        paths_rs.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))
 
+    header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                   '20']
+    pulled_rs = pd.concat([pd.read_csv(f, sep='\t', comment='#', names=header_list) for f in paths_rs])
+    vcf_rreader = vcf.Reader(open(paths_rs[0], 'r'))
+    vcf_writer = vcf.Writer(open(os.path.join(processed_data, 'pulled_'+i+'_rs_getero_filtrated.vcf'), 'w'),
+                            vcf_rreader)
+    vcf_writer.close()
+    pulled_rs.to_csv(os.path.join(processed_data, 'pulled_'+i+'_rs_getero_filtrated.vcf'), mode='a',
+                           header=False, index=False, sep='\t')
+    print(i+' pulled')
+    process = subprocess.run(['bcftools', 'sort',
+                              os.path.join(processed_data, 'pulled_'+i+'_rs_getero_filtrated.vcf'), '--output-file',
+                              os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf')],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True
+                             )
+    print(i+' sorted')
 
-pull_atac = metadata[metadata['BADgroup']=='atacseq']
-intersect = list(filter(lambda x:x in list(pull_atac['ID']),processing_list))
-paths_rs = []
-for my_id in intersect:
-    paths_rs.append(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))
-
-header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-       '20']
-pulled_atac_rs = pd.concat([pd.read_csv(f,sep='\t',comment='#',names=header_list) for f in paths_rs])
-vcf_rreader = vcf.Reader(open(paths_rs[0], 'r'))
-vcf_writer = vcf.Writer(open(os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'), 'w'), vcf_rreader)
-vcf_writer.close()
-pulled_atac_rs.to_csv(os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'),mode='a', header=False,index=False,sep='\t')
-print('atacseq pulled')
-process = subprocess.run(['bcftools', 'sort',
-                            os.path.join(processed_data,'pulled_atacseq_rs_getero_filtrated.vcf'), '--output-file',
-                            os.path.join(processed_data,'pulled_sorted_atacseq_rs_getero_filtrated.vcf')],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE,
-                           universal_newlines=True
-                           )
-print('atacseq sorted')
 
 print('done')
