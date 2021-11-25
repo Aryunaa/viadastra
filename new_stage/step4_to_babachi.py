@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import pysam
 import sys
 import configparser
 import vcf
@@ -15,46 +14,33 @@ met = os.path.join(maindir,config["Files"]["metadata"])
 processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 indir = os.path.join(maindir,config["Directories"]["data_in"])
 
+metadata = pd.read_csv(met,sep='\t')
+grp = (metadata.groupby(['BADgroup']).size()
+       .reset_index(name='count'))
+grp = grp[grp.BADgroup!='.']
+bad_list = []
+for i in grp.iloc[:,0]:
+    bad_list.append(i)
+print(bad_list)
 
+for i in bad_list:
+    vcf_reader = vcf.Reader(open(os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf'), 'r'))
+    vcf_writer = open(os.path.join(processed_data, 'pulled_sorted_'+i+'_tobabachi.tsv'), "w")
+    for record in vcf_reader:
+        vcf_writer.write(record.CHROM)
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.POS))
+        vcf_writer.write('\t')
+        vcf_writer.write(record.ID)
+        vcf_writer.write('\t')
+        vcf_writer.write(record.REF)
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.ALT[0]))
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.genotype('20')['AD'][0]))
+        vcf_writer.write('\t')
+        vcf_writer.write(str(record.genotype('20')['AD'][1]))
+        vcf_writer.write('\n')
+    vcf_writer.close()
 
-vcf_reader = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_chipseq_rs_getero_filtrated.vcf'), 'r'))
-vcf_writer = open(os.path.join(processed_data,'pulled_chipseq_tobabachi.tsv'), "w")
-for record in vcf_reader:
-    vcf_writer.write(record.CHROM)
-    vcf_writer.write('\t')
-    vcf_writer.write(str(record.POS))
-    vcf_writer.write('\t')
-    vcf_writer.write(record.ID)
-    vcf_writer.write('\t')
-    vcf_writer.write(record.REF)
-    vcf_writer.write('\t')
-    vcf_writer.write(str(record.ALT[0]))
-    vcf_writer.write('\t')
-    vcf_writer.write(str(record.genotype('20')['AD'][0]))
-    vcf_writer.write('\t')
-    vcf_writer.write(str(record.genotype('20')['AD'][1]))
-    vcf_writer.write('\n')
-vcf_writer.close()
-
-
-print('chipseq done')
-
-vcf_reader_atac = vcf.Reader(open(os.path.join(processed_data,'pulled_sorted_atacseq_rs_getero_filtrated.vcf'), 'r'))
-vcf_writer_atac = open(os.path.join(processed_data,'pulled_atacseq_tobabachi.tsv'), "w")
-for record in vcf_reader_atac:
-    vcf_writer_atac.write(record.CHROM)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.POS))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(record.ID)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(record.REF)
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.ALT[0]))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.genotype('20')['AD'][0]))
-    vcf_writer_atac.write('\t')
-    vcf_writer_atac.write(str(record.genotype('20')['AD'][1]))
-    vcf_writer_atac.write('\n')
-vcf_writer_atac.close()
-print('atacseq done')
+    print(i+' done')
