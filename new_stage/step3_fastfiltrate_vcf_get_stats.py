@@ -71,8 +71,10 @@ def vcf_to_tsv(my_id):
         vcf_writer.write(str(record.genotype('20')['AD'][1]))
         vcf_writer.write('\n')
     vcf_writer.close()
+    print(my_id + ' vcf to csv finished')
 
 def filter_bad(my_id,threshold_bad):
+    print(my_id + ' filterbad started')
     rs_tsv_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),sep='\t',header=None)
     rs_tsv_table.columns = header_list
     #chip_c = cool_df[cool_df['BADgroup']=='chipseq']
@@ -90,6 +92,7 @@ def filter_bad(my_id,threshold_bad):
     
     dict = {'write_shape_nors':nors_filtered_table.shape[0],'write_shape_rs':rs_filtered_table.shape[0]}
     '''
+    print(my_id + ' filterbad finished')
     return rs_filtered_table.shape[0]
 
 
@@ -118,7 +121,7 @@ header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']
 nucliotides = {'A', 'T', 'G', 'C'}
 
 table = pd.DataFrame(columns=['ID', 'BAM reads count', 'Total num. of SNVs', 'Total num. of rsSNPs',
-                              'rsSNPs passing' + str(threshold_bad) + ' coverage'])
+                              'rsSNPs passing ' + str(threshold_bad) + ' coverage'])
 ref_alt_paths = []
 for my_id in processing_list:
     # filtrate and get stats
@@ -137,10 +140,14 @@ for my_id in processing_list:
 
     # get alt ref table
     rs_filtered_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.tsv'), sep='\t')
-    ref_alt = rs_filtered_table['REF_COUNTS','ALT_COUNTS']
+    #rs_filtered_table.columns = header_list
+    ref_alt = rs_filtered_table[['REF_COUNTS','ALT_COUNTS']]
     ref_alt.columns = ['ref','alt']
     ref_alt.to_csv(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
     ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
+
+
+
 
 print(table)
 metadata = pd.read_csv(met, sep='\t')
