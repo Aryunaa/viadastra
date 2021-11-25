@@ -3,7 +3,7 @@ import os
 import sys
 import configparser
 import vcf
-
+import subprocess32 as subprocess
 #path = '/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg'
 path = sys.argv[1]
 config = configparser.ConfigParser()
@@ -25,7 +25,7 @@ print(bad_list)
 
 for i in bad_list:
     vcf_reader = vcf.Reader(open(os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf'), 'r'))
-    vcf_writer = open(os.path.join(processed_data, 'pulled_sorted_'+i+'_tobabachi.tsv'), "w")
+    vcf_writer = open(os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'), "w")
     for record in vcf_reader:
         vcf_writer.write(record.CHROM)
         vcf_writer.write('\t')
@@ -44,3 +44,15 @@ for i in bad_list:
     vcf_writer.close()
 
     print(i+' done')
+
+for i in bad_list:
+    if (not os.path.isdir(os.path.join(processed_data, 'babachi'))):
+        os.mkdir(os.path.join(processed_data, 'babachi'))
+    process = subprocess.run(['babachi', os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'),
+                              '-O', os.path.join(processed_data, 'babachi'),
+                              '--visualize'
+                              ],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True)
+    #babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.vcf --visualize

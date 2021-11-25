@@ -33,9 +33,11 @@ python AS_figure_ref_bias.py /media/ElissarDisk/ADASTRA/processed_data/ref_alt_c
 
 python step4_pullby_bads_and_sort.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
-python babachi_2.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step4_to_babachi.py  /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
-babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.vcf --visualize
+babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.tsv --visualize
 
-python group_by_bad.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_atacseq_tobabachi.tsv --visualize
+
+python step5_group_by_bad.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
