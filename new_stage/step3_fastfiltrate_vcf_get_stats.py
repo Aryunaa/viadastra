@@ -31,47 +31,79 @@ def vcf_filter_nucli_getero(my_id):
     write_shape_nors = 0
     write_shape_rs = 0
     vcf_reader = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), 'r'))
-    vcf_writer_nors = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
-    vcf_writer_rs = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
-    for record in vcf_reader:
-        read_shape += 1
-        if((record.genotype('20')['GT']=='0/1')
-        and (str(record.ALT[0]) in nucliotides) and
-        (record.REF in nucliotides)):
-            vcf_writer_nors.write_record(record)
-            write_shape_nors += 1
-        if ((record.genotype('20')['GT'] == '0/1')
+    if (os.path.exists(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'))
+    and os.path.exists(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))):
+        print(my_id+' already exists ')
+        file_rs = open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), "r")
+        line_rs = file_rs.readline()
+        n_rs = 0
+        while line_rs.startswith("##"):
+            n_rs += 1
+            line_rs = file_rs.readline()
+        file_rs.close()
+
+        vcf_rs = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), sep='\t', skiprows=n)
+
+        file_nors = open(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'), "r")
+        line_nors = file_nors.readline()
+        n_nors = 0
+        while line_nors.startswith("##"):
+            n_nors += 1
+            line_nors = file_nors.readline()
+        file_rs.close()
+
+        vcf_rs = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'),
+                             sep='\t', skiprows=n)
+
+
+
+
+
+    else:
+        vcf_writer_nors = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
+        vcf_writer_rs = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
+        for record in vcf_reader:
+            read_shape += 1
+            if((record.genotype('20')['GT']=='0/1')
             and (str(record.ALT[0]) in nucliotides) and
-            (record.REF in nucliotides) and (record.ID != None)):
-            vcf_writer_rs.write_record(record)
-            write_shape_rs += 1
-    print(my_id+' vcf_filter_nucli_getero finished')
-    vcf_writer_rs.close()
-    vcf_writer_nors.close()
-    dict = {'read_shape': read_shape,'write_shape_nors':write_shape_nors,'write_shape_rs':write_shape_rs}
+            (record.REF in nucliotides)):
+                vcf_writer_nors.write_record(record)
+                write_shape_nors += 1
+            if ((record.genotype('20')['GT'] == '0/1')
+                and (str(record.ALT[0]) in nucliotides) and
+                (record.REF in nucliotides) and (record.ID != None)):
+                vcf_writer_rs.write_record(record)
+                write_shape_rs += 1
+        print(my_id+' vcf_filter_nucli_getero finished')
+        vcf_writer_rs.close()
+        vcf_writer_nors.close()
+        dict = {'read_shape': read_shape,'write_shape_nors':write_shape_nors,'write_shape_rs':write_shape_rs}
     return (dict)
 
 def vcf_to_tsv(my_id):
     print(my_id + ' vcf to tsv started')
-    vcf_reader = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'r'))
-    vcf_writer = open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),"w")
-    for record in vcf_reader:
-        vcf_writer.write(record.CHROM)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.POS))
-        vcf_writer.write('\t')
-        vcf_writer.write(record.ID)
-        vcf_writer.write('\t')
-        vcf_writer.write(record.REF)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.ALT[0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][1]))
-        vcf_writer.write('\n')
-    vcf_writer.close()
-    print(my_id + ' vcf to csv finished')
+    if(os.path.exists(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'))):
+        print(my_id+' tsv already exists')
+    else:
+        vcf_reader = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'r'))
+        vcf_writer = open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),"w")
+        for record in vcf_reader:
+            vcf_writer.write(record.CHROM)
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.POS))
+            vcf_writer.write('\t')
+            vcf_writer.write(record.ID)
+            vcf_writer.write('\t')
+            vcf_writer.write(record.REF)
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.ALT[0]))
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.genotype('20')['AD'][0]))
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.genotype('20')['AD'][1]))
+            vcf_writer.write('\n')
+        vcf_writer.close()
+        print(my_id + ' vcf to csv finished')
 
 def filter_bad(my_id,threshold_bad):
     print(my_id + ' filterbad started')
@@ -143,7 +175,7 @@ for my_id in processing_list:
     #rs_filtered_table.columns = header_list
     ref_alt = rs_filtered_table[['REF_COUNTS','ALT_COUNTS']]
     ref_alt.columns = ['ref','alt']
-    ref_alt.to_csv(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
+    ref_alt.to_csv(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'),sep='\t',index=False)
     ref_alt_paths.append(os.path.join(processed_data, my_id + '/' + my_id + 'ref_alt.tsv'))
 
 
