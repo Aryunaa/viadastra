@@ -13,6 +13,7 @@ processed_data = os.path.join(maindir,config["Directories"]["data_out"])
 met = os.path.join(maindir,config["Files"]["metadata"])
 processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 indir = os.path.join(maindir,config["Directories"]["data_in"])
+babachi = os.path.join(maindir,config["Directories"]["babachi"])
 
 metadata = pd.read_csv(met,sep='\t')
 grp = (metadata.groupby(['BADgroup']).size()
@@ -47,10 +48,10 @@ for i in bad_list:
     print(i+' done')
 
 for i in bad_list:
-    if (not os.path.isdir(os.path.join(processed_data, 'babachi'))):
-        os.mkdir(os.path.join(processed_data, 'babachi'))
+    if (not os.path.isdir(babachi)):
+        os.mkdir(babachi)
     process = subprocess.run(['babachi', os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'),
-                              '-O', os.path.join(processed_data, 'babachi/'),
+                              '-O', babachi,
                               '--visualize'
                               ],
                              stdout=subprocess.PIPE,
