@@ -27,39 +27,29 @@ def stats_read_num(BAM):
 
 def vcf_filter_nucli_getero(my_id):
     print(my_id+' vcf_filter_nucli_getero started')
-    read_shape = 0
-    write_shape_nors = 0
-    write_shape_rs = 0
-    vcf_reader = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), 'r'))
+
     if (os.path.exists(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'))
     and os.path.exists(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'))):
         print(my_id+' already exists ')
         file_rs = open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), "r")
         line_rs = file_rs.readline()
-        n_rs = 0
+        n = 0
         while line_rs.startswith("##"):
-            n_rs += 1
+            n += 1
             line_rs = file_rs.readline()
         file_rs.close()
 
         vcf_rs = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), sep='\t', skiprows=n)
-
-        file_nors = open(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'), "r")
-        line_nors = file_nors.readline()
-        n_nors = 0
-        while line_nors.startswith("##"):
-            n_nors += 1
-            line_nors = file_nors.readline()
-        file_rs.close()
-
-        vcf_rs = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'),
+        vcf_nors = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'),
                              sep='\t', skiprows=n)
-
-
-
-
+        vcf_nonfiltrated = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'),sep='\t', skiprows=n)
+        dict = {'read_shape': vcf_nonfiltrated.shape[0], 'write_shape_nors': vcf_nors.shape[0], 'write_shape_rs': vcf_rs.shape[0]}
 
     else:
+        read_shape = 0
+        write_shape_nors = 0
+        write_shape_rs = 0
+        vcf_reader = vcf.Reader(open(os.path.join(processed_data, my_id + '/' + my_id + '.vcf'), 'r'))
         vcf_writer_nors = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
         vcf_writer_rs = vcf.Writer(open(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.vcf'), 'w'), vcf_reader)
         for record in vcf_reader:
