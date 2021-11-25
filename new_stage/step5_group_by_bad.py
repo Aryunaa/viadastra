@@ -40,6 +40,7 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     annotated_vcf = annotated_vcf[(annotated_vcf.REF_COUNTS >= threshold) & (annotated_vcf.ALT_COUNTS >=threshold)]
     annotated_vcf.to_csv(os.path.join(processed_data, out_path + '_BAD_annotated.tsv'),header=True, index=False, sep='\t')
     #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
+    '''
     vcf_bad1 = annotated_vcf[annotated_vcf.BAD == 1]
     vcf_bad1 = vcf_bad1.drop(['bad'], axis=1)
     vcf_bad2 = annotated_vcf[annotated_vcf.BAD == 2]
@@ -59,7 +60,7 @@ def group_by_bad(path_vcf, path_bed, out_path,threshold):
     vcf_bad4.to_csv(os.path.join(processed_data, out_path + '_table_BAD4.tsv'), header=True, index=False, sep='\t')
     vcf_bad5.to_csv(os.path.join(processed_data, out_path + '_table_BAD5.tsv'), header=True, index=False, sep='\t')
     vcf_bad6.to_csv(os.path.join(processed_data, out_path + '_table_BAD6.tsv'), header=True, index=False, sep='\t')
-
+    '''
     '''
     grp_bad1 = (vcf_bad1.groupby(['ref','alt']).size()
            .reset_index(name='counts'))

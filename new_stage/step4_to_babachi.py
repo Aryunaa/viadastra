@@ -24,24 +24,25 @@ for i in grp.iloc[:,0]:
 print(bad_list)
 
 for i in bad_list:
-    vcf_reader = vcf.Reader(open(os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf'), 'r'))
-    vcf_writer = open(os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'), "w")
-    for record in vcf_reader:
-        vcf_writer.write(record.CHROM)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.POS))
-        vcf_writer.write('\t')
-        vcf_writer.write(record.ID)
-        vcf_writer.write('\t')
-        vcf_writer.write(record.REF)
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.ALT[0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][0]))
-        vcf_writer.write('\t')
-        vcf_writer.write(str(record.genotype('20')['AD'][1]))
-        vcf_writer.write('\n')
-    vcf_writer.close()
+    if (not os.path.exists(os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'))):
+        vcf_reader = vcf.Reader(open(os.path.join(processed_data, 'pulled_sorted_'+i+'_rs_getero_filtrated.vcf'), 'r'))
+        vcf_writer = open(os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'), "w")
+        for record in vcf_reader:
+            vcf_writer.write(record.CHROM)
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.POS))
+            vcf_writer.write('\t')
+            vcf_writer.write(record.ID)
+            vcf_writer.write('\t')
+            vcf_writer.write(record.REF)
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.ALT[0]))
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.genotype('20')['AD'][0]))
+            vcf_writer.write('\t')
+            vcf_writer.write(str(record.genotype('20')['AD'][1]))
+            vcf_writer.write('\n')
+        vcf_writer.close()
 
     print(i+' done')
 
@@ -49,7 +50,7 @@ for i in bad_list:
     if (not os.path.isdir(os.path.join(processed_data, 'babachi'))):
         os.mkdir(os.path.join(processed_data, 'babachi'))
     process = subprocess.run(['babachi', os.path.join(processed_data, 'pulled_'+i+'_tobabachi.tsv'),
-                              '-O', os.path.join(processed_data, 'babachi'),
+                              '-O', os.path.join(processed_data, 'babachi/'),
                               '--visualize'
                               ],
                              stdout=subprocess.PIPE,
