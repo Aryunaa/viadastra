@@ -28,14 +28,15 @@ def annotate_by_bad(i,threshold):
     vcf_data = pd.read_csv(os.path.join(processed_data, path_vcf), sep='\t',
                                 names=header_list)
     vcf_data['POS2'] = vcf_data['POS']
+    vcf_data['POS2']+=1
     vcf_data = vcf_data[['#CHROM', 'POS', 'POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']]
-    vcf_list = vcf_data.values.tolist()
-    test = BedTool(vcf_list)
+    #vcf_list = vcf_data.values.tolist()
+    test = BedTool.from_dataframe(vcf_data)
 
     bed_data = pd.read_csv(os.path.join(babachi, path_bed), sep='\t')
     bed_data = bed_data[['#chr','start','end','BAD']]
-    bed_list = bed_data.values.tolist()
-    annotations = BedTool(bed_list)
+    #bed_list = bed_data.values.tolist()
+    annotations = BedTool.from_dataframe(bed_data)
     inters = test.intersect(annotations, wb=True)
     df = inters.to_dataframe()
     df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','chr','start','end','BAD']
