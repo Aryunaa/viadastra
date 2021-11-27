@@ -22,29 +22,32 @@ fit = os.path.join(maindir,config["Directories"]["fit"])
 babachi = os.path.join(maindir,config["Directories"]["babachi"])
 ######################################################
 def annotate_by_bad(i,threshold):
+    if(os.path.exists(os.path.join(fit, i + '_BAD_annotated.tsv'))):
+        pass
+    else:
     #'pulled_'+i+'_tobabachi.tsv', 'pulled_'+i+'_tobabachi.bed', i+'_', threshold
-    path_vcf = 'pulled_'+i+'_tobabachi.tsv'
-    path_bed = 'pulled_'+i+'_tobabachi.bed'
+        path_vcf = 'pulled_'+i+'_tobabachi.tsv'
+        path_bed = 'pulled_'+i+'_tobabachi.bed'
 
-    header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']
-    vcf_data = pd.read_csv(os.path.join(processed_data, path_vcf), sep='\t',
-                                names=header_list)
-    vcf_data['POS2'] = vcf_data['POS']
-    vcf_data['POS2']+=1
-    vcf_data = vcf_data[['#CHROM', 'POS', 'POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']]
-    #vcf_list = vcf_data.values.tolist()
-    test = BedTool.from_dataframe(vcf_data)
+        header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']
+        vcf_data = pd.read_csv(os.path.join(processed_data, path_vcf), sep='\t',
+                                    names=header_list)
+        vcf_data['POS2'] = vcf_data['POS']
+        vcf_data['POS2']+=1
+        vcf_data = vcf_data[['#CHROM', 'POS', 'POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']]
+        #vcf_list = vcf_data.values.tolist()
+        test = BedTool.from_dataframe(vcf_data)
 
-    bed_data = pd.read_csv(os.path.join(babachi, path_bed), sep='\t')
-    bed_data = bed_data[['#chr','start','end','BAD']]
-    #bed_list = bed_data.values.tolist()
-    annotations = BedTool.from_dataframe(bed_data)
-    inters = test.intersect(annotations, wb=True)
-    df = inters.to_dataframe()
-    df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','chr','start','end','BAD']
-    annotated_vcf = df[['#CHROM', 'POS','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','BAD']]
-    annotated_vcf = annotated_vcf[(annotated_vcf.REF_COUNTS >= threshold) & (annotated_vcf.ALT_COUNTS >=threshold)]
-    annotated_vcf.to_csv(os.path.join(fit, i + '_BAD_annotated.tsv'),header=True, index=False, sep='\t')
+        bed_data = pd.read_csv(os.path.join(babachi, path_bed), sep='\t')
+        bed_data = bed_data[['#chr','start','end','BAD']]
+        #bed_list = bed_data.values.tolist()
+        annotations = BedTool.from_dataframe(bed_data)
+        inters = test.intersect(annotations, wb=True)
+        df = inters.to_dataframe()
+        df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','chr','start','end','BAD']
+        annotated_vcf = df[['#CHROM', 'POS','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','BAD']]
+        annotated_vcf = annotated_vcf[(annotated_vcf.REF_COUNTS >= threshold) & (annotated_vcf.ALT_COUNTS >=threshold)]
+        annotated_vcf.to_csv(os.path.join(fit, i + '_BAD_annotated.tsv'),header=True, index=False, sep='\t')
     #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
     '''
     vcf_bad1 = annotated_vcf[annotated_vcf.BAD == 1]
