@@ -6,6 +6,8 @@ import configparser
 import pybedtools
 from pybedtools import BedTool
 import subprocess32 as subprocess
+import shlex
+
 #path = '/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg'
 threshold = int(sys.argv[1])
 path = sys.argv[2]
@@ -87,38 +89,46 @@ def annotate_by_bad(i,threshold):
     grp_bad6.to_csv(os.path.join(processed_data,out_path + '_BAD6.tsv'),header=True,index=False,sep='\t')
     '''
 
-def negbinfit(out_path,badn,badt, threshold):
-    #badt = '_BAD1.tsv'
-    print(os.path.join(processed_data,out_path + badt))
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin'), '--visualize', '-r'
-                              ],
+def negbinfit(i):
+
+    '''
+    negbin_fit collect -I /media/ElissarDisk/ADASTRA/fit/chipseq_BAD_annotated.tsv -O /media/ElissarDisk/ADASTRA/fit/chip_fit
+
+negbin_fit -O /media/ElissarDisk/ADASTRA/fit/chip_fit --visualize
+
+
+calc_pval -I /media/ElissarDisk/ADASTRA/fit/chipseq_BAD_annotated.tsv -O /media/ElissarDisk/ADASTRA/fit/chip_pvals -w /media/ElissarDisk/ADASTRA/fit/chip_fit
+calc_pval aggregate -I /media/ElissarDisk/ADASTRA/fit/chip_pvals/chipseq_BAD_annotated.pvalue_table -O /media/ElissarDisk/ADASTRA/fit ; bash tgsender_no_logs.sh ; echo end
+
+    '''
+
+    collect = f'negbin_fit collect -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+"_fit")}'
+    subprocess.run(shlex.split(collect),
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                universal_newlines=True
                                )
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'), '--visualize', '-r',
-                              ],
+    fit_nb = f'negbin_fit -O {os.path.join(fit,i+"_fit")} --visualize'
+    subprocess.run(shlex.split(fit_nb),
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                universal_newlines=True
                                )
-    subprocess.run(['negbin_fit', os.path.join(processed_data,out_path + badt),
-                                '--bad',str(badn), '--allele-reads-tr', str(threshold),
-                                '-O',os.path.join(processed_data,'grouped_bads/fitted_negbin_lin'), '--visualize', '-r','-l'
-                              ],
+
+    calc_pval = f'calc_pval -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+ "_pvals")} -w {os.path.join(fit,i+"_fit")}'
+    subprocess.run(shlex.split(calc_pval),
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               universal_newlines=True
+                               )
+    aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {fit}'
+    subprocess.run(shlex.split(aggr),
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                universal_newlines=True
                                )
 
 
-
-if(not os.path.isdir(os.path.join(processed_data,'grouped_bads'))):
-    os.mkdir(os.path.join(processed_data,'grouped_bads'))
 
 metadata = pd.read_csv(met,sep='\t')
 grp = (metadata.groupby(['BADgroup']).size()
@@ -137,40 +147,13 @@ for i in bad_list:
     print(i+' start')
     #processed data, babachi, fit
     annotate_by_bad(i, threshold)
-    '''
-    if (not os.path.exists(os.path.join(fit,i+'/'))):
-        os.mkdir(fit)
-    subprocess.run(['negbin_fit', 'collect','-I',
-                    os.path.join(fit, i + '_BAD_annotated.tsv'),
-                    '-O', os.path.join(fit,i+'/')
-                    ],
-                   stdout=subprocess.PIPE,
-                   stderr=subprocess.PIPE,
-                   universal_newlines=True
-                   )
-    subprocess.run(['negbin_fit',
-                    '-O', os.path.join(fit,i+'/'),
-                    '--visualize'
-                    ],
-                   stdout=subprocess.PIPE,
-                   stderr=subprocess.PIPE,
-                   universal_newlines=True
-                   )
-    '''
+    negbinfit(i)
+
     print(i+' end')
 
 
 
 ######################################################
 
-
-
-
-'''
-for i in range(6):
-    print(str(i+1)+'_BAD.tsv')
-    negbinfit('grouped_bads/atacseq_altref_counts',i+1,'_BAD'+str(i+1)+'.tsv',threshold)
-    negbinfit('grouped_bads/chipseq_altref_counts', i + 1, '_BAD' + str(i + 1) + '.tsv', threshold)
-'''
 
 

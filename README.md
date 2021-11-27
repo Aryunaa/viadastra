@@ -39,5 +39,5 @@ babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_chipseq_tobabachi.tsv -
 
 babachi /media/ElissarDisk/ADASTRA/processed_data/pulled_atacseq_tobabachi.tsv --visualize
 
-python step5_group_by_bad.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
+python step5_fit.py 5 /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg ; bash tgsender_no_logs.sh ; echo end
 
