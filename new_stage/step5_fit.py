@@ -89,8 +89,30 @@ def annotate_by_bad(i,threshold):
     grp_bad6.to_csv(os.path.join(processed_data,out_path + '_BAD6.tsv'),header=True,index=False,sep='\t')
     '''
 
+def loggi(tmp_log,tmp_err,stdout,stderr,k):
+    stdout.split('\n')
+    stderr.split('\n')
+
+    if (k=='a'):
+        with open(tmp_log, "a") as log:
+            log.write(stdout)
+        with open(tmp_err, "a") as err:
+            err.write(stderr)
+    else:
+        with open(tmp_log, "w") as log:
+            log.write(stdout)
+        with open(tmp_err, "w") as err:
+            err.write(stderr)
+    print('logged')
+
 def negbinfit(i):
 
+    tmp_log = os.path.join(fit,i+'_log')
+    tmp_err = os.path.join(fit,i+'_err')
+    with open(tmp_log, "w") as log:
+        log.write('STARTING!')
+    with open(tmp_err, "w") as err:
+        err.write('STARTING!')
     '''
     negbin_fit collect -I /media/ElissarDisk/ADASTRA/fit/chipseq_BAD_annotated.tsv -O /media/ElissarDisk/ADASTRA/fit/chip_fit
 
@@ -101,32 +123,57 @@ calc_pval -I /media/ElissarDisk/ADASTRA/fit/chipseq_BAD_annotated.tsv -O /media/
 calc_pval aggregate -I /media/ElissarDisk/ADASTRA/fit/chip_pvals/chipseq_BAD_annotated.pvalue_table -O /media/ElissarDisk/ADASTRA/fit ; bash tgsender_no_logs.sh ; echo end
 
     '''
+    if (os.path.exists(os.path.join(fit,i+"_fit"))):
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+"_fit") + ' exists')
+    else:
+        os.mkdir(os.path.join(fit,i+"_fit"))
+        collect = f'negbin_fit collect -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+"_fit")}'
+        process = subprocess.Popen(shlex.split(collect),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('negbin_fit collect done')
+        fit_nb = f'negbin_fit -O {os.path.join(fit,i+"_fit")} --visualize'
+        process = subprocess.Popen(shlex.split(fit_nb),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('negbin_fit done')
 
-    collect = f'negbin_fit collect -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+"_fit")}'
-    subprocess.run(shlex.split(collect),
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
-    fit_nb = f'negbin_fit -O {os.path.join(fit,i+"_fit")} --visualize'
-    subprocess.run(shlex.split(fit_nb),
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
+    if(os.path.exists(os.path.join(fit,i+ "_pvals"))):
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+ "_pvals") + ' exists')
+    else:
+        calc_pval = f'calc_pval -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+ "_pvals")} -w {os.path.join(fit,i+"_fit")}'
+        process = subprocess.Popen(shlex.split(calc_pval),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('calc_pval done')
 
-    calc_pval = f'calc_pval -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+ "_pvals")} -w {os.path.join(fit,i+"_fit")}'
-    subprocess.run(shlex.split(calc_pval),
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
-    aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {fit}'
-    subprocess.run(shlex.split(aggr),
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               universal_newlines=True
-                               )
+    if(os.path.exists(os.path.join(fit,i+ "aggregated.tsv")))  :
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+ "aggregated.tsv") + ' exists')
+    else:
+        aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {os.path.join(fit,i+ "aggregated.tsv")}'
+        process = subprocess.Popen(shlex.split(aggr),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('calc_pval aggregate done')
 
 
 
