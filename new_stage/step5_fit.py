@@ -168,7 +168,7 @@ calc_pval aggregate -I /media/ElissarDisk/ADASTRA/fit/chip_pvals/chipseq_BAD_ann
         with open(tmp_log, "a") as log:
             log.write(os.path.join(fit,i+ "aggregated.tsv") + ' exists')
     else:
-        aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {os.path.join(fit,i+ "aggregated.tsv")}'
+        aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {os.path.join(fit,i+ "_aggregated.tsv")}'
         process = subprocess.Popen(shlex.split(aggr),
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
