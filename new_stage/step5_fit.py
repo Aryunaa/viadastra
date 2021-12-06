@@ -92,6 +92,43 @@ def annotate_by_bad(i,threshold):
     grp_bad6.to_csv(os.path.join(processed_data,out_path + '_BAD6.tsv'),header=True,index=False,sep='\t')
     '''
 
+
+#(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),index=False,sep='\t')
+def annotate_by_bad_myid(i,my_id,threshold):
+    if (os.path.exists(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'))):
+        pass
+    else:
+        if(not os.path.exists(os.path.join(fit, i+'_annotated/'))):
+            os.mkdir((os.path.join(fit, i+'_annotated/')))
+
+        # 'pulled_'+i+'_tobabachi.tsv', 'pulled_'+i+'_tobabachi.bed', i+'_', threshold
+        path_vcf = my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'
+        path_bed = 'pulled_' + i + '_tobabachi.bed'
+
+        header_list = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']
+        vcf_data = pd.read_csv(os.path.join(processed_data, path_vcf), sep='\t',
+                               names=header_list)
+        vcf_data['POS2'] = vcf_data['POS']
+        vcf_data['POS2'] += 1
+        vcf_data = vcf_data[['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS']]
+        # vcf_list = vcf_data.values.tolist()
+        test = BedTool.from_dataframe(vcf_data)
+
+        bed_data = pd.read_csv(os.path.join(babachi, path_bed), sep='\t')
+        bed_data = bed_data[['#chr', 'start', 'end', 'BAD']]
+        # bed_list = bed_data.values.tolist()
+        annotations = BedTool.from_dataframe(bed_data)
+        inters = test.intersect(annotations, wb=True)
+        df = inters.to_dataframe()
+        df.columns = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'chr', 'start', 'end',
+                      'BAD']
+        annotated_vcf = df[['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
+        annotated_vcf = annotated_vcf[(annotated_vcf.REF_COUNTS >= threshold) & (annotated_vcf.ALT_COUNTS >= threshold)]
+        annotated_vcf.to_csv(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'), header=True, index=False, sep='\t')
+    return(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'))
+
+
+
 def loggi(tmp_log,tmp_err,stdout,stderr,k):
     stdout.split('\n')
     stderr.split('\n')
@@ -178,6 +215,8 @@ calc_pval aggregate -I /media/ElissarDisk/ADASTRA/fit/chip_pvals/chipseq_BAD_ann
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('calc_pval aggregate done')
 
+def negbinfit(my_id,i):
+    
 
 
 metadata = pd.read_csv(met,sep='\t')
@@ -193,6 +232,7 @@ print(bad_list)
 if (not os.path.exists(fit)):
     os.mkdir(fit)
 
+'''
 for i in bad_list:
     print(i+' start')
     #processed data, babachi, fit
@@ -200,7 +240,32 @@ for i in bad_list:
     negbinfit(i)
 
     print(i+' end')
+'''
+processing_list = []
+with open(processing_list_path, 'r') as fp:
+    for line in fp:
+        processing_list.append(line.strip())
 
+list_negbincol = []
+list_calc_pval = []
+list_aggregate = []
+for my_id in processing_list:
+    for my_id in processing_list:
+        ser = metadata[metadata['ID'] == my_id]
+        i = ser.BADgroup.to_string(index=False)
+        if(i!='.'):
+            path = annotate_by_bad_myid(i,my_id,threshold)
+            list_negbincol.append(path)
+            list_calc_pval.append()
+            list_aggregate.append()
+
+
+
+'''
+txt_processing_list = open(path_processing_list,"w")
+for key in to_process:
+    txt_processing_list.write(to_process[key]+"\n")
+'''
 
 
 ######################################################
