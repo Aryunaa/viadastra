@@ -95,7 +95,7 @@ def annotate_by_bad(i,threshold):
 
 #(os.path.join(processed_data, my_id + '/' + my_id + '_rs_nucli_getero_filtrated.tsv'),index=False,sep='\t')
 def annotate_by_bad_myid(i,my_id,threshold):
-    if (os.path.exists(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'))):
+    if (os.path.exists(os.path.join(fit, i+'_annotated/'+my_id + '.tsv'))):
         pass
     else:
         if(not os.path.exists(os.path.join(fit, i+'_annotated/'))):
@@ -124,8 +124,8 @@ def annotate_by_bad_myid(i,my_id,threshold):
                       'BAD']
         annotated_vcf = df[['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
         annotated_vcf = annotated_vcf[(annotated_vcf.REF_COUNTS >= threshold) & (annotated_vcf.ALT_COUNTS >= threshold)]
-        annotated_vcf.to_csv(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'), header=True, index=False, sep='\t')
-    return(os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv'))
+        annotated_vcf.to_csv(os.path.join(fit, i+'_annotated/'+my_id + '.tsv'), header=True, index=False, sep='\t')
+    return(os.path.join(i+'_annotated/',my_id + '.tsv'))
 
 
 
@@ -215,8 +215,88 @@ calc_pval aggregate -I /media/ElissarDisk/ADASTRA/fit/chip_pvals/chipseq_BAD_ann
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('calc_pval aggregate done')
 
-def negbinfit(my_id,i):
-    
+def negbinfit_ids(i):
+    '''
+    negbin_fit collect -I F1 F2 F3 -O <out>
+Затем фичу распределение с помощью
+negbin_fit -O <out>
+Затем оказывается что F1 и F2 в одной бад группе, а F3 во второй. Тогда я считаю p-value отдельно для F1, F2 и для F3. то есть надо 2 запуска calc_pval:
+calc_pval -I F1 F2 -w <out> -O <some-out>
+calc_pval -I F3 -w <out> -O <some-out>
+
+
+negbin_fit collect -I pulled1 -O badgr1
+negbin_fit collect -I pulled2 -O badgr2
+потом
+negbinfit  -O badgr1
+negbinfit  -O badgr2
+
+потом, раз уж они разделены по бадгруппам,
+calc_pval -I pulled1 -w -O
+    :param my_id:
+    :param i:
+    :return:
+    '''
+    tmp_log = os.path.join(fit,i+'_ids_log')
+    tmp_err = os.path.join(fit,i+'_ids_err')
+    with open(tmp_log, "w") as log:
+        log.write('STARTING!')
+    with open(tmp_err, "w") as err:
+        err.write('STARTING!')
+
+    if (os.path.exists(os.path.join(fit,i+"_fit_ids"))):
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+"_fit_ids") + ' exists')
+    else:
+        os.mkdir(os.path.join(fit,i+"_fit_ids"))
+        os.chdir(fit)
+        collect = f'negbin_fit collect -f {"processing_list_step1"} -O {os.path.join(fit,i+"_fit_ids")}'
+        process = subprocess.Popen(shlex.split(collect),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('negbin_fit collect done')
+        fit_nb = f'negbin_fit -O {os.path.join(fit,i+"_fit")} --visualize'
+        process = subprocess.Popen(shlex.split(fit_nb),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('negbin_fit done')
+
+    if(os.path.exists(os.path.join(fit,i+ "_pvals"))):
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+ "_pvals") + ' exists')
+    else:
+        calc_pval = f'calc_pval -I {os.path.join(fit,i+"_BAD_annotated.tsv")} -O {os.path.join(fit,i+ "_pvals")} -w {os.path.join(fit,i+"_fit")}'
+        process = subprocess.Popen(shlex.split(calc_pval),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('calc_pval done')
+
+    if(os.path.exists(os.path.join(fit,i+ "aggregated.tsv")))  :
+        with open(tmp_log, "a") as log:
+            log.write(os.path.join(fit,i+ "aggregated.tsv") + ' exists')
+    else:
+        aggr = f'calc_pval aggregate -I {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"} -O {os.path.join(fit,i+ "_aggregated.tsv")}'
+        process = subprocess.Popen(shlex.split(aggr),
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True
+                                   )
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('calc_pval aggregate done')
+
 
 
 metadata = pd.read_csv(met,sep='\t')
@@ -246,19 +326,24 @@ with open(processing_list_path, 'r') as fp:
     for line in fp:
         processing_list.append(line.strip())
 
-list_negbincol = []
-list_calc_pval = []
-list_aggregate = []
-for my_id in processing_list:
-    for my_id in processing_list:
-        ser = metadata[metadata['ID'] == my_id]
-        i = ser.BADgroup.to_string(index=False)
-        if(i!='.'):
-            path = annotate_by_bad_myid(i,my_id,threshold)
-            list_negbincol.append(path)
-            list_calc_pval.append()
-            list_aggregate.append()
+for bad in bad_list:
+    ser = metadata[metadata['BADgroup']== bad]
+    ids = list(ser['ID'])
+    ids_list = list(set(ids) & set(processing_list))
+    txt_step1 = open('processing_list_'+bad+'_step1',"w")
+    txt_step2 = open('processing_list_' + bad + '_step2', "w")
+    txt_step3 = open('processing_list_' + bad + '_step3', "w")
+    for i in ids_list:
+        txt_step1.write(i+"\n")
+    txt_step1.close()
+    txt_step2.close()
+    txt_step3.close()
 
+#os.path.join(fit, i+'_annotated/'+my_id + '_BAD_annotated.tsv')
+txt_list_nb_col = open(os.path.join(fit,'processing_list_step1'),"w")
+for i in list_negbincol:
+    txt_list_nb_col.write(i+"\n")
+txt_list_nb_col.close()
 
 
 '''
