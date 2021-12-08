@@ -271,6 +271,8 @@ calc_pval -I pulled1 -w -O
         with open(tmp_log, "a") as log:
             log.write(os.path.join(fit,i+ "_ids_pvals") + ' exists')
     else:
+        os.mkdir(os.path.join(fit,i+ "_ids_pvals"))
+        os.chdir(os.path.join(fit, i + '_annotated/'))
         calc_pval = f'calc_pval -f {os.path.join(fit,"processing_list_"+i)} -O {os.path.join(fit,i+ "_ids_pvals")} -w {os.path.join(fit,i+"_fit_ids")}'
         process = subprocess.Popen(shlex.split(calc_pval),
                                    stdout=subprocess.PIPE,
@@ -307,7 +309,6 @@ for i in grp.iloc[:,0]:
     bad_list.append(i)
 print(bad_list)
 
-#group_by_bad('pulled_atacseq_tobabachi.tsv','pulled_atacseq_tobabachi.bed', 'grouped_bads/atacseq_',threshold)
 if (not os.path.exists(fit)):
     os.mkdir(fit)
 
@@ -341,7 +342,9 @@ for bad in bad_list:
 for my_id in processing_list:
     for my_id in processing_list:
         ser = metadata[metadata['ID'] == my_id]
-        i = ser.BADgroup.to_string(index=False)
+        #i = ser.BADgroup.to_string(index=False)
+        k = ser.BADgroup.astype(str)
+        i = k.iloc[0]
         if(i!='.'):
             annotate_by_bad_myid(i,my_id,threshold)
 
