@@ -235,16 +235,32 @@ negbinfit  -O badgr2
 calc_pval -I pulled1 -w -O
 
     '''
+    bad = i
+    ser = metadata[metadata['BADgroup'] == bad]
+    ids = list(ser['ID'])
+    ids_list = list(set(ids) & set(processing_list))
+    txt_step1 = open(os.path.join(fit, 'processing_list_' + bad), "w")
+
+    for my_id in ids_list:
+        txt_step1.write(my_id + '.tsv' + "\n")
+        #txt_step2.write(my_id + '.pvalue_table' + "\n")
+        # {os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"}
+    txt_step1.close()
+    #txt_step2.close()
+
+
+
     tmp_log = os.path.join(fit,i+'_ids_log')
     tmp_err = os.path.join(fit,i+'_ids_err')
     with open(tmp_log, "w") as log:
-        log.write('STARTING!')
+        log.write('STARTING!\n')
     with open(tmp_err, "w") as err:
-        err.write('STARTING!')
+        err.write('STARTING!\n')
 
     if (os.path.exists(os.path.join(fit,i+"_fit_ids"))):
         with open(tmp_log, "a") as log:
-            log.write(os.path.join(fit,i+"_fit_ids") + ' exists')
+            log.write(os.path.join(fit,i+"_fit_ids") + ' exists\n')
+            print(os.path.join(fit,i+"_fit_ids") + ' exists')
     else:
         os.mkdir(os.path.join(fit,i+"_fit_ids"))
         os.chdir(os.path.join(fit, i+'_annotated/'))
@@ -257,6 +273,8 @@ calc_pval -I pulled1 -w -O
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('negbin_fit collect done')
+        with open(tmp_log, "a") as log:
+            log.write('negbin_fit collect done\n')
         fit_nb = f'negbin_fit -O {os.path.join(fit,i+"_fit_ids")} --visualize'
         process = subprocess.Popen(shlex.split(fit_nb),
                                    stdout=subprocess.PIPE,
@@ -266,6 +284,8 @@ calc_pval -I pulled1 -w -O
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('negbin_fit done')
+        with open(tmp_log, "a") as log:
+            log.write('negbin_fit done\n')
 
     if(os.path.exists(os.path.join(fit,i+ "_ids_pvals"))):
         with open(tmp_log, "a") as log:
@@ -282,6 +302,13 @@ calc_pval -I pulled1 -w -O
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('calc_pval done')
+
+    txt_step2 = open(os.path.join(fit, 'aggr_list_' + bad), "w")
+    for my_id in ids_list:
+        #txt_step1.write(my_id + '.tsv' + "\n")
+        if(os.path.isfile(os.path.join(fit,i+ "_ids_pvals/") + my_id + '.pvalue_table')):
+            txt_step2.write(my_id + '.pvalue_table' + "\n")
+    txt_step2.close()
 
     if(os.path.exists(os.path.join(fit,i+ "ids_aggregated.tsv")))  :
         with open(tmp_log, "a") as log:
@@ -325,7 +352,7 @@ processing_list = []
 with open(processing_list_path, 'r') as fp:
     for line in fp:
         processing_list.append(line.strip())
-
+'''
 for bad in bad_list:
     ser = metadata[metadata['BADgroup']== bad]
     ids = list(ser['ID'])
@@ -338,6 +365,7 @@ for bad in bad_list:
         #{os.path.join(fit,i+ "_pvals/")+i+"_BAD_annotated.pvalue_table"}
     txt_step1.close()
     txt_step2.close()
+'''
 
 for my_id in processing_list:
     for my_id in processing_list:
