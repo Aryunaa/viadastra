@@ -19,7 +19,7 @@ HFJNHBGX5_Lig4_DIVA_17s005868-1-1_Clouaire_lane117s005868_sequence.rmdups.bam	BA
 HK27MBGX7_MDC1_18s001901-1-1_Clouaire_lane118s001901_sequence.rmdups.bam	BAM00019	chipseq	chipseq	ChIPseq	repair	MDC1	
 HVW7VBGXX_NBS1_OHT_DIVA_16s000429-1-1_Clouaire_lane116s000429_sequence.nodups.bam	BAM00020	chipseq	chipseq	ChIPseq	repair	NBS1	
 631HJAAXX_MRE11_11s003029-1-1_LEGUBE_lane211s003029_sequence.bam	BAM00021	chipseq	chipseq	ChIPseq	repair	MRE11	
-HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqADIvA.rmdups.bam	BAM00022	atacseq		ATACseq	accessibility	ATAC-seq_rep1	
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqADIvA.rmdups.bam	BAM00022	atacseq	atacseq	ATACseq	accessibility	ATAC-seq_rep1	
 HYG77BGX2_DRIP2_C1_DIVA_17s002460-1-1_Clouaire_lane117s002460_hg19.nodups.bam	BAM00023	.	.	DRIPseq	R-loop	DRIP_C1	
 H37HYBGX3_Ser5P_Pol2_DIVA_17s001626-1-1_Clouaire_lane117s001626_sequence.rmdups.bam	BAM00024	chipseq	chipseq	ChIPseq	Pol2	Ser5P_Pol2	
 HVW7VBGXX_Pol2S2P_DIVA_16s000427-1-1_Clouaire_lane116s000427_sequence.nodups.bam	BAM00025	chipseq	chipseq	ChIPseq	Pol2	Pol2S2P	
@@ -30,9 +30,9 @@ HKK2NBGX7_S2P_Pol2_DIVA_18s002030-1-1_Clouaire_lane118s002030_sequence.rmdups.ba
 HKK2NBGX7_T1P_Pol2_DIVA_18s002028-1-1_Clouaire_lane118s002028_sequence.rmdups.bam	BAM00030	chipseq	chipseq	ChIPseq	Pol2	T1P	
 bwa_aln_hg19_polII.nodups.bam	BAM00031	chipseq	chipseq	ChIPseq	Pol2	polII	
 HVW7VBGXX_SETX_DIVA_16s000424-1-1_Clouaire_lane116s000424_sequence.nodups.bam	BAM00032	chipseq	chipseq	ChIPseq	repair	SETX	
-HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqBDIvA.rmdups.bam	BAM00033	atacseq		ATACseq	accessibility	ATAC-seq_rep2	
-HNMNLBGXC_ATAC_3_pool1_19s004480-1-1_Clouaire_lane1OHT.rmdups.bam	BAM00034	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep3	OHT
-HNNNLBGXC_ATAC_2_pool1_19s004479-1-1_Clouaire_lane1MinusOHT.rmdups.bam	BAM00035	atacseq		ATACseq	accessibility	ATAC-seq_rep4	
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqBDIvA.rmdups.bam	BAM00033	atacseq	atacseq	ATACseq	accessibility	ATAC-seq_rep2	
+HNMNLBGXC_ATAC_3_pool1_19s004480-1-1_Clouaire_lane1OHT.rmdups.bam	BAM00034	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep3	OHT
+HNNNLBGXC_ATAC_2_pool1_19s004479-1-1_Clouaire_lane1MinusOHT.rmdups.bam	BAM00035	atacseq	atacseq	ATACseq	accessibility	ATAC-seq_rep4	
 HYG77BGX2_DRIP2_STX_DIVA_17s002462-1-1_Clouaire_lane117s002462_hg19.nodups.bam	BAM00036	.	.	DRIPseq	R-loop	DRIP_STX	
 H2VK7BGX5_BRCA1_G1_OHT_17s005729-1-1_Clouaire_lane117s005729_sequence.rmdups.bam	BAM00037	chipseq	chipseq	ChIPseq	repair	BRCA1_G1	
 H2VK7BGX5_BRCA1_G2_OHT_17s005730-1-1_Clouaire_lane117s005730_sequence.rmdups.bam	BAM00038	chipseq	chipseq	ChIPseq	repair	BRCA1_G2	
@@ -55,9 +55,9 @@ C8LVDACXX_H4K12ac_DIVA_16s000908-1-1_Clouaire_lane116s000908.nodups.bam	BAM00054
 H4K12ac_OHT.nodups.bam	BAM00055	chipseq	chipseq	ChIPseq	histone	H4K12ac_OHT	
 H4K12ac.nodups.bam	BAM00056	chipseq	chipseq	ChIPseq	histone	H4K12ac	
 H3K4me2_-OHT_hg19.sorted.nodups.bam	BAM00057	chipseq	chipseq	ChIPseq	histone	H3K4me2	
-HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqAOHT.rmdups.bam	BAM00058	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep1_OHT	OHT
-HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqBOHT.rmdups.bam	BAM00059	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep2_OHT	OHT
-HNNNLBGXC_ATAC_2_pool1_19s004479-1-1_Clouaire_lane1Plus4hOHT.rmdups.bam	BAM00060	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep4_OHT	OHT
-HNMNLBGXC_ATAC_3_pool1_19s004480-1-1_Clouaire_lane14hOHT.rmdups.bam	BAM00061	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep3_OHT	OHT
-HVJCHBGXH_ATACseq_D_siSCC1_21s000905-1-1_Clouaire_lane1ATACseqDsiCTRLDIvA.rmdups.bam	BAM00062	atacseq		ATACseq	accessibility	ATAC-seq_rep5	
-HVJCHBGXH_ATACseq_D_siSCC1_21s000905-1-1_Clouaire_lane1ATACseqDsiCTRLOHT4H.rmdups.bam	BAM00063	atacseq	OHT	ATACseq	accessibility	ATAC-seq_rep5_OHT	OHT
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqAOHT.rmdups.bam	BAM00058	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep1_OHT	OHT
+HC3HCBGX9_ATACseqA_DIvA_18s005247-1-1_Clouaire_lane1ATACseqBOHT.rmdups.bam	BAM00059	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep2_OHT	OHT
+HNNNLBGXC_ATAC_2_pool1_19s004479-1-1_Clouaire_lane1Plus4hOHT.rmdups.bam	BAM00060	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep4_OHT	OHT
+HNMNLBGXC_ATAC_3_pool1_19s004480-1-1_Clouaire_lane14hOHT.rmdups.bam	BAM00061	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep3_OHT	OHT
+HVJCHBGXH_ATACseq_D_siSCC1_21s000905-1-1_Clouaire_lane1ATACseqDsiCTRLDIvA.rmdups.bam	BAM00062	atacseq	atacseq	ATACseq	accessibility	ATAC-seq_rep5	
+HVJCHBGXH_ATACseq_D_siSCC1_21s000905-1-1_Clouaire_lane1ATACseqDsiCTRLOHT4H.rmdups.bam	BAM00063	atacseq	atacseq_oht	ATACseq	accessibility	ATAC-seq_rep5_OHT	OHT
