@@ -11,7 +11,7 @@ import shlex
 #path = '/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg'
 threshold = int(sys.argv[1])
 path = sys.argv[2]
-force = sys.argv[3]
+#force = sys.argv[3]
 
 
 config = configparser.ConfigParser()
@@ -146,8 +146,7 @@ def loggi(tmp_log,tmp_err,stdout,stderr,k):
             err.write(stderr)
     print('logged')
 
-def negbinfit_ids(i,force_pam):
-
+def negbinfit_ids(i):
     bad = i
     ser = metadata[metadata['BADgroup'] == bad]
     ids = list(ser['ID'])
@@ -200,7 +199,8 @@ def negbinfit_ids(i,force_pam):
 
     if(os.path.exists(os.path.join(fit,i+ "_ids_pvals"))):
         with open(tmp_log, "a") as log:
-            log.write(os.path.join(fit,i+ "_ids_pvals") + ' exists')
+            log.write(os.path.join(fit,i+ "_ids_pvals") + ' exists\n')
+            print(os.path.join(fit,i+ "_ids_pvals") + ' exists\n')
     else:
         os.mkdir(os.path.join(fit,i+ "_ids_pvals"))
         os.chdir(os.path.join(fit, i + '_annotated/'))
@@ -214,19 +214,39 @@ def negbinfit_ids(i,force_pam):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('calc_pval done')
 
-    txt_step2 = open(os.path.join(fit, 'aggr_list_' + bad), "w")
-    for my_id in ids_list:
+    grp = (ser.groupby(['ASBgroup']).size()
+           .reset_index(name='count'))
+    grp = grp[grp.ASBgroup != '.']
+    asb_list = []
+    for i in grp.iloc[:, 0]:
+        asb_list.append(i)
+    print(asb_list)
+    for asbgr in asb_list:
+        aggreg(asbgr,bad,tmp_log,tmp_err)
+
+
+def aggreg(asbgr,bad,tmp_log,tmp_err):
+
+    #temp asblist
+    ser = metadata[metadata['ASBgroup'] == asbgr]
+    aggrids = list(ser['ID'])
+    aggrids_list = list(set(aggrids) & set(processing_list))
+
+    txt_step2 = open(os.path.join(fit, 'aggr_list_' + asbgr), "w")
+    for my_id in aggrids_list:
         #txt_step1.write(my_id + '.tsv' + "\n")
-        if(os.path.isfile(os.path.join(fit,i+ "_ids_pvals/") + my_id + '.pvalue_table')):
+        if(os.path.isfile(os.path.join(fit,bad+ "_ids_pvals/") + my_id + '.pvalue_table')):
+
             txt_step2.write(my_id + '.pvalue_table' + "\n")
     txt_step2.close()
 
-    if(os.path.exists(os.path.join(fit,i+ "ids_aggregated.tsv")))  :
+    if(os.path.exists(os.path.join(fit,asbgr+ "ids_aggregated.tsv")))  :
         with open(tmp_log, "a") as log:
-            log.write(os.path.join(fit,i+ "ids_aggregated.tsv") + ' exists')
+            log.write(os.path.join(fit,asbgr+ "ids_aggregated.tsv") + ' exists\n')
+            print(os.path.join(fit,asbgr+ "ids_aggregated.tsv") + ' exists')
     else:
-        os.chdir(os.path.join(fit,i+ "_ids_pvals"))
-        aggr = f'calc_pval aggregate -f {os.path.join(fit, "aggr_list_" + i)} -O {os.path.join(fit,i+ "ids_aggregated.tsv")}'
+        os.chdir(os.path.join(fit,bad+ "_ids_pvals"))
+        aggr = f'calc_pval aggregate -f {os.path.join(fit, "aggr_list_" + asbgr)} -O {os.path.join(fit,asbgr+ "ids_aggregated.tsv")}'
         process = subprocess.Popen(shlex.split(aggr),
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
@@ -246,13 +266,7 @@ bad_list = []
 for i in grp.iloc[:,0]:
     bad_list.append(i)
 print(bad_list)
-grp = (metadata.groupby(['ASBgroup']).size()
-       .reset_index(name='count'))
-grp = grp[grp.BADgroup!='.']
-asb_list = []
-for i in grp.iloc[:,0]:
-    asb_list.append(i)
-print(asb_list)
+
 
 if (not os.path.exists(fit)):
     os.mkdir(fit)
@@ -272,7 +286,7 @@ for my_id in processing_list:
 
 for i in bad_list:
     print(i+' start')
-    negbinfit_ids(i,force)
+    negbinfit_ids(i)
 
     print(i+' end')
 
