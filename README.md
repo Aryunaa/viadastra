@@ -1,6 +1,8 @@
 # viadastra installation
 git clone --branch pretty https://github.com/Aryunaa/viadastra
 
+conda env create -f additional/viadastra_env.yml
+conda activate viadastra
 
 # viadastra steps:
 
