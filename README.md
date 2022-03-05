@@ -1,3 +1,7 @@
+# viadastra installation
+git clone --branch pretty https://github.com/Aryunaa/viadastra
+
+
 # viadastra steps:
 
 **1)** python step1_mk_links.py /media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg
