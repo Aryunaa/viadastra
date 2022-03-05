@@ -1,0 +1,4 @@
+name: viadastra
+channels:
+  - defaults
+prefix: /home/adastra/miniconda3/envs/viadastra
