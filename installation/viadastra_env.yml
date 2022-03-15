@@ -1,0 +1,32 @@
+name: viadastra
+channels:
+  - anaconda
+  - bioconda
+  - au-eoed
+  - omnia
+  - jmcmurray
+  - menpo
+  - conda-forge
+dependencies:
+  - python=3.6.*   # or 2.7
+  - numpy
+  - pandas
+  - scipy
+  - subprocess32
+  - statsmodels
+  - openjdk
+  - samtools
+  - pysam
+  - pyvcf
+  - pybedtools
+  - bcftools
+  - gatk4
+  - picard
+  - os
+  - configparser
+  - gnu-parallel
+  - pathlib
+  - r-sys
+  - pip3:
+      - babachi
+
