@@ -1,6 +1,6 @@
 import subprocess32 as subprocess
 import os
-from config import readConfig_SNP
+#from config import readConfig_SNP
 import configparser
 import sys as sys
 
