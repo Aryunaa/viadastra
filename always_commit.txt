@@ -1,0 +1,7 @@
+git add * ()
+
+:wq
+
+git commit
+
+git push
