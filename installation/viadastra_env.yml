@@ -27,6 +27,7 @@ dependencies:
   - gnu-parallel
   - pathlib
   - r-sys
+  - pytest-shutil
   - pip3:
       - babachi
 

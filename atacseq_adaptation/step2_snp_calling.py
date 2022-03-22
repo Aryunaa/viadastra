@@ -1,8 +1,11 @@
 import subprocess32 as subprocess
 import os
-from config import readConfig_SNP
+#from config import readConfig_SNP
 import configparser
 import sys as sys
+#now
+import shutil
+import pandas as pd
 
 def loggi(tmp_log,tmp_err,stdout,stderr,k):
     stdout.split('\n')
@@ -79,7 +82,7 @@ def process_bam(my_id):
     print('samtools view -b')
     with open(all_log, "a") as log:
         log.write('samtools view -b'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id + '_chop.bam')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
@@ -89,7 +92,7 @@ def process_bam(my_id):
                                     'chr11', 'chr12',
                                     'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21',
                                     'chr22', 'chrX', 'chrY',
-                                    '-o' + outdir + my_id + '/' + my_id + '_chop.bam'],
+                                    '-o' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -104,13 +107,13 @@ def process_bam(my_id):
     print('picard SortSam')
     with open(all_log, "a") as log:
         log.write('picard SortSam'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id + '_sorted.bam')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['picard', 'SortSam', 'I=' + outdir + my_id + '/' + my_id + '_chop.bam',
-                                    'O=' + outdir + my_id + '/' + my_id + '_sorted.bam',
+        process = subprocess.Popen(['picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
+                                    'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
@@ -126,13 +129,13 @@ def process_bam(my_id):
     print('picard addorreplace')
     with open(all_log, "a") as log:
         log.write('picard addorreplace'+ '\n')
-    if(os.path.exists(outdir + my_id+'/'+my_id+'_formatted.bam')):
+    if(os.path.exists(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + outdir + my_id+'/'+my_id+'_sorted.bam',
-                                    'O=' + outdir + my_id+'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
+        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+                                    'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
                                     'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
@@ -147,16 +150,16 @@ def process_bam(my_id):
     print('picard markduplicates')
     with open(all_log, "a") as log:
         log.write('picard markduplicates'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id + '_ready.bam')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['picard', 'MarkDuplicates',
-                                    'I=' + outdir + my_id + '/' + my_id + '_formatted.bam',
-                                    'O=' + outdir + my_id + '/' + my_id + '_ready.bam',
+                                    'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
+                                    'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                    'M=' + outdir + my_id + '/' + my_id + '_metrics.txt'],
+                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -171,7 +174,7 @@ def process_bam(my_id):
     print('gatk baserecalibrator')
     with open(all_log, "a") as log:
         log.write('gatk baserecalibrator'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id +'.table')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'.table')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
@@ -179,9 +182,9 @@ def process_bam(my_id):
         process = subprocess.Popen(['gatk', 'BaseRecalibrator',
                                     '--java-options',javapars,
                                     '-R', processed_ref,
-                                    '-I', outdir + my_id + '/' + my_id + '_ready.bam',
+                                    '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     '--known-sites', ref_vcf,
-                                    '-O', outdir + my_id + '/' + my_id +'.table'],
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.table'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -195,7 +198,7 @@ def process_bam(my_id):
     print('gatk applyBQSR')
     with open(all_log, "a") as log:
         log.write('gatk applyBQSR'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id +'_final.bam')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'_final.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, go further'+ '\n')
@@ -203,9 +206,9 @@ def process_bam(my_id):
         process = subprocess.Popen(['gatk', 'ApplyBQSR',
                                     '-R',  processed_ref,
                                     '--java-options', javapars,
-                                    '-I', outdir + my_id + '/' + my_id + '_ready.bam',
-                                    '--bqsr-recal-file', outdir + my_id + '/' + my_id +'.table',
-                                    '-O', outdir + my_id + '/' + my_id +'_final.bam' ],
+                                    '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
+                                    '--bqsr-recal-file', os.path.join(outdir,my_id) + '/' + my_id +'.table',
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam' ],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -220,7 +223,7 @@ def process_bam(my_id):
     print('gatk haplotypecaller')
     with open(all_log, "a") as log:
         log.write('gatk haplotypecaller'+ '\n')
-    if(os.path.exists(outdir + my_id + '/' + my_id +'.vcf')):
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'.vcf')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write('already exists, complete'+ '\n')
@@ -228,9 +231,9 @@ def process_bam(my_id):
         process = subprocess.Popen(['gatk', 'HaplotypeCaller',
                                     '--java-options', javapars,
                                     '-R', processed_ref,
-                                    '-I', outdir + my_id + '/' + my_id +'_final.bam',
+                                    '-I', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam',
                                     '--dbsnp', ref_vcf,
-                                    '-O', outdir + my_id + '/' + my_id +'.vcf'],
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -243,31 +246,39 @@ def process_bam(my_id):
 
 def stats(my_id,clause ):
     if (clause == '_ready.bam' ):
-        strf = outdir + my_id + '/' + my_id +'_ready.bam'
-        statfilecov = outdir + my_id + '/'  + 'stats_nodup_cov.txt'
-        statfile = outdir + my_id + '/'  +'stats_nodup_num.txt'
+        strf = os.path.join(outdir,my_id) + '/' + my_id +'_ready.bam'
+        statfilecov = os.path.join(final_outdir,my_id) + '/'  + 'stats_nodup_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/'  +'stats_nodup_num.txt'
 
     elif (clause == '_final.bam' ):
-        strf = outdir + my_id + '/' + my_id +'_final.bam'
-        statfilecov = outdir + my_id + '/'  + 'stats_final_cov.txt'
-        statfile = outdir + my_id + '/'  +'stats_final_num.txt'
+        strf = os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'
+        statfilecov = os.path.join(final_outdir,my_id) + '/'  + 'stats_final_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/'  +'stats_final_num.txt'
 
     elif (clause == '.bam'):
         strf = indir + my_id + '.bam'
-        statfilecov = outdir + my_id + '/' + 'stats_start_cov.txt'
-        statfile = outdir + my_id + '/' + 'stats_start_num.txt'
+        statfilecov = os.path.join(final_outdir,my_id) + '/' + 'stats_start_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/' + 'stats_start_num.txt'
     elif (clause == '.vcf'): #vcf
-        strf = outdir + my_id + '/' + my_id +'.vcf'
-        statfile = outdir + my_id + '/' +'vcf_stats.txt'
+        strf = os.path.join(outdir,my_id) + '/' + my_id +'.vcf'
+        statfile = os.path.join(final_outdir,my_id) + '/' +'vcf_stats.txt'
 
     ##########start#########################################
 
     if (clause == '.vcf'): #vcf_number of peaks
-        with open(strf) as f:
-            text = f.readlines()
-            size = len(text)
+        file_rs = open(strf, "r")
+        line_rs = file_rs.readline()
+        n = 0
+        while line_rs.startswith("##"):
+            n += 1
+            line_rs = file_rs.readline()
+        file_rs.close()
+
+        vcf = pd.read_csv(strf,
+                             sep='\t', skiprows=n)
+
         with open(statfile, "w") as g:
-            g.write('number of peaks '+ str(size))
+            g.write('number of peaks '+ vcf.shape[0])
 
 
     else:
@@ -283,19 +294,23 @@ def stats(my_id,clause ):
 
 def rm(my_id):
     rm_list = [os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
-                    os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
-                    outdir + my_id + '/' + my_id + '_chop.bam',
-                    outdir + my_id + '/' + my_id + '_sorted.bam',
-                    outdir + my_id + '/' + my_id + '_formatted.bam',
-                    outdir + my_id + '/' + my_id + '_ready.bam',
-                    outdir + my_id + '/' + my_id + '.table',
-                    outdir + my_id + '/' + my_id + '_final.bai',
-                    outdir + my_id + '/' + my_id + '_final.bam']
+               os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
+               os.path.join(outdir, my_id) + '/' + my_id + '_chop.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_sorted.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_metrics.txt',
+               os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '.table',
+               os.path.join(outdir, my_id) + '/' + my_id + '_final.bai',
+               os.path.join(outdir, my_id) + '/' + my_id + '_final.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf'
+               ]
     for i in rm_list:
         if(os.path.exists(i)):
             os.remove(i)
 
-
+def cp(my_id):
+    shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf', os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')
 
 
 ########my_id = 'BAM00030'#######################
@@ -307,18 +322,27 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-    if (os.path.exists(outdir + my_id + '/' + my_id + '.vcf')):
+    tmp_path = os.path.join(final_outdir,my_id)
+    if (os.path.exists(tmp_path)):
+        pass
+    else:
+        os.mkdir(tmp_path)
+
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') or os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
         print(my_id+ ' vcf file from gatk already exists, skip processing')
     else:
         process_bam(my_id)
-
+        stats(my_id, '.vcf')
+        cp(my_id)
+        rm(my_id)
     #print("Beginnig with " + my_id)
     #process_bam(my_id)
     #stats(my_id,'.bam')
     #stats(my_id,'_final.bam')
     #stats(my_id,'_ready.bam')
-    stats(my_id,'.vcf')
-    rm(my_id)
+
+
+
 
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
 # reading config ------------------------------------------
@@ -343,7 +367,8 @@ indir = os.path.join(maindir,config["Directories"]["data_in"])
 print(indir)
 processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
 ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
-outdir = os.path.join(maindir,config["Directories"]["data_out"])
+outdir = config["Directories"]["temp_data_out"]
+final_outdir = config["Directories"]["final_data_out"]
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])

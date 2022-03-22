@@ -20,7 +20,7 @@ indir = os.path.join(maindir,config["Directories"]["data_in"])
 print(indir)
 processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
 ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
-outdir = os.path.join(maindir,config["Directories"]["data_out"])
+#outdir = os.path.join(maindir,config["Directories"]["data_out"])
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])
