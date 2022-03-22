@@ -3,6 +3,9 @@ import os
 #from config import readConfig_SNP
 import configparser
 import sys as sys
+#now
+import shutil
+import pandas as pd
 
 def loggi(tmp_log,tmp_err,stdout,stderr,k):
     stdout.split('\n')
@@ -244,30 +247,38 @@ def process_bam(my_id):
 def stats(my_id,clause ):
     if (clause == '_ready.bam' ):
         strf = outdir + my_id + '/' + my_id +'_ready.bam'
-        statfilecov = outdir + my_id + '/'  + 'stats_nodup_cov.txt'
-        statfile = outdir + my_id + '/'  +'stats_nodup_num.txt'
+        statfilecov = os.path.join(final_outdir,my_id) + '/'  + 'stats_nodup_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/'  +'stats_nodup_num.txt'
 
     elif (clause == '_final.bam' ):
         strf = outdir + my_id + '/' + my_id +'_final.bam'
-        statfilecov = outdir + my_id + '/'  + 'stats_final_cov.txt'
-        statfile = outdir + my_id + '/'  +'stats_final_num.txt'
+        statfilecov = os.path.join(final_outdir,my_id) + '/'  + 'stats_final_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/'  +'stats_final_num.txt'
 
     elif (clause == '.bam'):
         strf = indir + my_id + '.bam'
-        statfilecov = outdir + my_id + '/' + 'stats_start_cov.txt'
-        statfile = outdir + my_id + '/' + 'stats_start_num.txt'
+        statfilecov = os.path.join(final_outdir,my_id) + '/' + 'stats_start_cov.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/' + 'stats_start_num.txt'
     elif (clause == '.vcf'): #vcf
         strf = outdir + my_id + '/' + my_id +'.vcf'
-        statfile = outdir + my_id + '/' +'vcf_stats.txt'
+        statfile = os.path.join(final_outdir,my_id) + '/' +'vcf_stats.txt'
 
     ##########start#########################################
 
     if (clause == '.vcf'): #vcf_number of peaks
-        with open(strf) as f:
-            text = f.readlines()
-            size = len(text)
+        file_rs = open(strf, "r")
+        line_rs = file_rs.readline()
+        n = 0
+        while line_rs.startswith("##"):
+            n += 1
+            line_rs = file_rs.readline()
+        file_rs.close()
+
+        vcf = pd.read_csv(strf,
+                             sep='\t', skiprows=n)
+
         with open(statfile, "w") as g:
-            g.write('number of peaks '+ str(size))
+            g.write('number of peaks '+ vcf.shape[0])
 
 
     else:
@@ -283,19 +294,23 @@ def stats(my_id,clause ):
 
 def rm(my_id):
     rm_list = [os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
-                    os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
-                    outdir + my_id + '/' + my_id + '_chop.bam',
-                    outdir + my_id + '/' + my_id + '_sorted.bam',
-                    outdir + my_id + '/' + my_id + '_formatted.bam',
-                    outdir + my_id + '/' + my_id + '_ready.bam',
-                    outdir + my_id + '/' + my_id + '.table',
-                    outdir + my_id + '/' + my_id + '_final.bai',
-                    outdir + my_id + '/' + my_id + '_final.bam']
+               os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
+               os.path.join(outdir, my_id) + '/' + my_id + '_chop.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_sorted.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '_metrics.txt',
+               os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '.table',
+               os.path.join(outdir, my_id) + '/' + my_id + '_final.bai',
+               os.path.join(outdir, my_id) + '/' + my_id + '_final.bam',
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf'
+               ]
     for i in rm_list:
         if(os.path.exists(i)):
             os.remove(i)
 
-
+def cp(my_id):
+    shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf', os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')
 
 
 ########my_id = 'BAM00030'#######################
@@ -307,18 +322,27 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-    if (os.path.exists(outdir + my_id + '/' + my_id + '.vcf')):
+    tmp_path = os.path.join(final_outdir,my_id)
+    if (os.path.exists(tmp_path)):
+        pass
+    else:
+        os.mkdir(tmp_path)
+
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') or os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
         print(my_id+ ' vcf file from gatk already exists, skip processing')
     else:
         process_bam(my_id)
-
+        stats(my_id, '.vcf')
+        cp(my_id)
+        rm(my_id)
     #print("Beginnig with " + my_id)
     #process_bam(my_id)
     #stats(my_id,'.bam')
     #stats(my_id,'_final.bam')
     #stats(my_id,'_ready.bam')
-    stats(my_id,'.vcf')
-    rm(my_id)
+
+
+
 
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
 # reading config ------------------------------------------
@@ -343,7 +367,8 @@ indir = os.path.join(maindir,config["Directories"]["data_in"])
 print(indir)
 processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
 ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
-outdir = os.path.join(maindir,config["Directories"]["data_out"])
+outdir = config["Directories"]["temp_data_out"]
+final_outdir = config["Directories"]["final_data_out"]
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])
