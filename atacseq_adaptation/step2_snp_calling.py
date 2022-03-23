@@ -303,14 +303,24 @@ def rm(my_id):
                os.path.join(outdir, my_id) + '/' + my_id + '.table',
                os.path.join(outdir, my_id) + '/' + my_id + '_final.bai',
                os.path.join(outdir, my_id) + '/' + my_id + '_final.bam',
-               os.path.join(outdir, my_id) + '/' + my_id + '.vcf'
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx'
                ]
     for i in rm_list:
         if(os.path.exists(i)):
             os.remove(i)
 
 def cp(my_id):
-    shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf', os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+        shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
+                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
+    else:
+        print(my_id + '.vcf does not exist to copy')
+
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx')):
+        shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx',
+                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx')
+
 
 
 ########my_id = 'BAM00030'#######################
@@ -339,7 +349,7 @@ def pipe_my_id(my_id):
         stats(my_id, '.vcf')
         rm(my_id)
     else:
-        print("Beginnig with " + my_id)
+        print("Beginnig processing with " + my_id)
         process_bam(my_id)
         cp(my_id)
         stats(my_id, '.vcf')
