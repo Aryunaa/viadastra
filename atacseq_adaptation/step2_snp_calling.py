@@ -260,7 +260,7 @@ def stats(my_id,clause ):
         statfilecov = os.path.join(final_outdir,my_id) + '/' + 'stats_start_cov.txt'
         statfile = os.path.join(final_outdir,my_id) + '/' + 'stats_start_num.txt'
     elif (clause == '.vcf'): #vcf
-        strf = os.path.join(outdir,my_id) + '/' + my_id +'.vcf'
+        strf = os.path.join(final_outdir,my_id) + '/' + my_id +'.vcf'
         statfile = os.path.join(final_outdir,my_id) + '/' +'vcf_stats.txt'
 
     ##########start#########################################
@@ -278,7 +278,7 @@ def stats(my_id,clause ):
                              sep='\t', skiprows=n)
 
         with open(statfile, "w") as g:
-            g.write('number of peaks '+ vcf.shape[0])
+            g.write('number of peaks '+ str(vcf.shape[0]))
 
 
     else:
@@ -332,8 +332,8 @@ def pipe_my_id(my_id):
         print(my_id+ ' vcf file from gatk already exists, skip processing')
     else:
         process_bam(my_id)
-        stats(my_id, '.vcf')
         cp(my_id)
+        stats(my_id, '.vcf')
         rm(my_id)
     #print("Beginnig with " + my_id)
     #process_bam(my_id)
