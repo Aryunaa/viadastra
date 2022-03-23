@@ -309,6 +309,13 @@ def rm(my_id):
     for i in rm_list:
         if(os.path.exists(i)):
             os.remove(i)
+    try:
+        os.rmdir(os.path.join(outdir, my_id))
+        print("Directory '% s' has been removed successfully" % os.path.join(outdir, my_id))
+    except OSError as error:
+        print(error)
+        print("Directory '% s' can not be removed" % os.path.join(outdir, my_id))
+
 
 def cp(my_id):
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
