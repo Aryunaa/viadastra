@@ -318,6 +318,7 @@ def pipe_my_id(my_id):
     print('start SNP '+ my_id)
     #my_id = 'BAM00030'
     tmp_path = os.path.join(outdir,my_id)
+    #делаем директории
     if (os.path.exists(tmp_path)):
         pass
     else:
@@ -327,10 +328,18 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-
-    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') or os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
-        print(my_id+ ' vcf file from gatk already exists, skip processing')
+    #делаем обработку
+    if(os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
+        print(my_id + ' vcf file from gatk already exists in final directory, skip processing')
+        stats(my_id, '.vcf')
+        rm(my_id)
+    elif (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') ):
+        print(my_id+ ' vcf file from gatk already exists, skip processing, start to copy to final directory')
+        cp(my_id)
+        stats(my_id, '.vcf')
+        rm(my_id)
     else:
+        print("Beginnig with " + my_id)
         process_bam(my_id)
         cp(my_id)
         stats(my_id, '.vcf')
