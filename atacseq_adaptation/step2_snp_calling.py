@@ -41,11 +41,11 @@ def process_bam(my_id):
     # ______
     print('samtools sort')
     with open(all_log, "a") as log:
-        log.write('samtools sort'+ '\n')
+        log.write('samtools sort '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['samtools', 'sort', indir + my_id + '.bam',
                                   '-o',os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'],
@@ -60,11 +60,11 @@ def process_bam(my_id):
     # ______
     print('samtools index')
     with open(all_log, "a") as log:
-        log.write('samtools index'+ '\n')
+        log.write('samtools index '+ my_id +'\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['samtools', 'index',os.path.join(outdir,my_id) + '/' + my_id + '_sortsam',
                                     os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai'],
@@ -76,16 +76,16 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('samtools index done with '+my_id + '\n')
 
     # ______
     print('samtools view -b')
     with open(all_log, "a") as log:
-        log.write('samtools view -b'+ '\n')
+        log.write('samtools view -b '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['samtools', 'view', '-b', os.path.join(outdir,my_id) + '/' + my_id + '_sortsam',
                                     'chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10',
@@ -101,16 +101,20 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('samtools view done with '+my_id + '\n')
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')
 
     # ______
     print('picard SortSam')
     with open(all_log, "a") as log:
-        log.write('picard SortSam'+ '\n')
+        log.write('picard SortSam '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam'+'already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
@@ -122,17 +126,19 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('picard SortSam done with '+my_id + '\n')
 
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')
 
     # ______
     print('picard addorreplace')
     with open(all_log, "a") as log:
-        log.write('picard addorreplace'+ '\n')
+        log.write('picard addorreplace '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam')):
-        print('already exists, go further')
+        print(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
@@ -144,16 +150,18 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('picard addorreplace done with '+my_id + '\n')
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')
 
     # ______
     print('picard markduplicates')
     with open(all_log, "a") as log:
-        log.write('picard markduplicates'+ '\n')
+        log.write('picard markduplicates '+my_id +'\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['picard', 'MarkDuplicates',
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
@@ -167,17 +175,19 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('picard markduplicates done with ' +my_id +'\n')
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
 
     # ______
 
     print('gatk baserecalibrator')
     with open(all_log, "a") as log:
-        log.write('gatk baserecalibrator'+ '\n')
+        log.write('gatk baserecalibrator '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'.table')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id +'.table'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['gatk', 'BaseRecalibrator',
                                     '--java-options',javapars,
@@ -192,16 +202,17 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
+            log.write('gatk baserecalibrator done with '+ my_id +'\n')
+
     # ______
 
     print('gatk applyBQSR')
     with open(all_log, "a") as log:
-        log.write('gatk applyBQSR'+ '\n')
+        log.write('gatk applyBQSR '+my_id + '\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'_final.bam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, go further'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'+' already exists, go further'+ '\n')
     else:
         process = subprocess.Popen(['gatk', 'ApplyBQSR',
                                     '-R',  processed_ref,
@@ -216,17 +227,18 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('done'+ '\n')
-
+            log.write('gatk applyBQSR done with '+ my_id +'\n')
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')
 
     # ______
     print('gatk haplotypecaller')
     with open(all_log, "a") as log:
-        log.write('gatk haplotypecaller'+ '\n')
+        log.write('gatk haplotypecaller '+ my_id +'\n')
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'.vcf')):
         print('already exists, go further')
         with open(all_log, "a") as log:
-            log.write('already exists, complete'+ '\n')
+            log.write(os.path.join(outdir,my_id) + '/' + my_id +'.vcf'+' already exists, complete'+ '\n')
     else:
         process = subprocess.Popen(['gatk', 'HaplotypeCaller',
                                     '--java-options', javapars,
@@ -242,7 +254,8 @@ def process_bam(my_id):
         print('done')
         with open(all_log, "a") as log:
             log.write('processing done with '+ my_id+ '\n')
-
+    if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')):
+        os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')
 
 def stats(my_id,clause ):
     if (clause == '_ready.bam' ):
@@ -260,7 +273,7 @@ def stats(my_id,clause ):
         statfilecov = os.path.join(final_outdir,my_id) + '/' + 'stats_start_cov.txt'
         statfile = os.path.join(final_outdir,my_id) + '/' + 'stats_start_num.txt'
     elif (clause == '.vcf'): #vcf
-        strf = os.path.join(outdir,my_id) + '/' + my_id +'.vcf'
+        strf = os.path.join(final_outdir,my_id) + '/' + my_id +'.vcf'
         statfile = os.path.join(final_outdir,my_id) + '/' +'vcf_stats.txt'
 
     ##########start#########################################
@@ -278,7 +291,7 @@ def stats(my_id,clause ):
                              sep='\t', skiprows=n)
 
         with open(statfile, "w") as g:
-            g.write('number of peaks '+ vcf.shape[0])
+            g.write('number of peaks '+ str(vcf.shape[0]))
 
 
     else:
@@ -303,14 +316,31 @@ def rm(my_id):
                os.path.join(outdir, my_id) + '/' + my_id + '.table',
                os.path.join(outdir, my_id) + '/' + my_id + '_final.bai',
                os.path.join(outdir, my_id) + '/' + my_id + '_final.bam',
-               os.path.join(outdir, my_id) + '/' + my_id + '.vcf'
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
+               os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx'
                ]
     for i in rm_list:
         if(os.path.exists(i)):
             os.remove(i)
+    try:
+        os.rmdir(os.path.join(outdir, my_id))
+        print("Directory '% s' has been removed successfully" % os.path.join(outdir, my_id))
+    except OSError as error:
+        print(error)
+        print("Directory '% s' can not be removed" % os.path.join(outdir, my_id))
+
 
 def cp(my_id):
-    shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf', os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+        shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
+                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
+    else:
+        print(my_id + '.vcf does not exist to copy')
+
+    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx')):
+        shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx',
+                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx')
+
 
 
 ########my_id = 'BAM00030'#######################
@@ -318,6 +348,7 @@ def pipe_my_id(my_id):
     print('start SNP '+ my_id)
     #my_id = 'BAM00030'
     tmp_path = os.path.join(outdir,my_id)
+    #делаем директории
     if (os.path.exists(tmp_path)):
         pass
     else:
@@ -327,13 +358,21 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-
-    if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') or os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
-        print(my_id+ ' vcf file from gatk already exists, skip processing')
-    else:
-        process_bam(my_id)
+    #делаем обработку
+    if(os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
+        print(my_id + ' vcf file from gatk already exists in final directory, skip processing')
         stats(my_id, '.vcf')
+        rm(my_id)
+    elif (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') ):
+        print(my_id+ ' vcf file from gatk already exists, skip processing, start to copy to final directory')
         cp(my_id)
+        stats(my_id, '.vcf')
+        rm(my_id)
+    else:
+        print("Beginnig processing with " + my_id)
+        process_bam(my_id)
+        cp(my_id)
+        stats(my_id, '.vcf')
         rm(my_id)
     #print("Beginnig with " + my_id)
     #process_bam(my_id)

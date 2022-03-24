@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import configparser
 import sys as sys
-from config import readConfig_SNP
+
 import pathlib
 
 
