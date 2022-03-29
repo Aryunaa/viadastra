@@ -52,6 +52,9 @@ process = subprocess.Popen(['parallel', '--memfree 40G','--retries 3','-j', jobs
                                universal_newlines=True
                                )
 stderr, stdout = process.communicate()
-
+with open(all_log, "a") as log:
+    log.write(stdout)
+with open(all_log, "a") as err:
+    err.write(stderr)
 
 #--memfree 100G --retries 5
