@@ -46,7 +46,7 @@ subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_l
 all_log = os.path.join(maindir, 'logs/whole_log')
 with open(all_log, "w") as log:
     log.write('STARTING! all')
-process = subprocess.Popen(['parallel', '--memfree 40G','--retries 3','-j', jobs,'python', script,path,'::::',processing_list],
+process = subprocess.Popen(['parallel', '--memfree 40G','--retry-failed','--joblog',os.path.join(maindir, 'logs/parallel_log'),'-j', jobs,'python', script,path,'::::',processing_list],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                universal_newlines=True
