@@ -370,6 +370,7 @@ def pipe_my_id(my_id):
         rm(my_id)
     else:
         print("Beginnig processing with " + my_id)
+
         process_bam(my_id)
         cp(my_id)
         stats(my_id, '.vcf')

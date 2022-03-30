@@ -46,12 +46,15 @@ subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_l
 all_log = os.path.join(maindir, 'logs/whole_log')
 with open(all_log, "w") as log:
     log.write('STARTING! all')
-process = subprocess.Popen(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
+process = subprocess.Popen(['parallel', '--memfree','40G','--retry-failed','--joblog',os.path.join(maindir, 'logs/parallel_log'),'-j', jobs,'python', script,path,'::::',processing_list],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
                                universal_newlines=True
                                )
 stderr, stdout = process.communicate()
+with open(all_log, "a") as log:
+    log.write(stdout)
+with open(all_log, "a") as err:
+    err.write(stderr)
 
-
-    
+#--memfree 100G --retries 5
