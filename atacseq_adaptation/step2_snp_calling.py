@@ -332,7 +332,7 @@ def rm(my_id):
 
 def cp(my_id):
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
-        and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
+       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
         shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
                     os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
     else:
