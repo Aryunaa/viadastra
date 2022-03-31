@@ -408,7 +408,9 @@ print(indir)
 processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
 ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
 outdir = config["Directories"]["temp_data_out"]
+print(outdir)
 final_outdir = config["Directories"]["final_data_out"]
+print(final_outdir)
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])
