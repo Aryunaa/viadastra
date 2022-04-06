@@ -118,7 +118,7 @@ def process_bam(my_id):
     else:
         process = subprocess.Popen(['picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
-                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
+                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', '--TMP_DIR', os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -142,7 +142,7 @@ def process_bam(my_id):
     else:
         process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
-                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
+                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1', '--TMP_DIR', os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -167,7 +167,7 @@ def process_bam(my_id):
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt'],
+                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt', '--TMP_DIR', os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -175,7 +175,7 @@ def process_bam(my_id):
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
         with open(all_log, "a") as log:
-            log.write('picard markduplicates done with ' +my_id +'\n')
+            log.write('picard markduplicates done with ' + my_id +'\n')
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
 
@@ -194,7 +194,7 @@ def process_bam(my_id):
                                     '-R', processed_ref,
                                     '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     '--known-sites', ref_vcf,
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.table'],
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.table' ],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -219,7 +219,7 @@ def process_bam(my_id):
                                     '--java-options', javapars,
                                     '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     '--bqsr-recal-file', os.path.join(outdir,my_id) + '/' + my_id +'.table',
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam' ],
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
