@@ -138,7 +138,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam'+'already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
+        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
                                    stdout=subprocess.PIPE,
@@ -168,7 +168,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
                                     'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
                                    stdout=subprocess.PIPE,
@@ -197,7 +197,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'MarkDuplicates',
+        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'MarkDuplicates',
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
