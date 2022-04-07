@@ -42,10 +42,13 @@ def process_bam(my_id):
     print('samtools sort')
     with open(all_log, "a") as log:
         log.write('samtools sort '+my_id + '\n')
+
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'+' already exists, go further'+ '\n')
+    #elif ():
+
     else:
         process = subprocess.Popen(['samtools', 'sort', indir + my_id + '.bam',
                                   '-o',os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'],
@@ -138,7 +141,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam'+'already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
+        process = subprocess.Popen(['java', javapars, '-jar', picard, 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
                                    stdout=subprocess.PIPE,
@@ -168,7 +171,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+        process = subprocess.Popen(['java', javapars, '-jar', picard, 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
                                     'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
                                    stdout=subprocess.PIPE,
@@ -197,7 +200,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', '$PICARD', 'MarkDuplicates',
+        process = subprocess.Popen(['java', javapars, '-jar', picard, 'MarkDuplicates',
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
@@ -476,7 +479,7 @@ print(final_outdir)
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])
-
+picard = config["Soft"]["picard"]
 # pipe ----------------------------------------------------
 my_id = sys.argv[2]
 
