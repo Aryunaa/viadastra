@@ -126,12 +126,12 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('samtools view failed with ' + my_id + '\n')
             sys.exit(3)
-
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')
-
+    '''
     # ______
     print('picard SortSam')
     with open(all_log, "a") as log:
@@ -158,10 +158,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard SortSam failed with ' + my_id + '\n')
             sys.exit(4)
-
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')
-
+    '''
     # ______
     print('picard addorreplace')
     with open(all_log, "a") as log:
@@ -188,8 +188,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard addorreplace failed with ' + my_id + '\n')
             sys.exit(5)
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')
+    '''
 
     # ______
     print('picard markduplicates')
@@ -219,9 +221,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard markduplicates failed with ' + my_id + '\n')
             sys.exit(6)
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
-
+    '''
     # ______
 
     print('gatk baserecalibrator')
