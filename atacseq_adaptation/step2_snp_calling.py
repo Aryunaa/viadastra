@@ -146,7 +146,7 @@ def process_bam(my_id):
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True)
+                                   universal_newlines=True, shell=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
@@ -176,7 +176,7 @@ def process_bam(my_id):
                                     'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True)
+                                   universal_newlines=True, shell=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
@@ -207,7 +207,7 @@ def process_bam(my_id):
                                     'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt'],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True)
+                                   universal_newlines=True, shell=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
