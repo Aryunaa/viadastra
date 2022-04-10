@@ -146,7 +146,7 @@ def process_bam(my_id):
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', 'TMP_DIR=',picard],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True, shell=True)
+                                   universal_newlines=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
