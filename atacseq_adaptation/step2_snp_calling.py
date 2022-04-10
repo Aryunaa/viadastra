@@ -143,7 +143,7 @@ def process_bam(my_id):
     else:
         process = subprocess.Popen([ 'picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
-                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', 'TMP_DIR=',picard],
+                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', 'TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
