@@ -171,12 +171,12 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', picard, 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
-                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
+                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True, shell=True)
+                                   universal_newlines=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
@@ -202,14 +202,14 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', picard, 'MarkDuplicates',
+        process = subprocess.Popen(['picard', 'MarkDuplicates',
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt'],
+                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt','TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True, shell=True)
+                                   universal_newlines=True)
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
