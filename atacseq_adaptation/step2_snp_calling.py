@@ -141,7 +141,7 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam'+'already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', picard, 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
+        process = subprocess.Popen([ 'picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
                                     'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', 'TMP_DIR=',picard],
                                    stdout=subprocess.PIPE,
