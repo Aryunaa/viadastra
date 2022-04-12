@@ -398,9 +398,11 @@ def rm(my_id):
 
 def cp(my_id):
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
-       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
+       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
         shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
                     os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
+    elif (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf'):
+        print(my_id + '.vcf is already in the directory')
     else:
         print(my_id + '.vcf does not exist to copy')
 
