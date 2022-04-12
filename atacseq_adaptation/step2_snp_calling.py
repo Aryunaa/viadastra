@@ -42,10 +42,13 @@ def process_bam(my_id):
     print('samtools sort')
     with open(all_log, "a") as log:
         log.write('samtools sort '+my_id + '\n')
+
     if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         print('already exists, go further')
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'+' already exists, go further'+ '\n')
+    #elif ():
+
     else:
         process = subprocess.Popen(['samtools', 'sort', indir + my_id + '.bam',
                                   '-o',os.path.join(outdir,my_id) + '/' + my_id + '_sortsam'],
@@ -123,12 +126,12 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('samtools view failed with ' + my_id + '\n')
             sys.exit(3)
-
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')
-
+    '''
     # ______
     print('picard SortSam')
     with open(all_log, "a") as log:
@@ -138,9 +141,9 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam'+'already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
+        process = subprocess.Popen([ 'picard', 'SortSam', 'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam',
-                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT'],
+                                    'SORT_ORDER=coordinate','VALIDATION_STRINGENCY=LENIENT', 'TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -155,10 +158,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard SortSam failed with ' + my_id + '\n')
             sys.exit(4)
-
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')
-
+    '''
     # ______
     print('picard addorreplace')
     with open(all_log, "a") as log:
@@ -168,9 +171,9 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                     'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
-                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1'],
+                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -185,8 +188,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard addorreplace failed with ' + my_id + '\n')
             sys.exit(5)
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')
+    '''
 
     # ______
     print('picard markduplicates')
@@ -197,11 +202,11 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['java', javapars, '-jar', 'picard.jar', 'MarkDuplicates',
+        process = subprocess.Popen(['picard', 'MarkDuplicates',
                                     'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
                                     'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                     'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt'],
+                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt','TMP_DIR=',os.path.join(outdir,my_id)],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
@@ -216,9 +221,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard markduplicates failed with ' + my_id + '\n')
             sys.exit(6)
+    '''
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
-
+    '''
     # ______
 
     print('gatk baserecalibrator')
@@ -392,9 +398,11 @@ def rm(my_id):
 
 def cp(my_id):
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
-       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
+       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
         shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
                     os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
+    elif (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf'):
+        print(my_id + '.vcf is already in the directory')
     else:
         print(my_id + '.vcf does not exist to copy')
 
@@ -476,7 +484,7 @@ print(final_outdir)
 logdir = os.path.join(maindir,config["Directories"]["data_log"])
 javapars = config["Parameters"]["javaparameters"]
 met = os.path.join(maindir,config["Files"]["metadata"])
-
+picard = config["Soft"]["picard"]
 # pipe ----------------------------------------------------
 my_id = sys.argv[2]
 
