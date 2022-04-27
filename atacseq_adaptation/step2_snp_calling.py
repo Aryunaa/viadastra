@@ -23,6 +23,8 @@ def loggi(tmp_log,tmp_err,stdout,stderr,k):
             err.write(stderr)
     print('logged')
 
+
+
 #___________snp for one file
 def process_bam(my_id):
 
@@ -126,12 +128,12 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('samtools view failed with ' + my_id + '\n')
             sys.exit(3)
-    '''
+
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam')
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sortsam.bai')
-    '''
+
     # ______
     print('picard SortSam')
     with open(all_log, "a") as log:
@@ -158,10 +160,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard SortSam failed with ' + my_id + '\n')
             sys.exit(4)
-    '''
+
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_chop.bam')
-    '''
+
     # ______
     print('picard addorreplace')
     with open(all_log, "a") as log:
@@ -188,10 +190,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard addorreplace failed with ' + my_id + '\n')
             sys.exit(5)
-    '''
+
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')
-    '''
+
 
     # ______
     print('picard markduplicates')
@@ -221,10 +223,10 @@ def process_bam(my_id):
             with open(all_log, "a") as log:
                 log.write('picard markduplicates failed with ' + my_id + '\n')
             sys.exit(6)
-    '''
+
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
-    '''
+
     # ______
 
     print('gatk baserecalibrator')
@@ -311,6 +313,7 @@ def process_bam(my_id):
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
+        rc = process.returncode
         if (rc == 0):
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
@@ -322,6 +325,57 @@ def process_bam(my_id):
 
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')
+
+
+
+def process_bam_trimmed(my_id):
+
+    print('start SNP')
+    all_log = os.path.join(maindir, 'logs/whole_log')
+    with open(all_log, "a") as log:
+        log.write('STARTING! '+ my_id + '\n')
+
+    tmp_log = logdir+my_id+'_log'
+    tmp_err = logdir+my_id+'_err'
+    with open(tmp_log, "w") as log:
+        log.write('STARTING!')
+    with open(tmp_err, "w") as err:
+        err.write('STARTING!')
+
+    # ______
+    print('gatk haplotypecaller')
+    with open(all_log, "a") as log:
+        log.write('gatk haplotypecaller '+ my_id +'\n')
+    if(os.path.exists(os.path.join(outdir,my_id) + '/' + my_id +'.vcf')):
+        print('already exists, go further')
+        with open(all_log, "a") as log:
+            log.write(os.path.join(outdir,my_id) + '/' + my_id +'.vcf'+' already exists, complete'+ '\n')
+    else:
+        process = subprocess.Popen(['gatk', 'HaplotypeCaller',
+                                    '--java-options', javapars,
+                                    '-R', processed_ref,
+                                    '-I', indir + my_id + '.bam',
+                                    '--dbsnp', ref_vcf,
+                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+        stderr, stdout = process.communicate()
+        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+        print('done')
+        rc = process.returncode
+        if (rc == 0):
+            with open(all_log, "a") as log:
+                log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
+                log.write('processing done with ' + my_id + '\n')
+        else:
+            with open(all_log, "a") as log:
+                log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
+            sys.exit(10)
+
+
 
 def stats(my_id,clause ):
     if (clause == '_ready.bam' ):
@@ -386,7 +440,8 @@ def rm(my_id):
                os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx'
                ]
     for i in rm_list:
-        if(os.path.exists(i)):
+        if(os.path.exists(i) and i!=os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf'
+                and i!=os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx'):
             os.remove(i)
     try:
         os.rmdir(os.path.join(outdir, my_id))
@@ -439,9 +494,9 @@ def pipe_my_id(my_id):
         stats(my_id, '.vcf')
         rm(my_id)
     else:
-        print("Beginnig processing with " + my_id)
+        print("Beginning processing with " + my_id)
 
-        process_bam(my_id)
+        process_bam_trimmed(my_id)
         cp(my_id)
         stats(my_id, '.vcf')
         rm(my_id)
