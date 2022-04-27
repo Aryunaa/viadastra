@@ -313,6 +313,7 @@ def process_bam(my_id):
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
+        rc = process.returncode
         if (rc == 0):
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
@@ -362,6 +363,7 @@ def process_bam_trimmed(my_id):
         stderr, stdout = process.communicate()
         loggi(tmp_log, tmp_err, stdout, stderr, 'a')
         print('done')
+        rc = process.returncode
         if (rc == 0):
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
@@ -369,6 +371,8 @@ def process_bam_trimmed(my_id):
         else:
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
             sys.exit(10)
 
 
@@ -436,7 +440,8 @@ def rm(my_id):
                os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx'
                ]
     for i in rm_list:
-        if(os.path.exists(i)):
+        if(os.path.exists(i) and i!=os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf'
+                and i!=os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx'):
             os.remove(i)
     try:
         os.rmdir(os.path.join(outdir, my_id))
