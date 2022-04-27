@@ -373,6 +373,7 @@ def process_bam_trimmed(my_id):
                 log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
             if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
                 os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
+            rm(my_id)
             sys.exit(10)
 
 
