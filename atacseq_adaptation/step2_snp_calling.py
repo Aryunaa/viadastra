@@ -351,30 +351,40 @@ def process_bam_trimmed(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id +'.vcf'+' already exists, complete'+ '\n')
     else:
-        process = subprocess.Popen(['gatk', 'HaplotypeCaller',
-                                    '--java-options', javapars,
-                                    '-R', processed_ref,
-                                    '-I', indir + my_id + '.bam',
-                                    '--dbsnp', ref_vcf,
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
-                log.write('processing done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['gatk', 'HaplotypeCaller',
+                                        '--java-options', javapars,
+                                        '-R', processed_ref,
+                                        '-I', indir + my_id + '.bam',
+                                        '--dbsnp', ref_vcf,
+                                        '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
+                    log.write('processing done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
+                rm(my_id)
+                sys.exit(10)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
             if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
                 os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
             rm(my_id)
             sys.exit(10)
+
+
 
 
 
