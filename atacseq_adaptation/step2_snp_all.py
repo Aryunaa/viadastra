@@ -62,9 +62,14 @@ try:
         log.write(stdout)
     with open(all_log, "a") as err:
         err.write(stderr)
-except Exception:
+except KeyboardInterrupt:
     with open(all_log, "a") as log:
-        log.write('Exception emerged'+ '\n')
-        sys.exit(10)
+        log.write('exception KeyboardInterrupt emerged'+ '\n')
+    sys.exit(10)
+except:
+    with open(all_log, "a") as log:
+        log.write('Some exception emerged'+ '\n')
+    sys.exit(10)
+
 
 #--memfree 100G --retries 5
