@@ -28,6 +28,6 @@ dependencies:
   - pathlib
   - r-sys
   - pytest-shutil
-  - pip3:
+  - pip:
       - babachi
 
