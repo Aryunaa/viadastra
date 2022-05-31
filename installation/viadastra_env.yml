@@ -28,6 +28,7 @@ dependencies:
   - pathlib
   - r-sys
   - pytest-shutil
+  - pip
   - pip:
       - babachi
 
