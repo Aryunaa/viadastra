@@ -12,6 +12,7 @@ dependencies:
   - numpy
   - pandas
   - scipy
+  - argparse
   - subprocess32
   - statsmodels
   - openjdk

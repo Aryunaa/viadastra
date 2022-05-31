@@ -3,12 +3,20 @@ import os
 import configparser
 import sys as sys
 import pathlib
+import argparse
 
 
-jobs = sys.argv[1]
-#jobs = 4
-path = sys.argv[2]
-#path ='C:/Users/Aryuna/Desktop/IB/viadastra_pretty/config.cfg'
+parser = argparse.ArgumentParser(description='script that launches snp calling')
+
+parser.add_argument("-h","--jobs", help="Number of jobs", default=4, required=False)
+parser.add_argument("-m","--memfree", help="Memfree parameter for gnu parallel", default='40G', required=False)
+parser.add_argument("-c","--config", help="Path for cfg file", required=True)
+args = parser.parse_args()
+
+jobs = args.jobs
+path = args.config
+memfree = args.memfree
+
 # reading config --------------------------
 config = configparser.ConfigParser()
 config.read(path)
@@ -28,25 +36,11 @@ processing_list = os.path.join(maindir, config["Files"]["processing_list"])
 dir = pathlib.Path(__file__).parent.absolute()
 script = os.path.join(dir,'step2_snp_calling.py')
 
-# reading metadata, filtrating ---------------
-'''
-metadata = pd.read_csv(met,sep='\t')
-norna = metadata[metadata["Extra1"] != 'RNA-seq']
-
-idid = norna['ID']
-idid = list(idid)
-with open(maindir + 'parameters/idid', "w") as outfile:
-    outfile.write("\n".join(idid))
-
-
-subprocess.run(['parallel', '-j', jobs,'python', script,path,'::::',processing_list],
-               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-'''
 all_log = os.path.join(os.path.join(maindir, mainlogs), 'whole_log')
 with open(all_log, "w") as log:
     log.write('STARTING! all'+ '\n')
 try:
-    process = subprocess.Popen(['parallel', '--memfree','40G','--retry-failed','--joblog',
+    process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',
                                 os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j', jobs,'python', script ,path ,'::::',processing_list],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
