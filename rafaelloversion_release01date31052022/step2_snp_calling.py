@@ -203,24 +203,33 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id)+'/'+my_id+'_formatted.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
-                                    'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
-                                    'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('picard addorreplace done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
+                                        'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
+                                        'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('picard addorreplace done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('picard addorreplace failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam')
+                sys.exit(5)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('picard addorreplace failed with ' + my_id + '\n')
-            sys.exit(5)
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_formatted.bam')
 
+    # удаление уже ненужных файлов
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_sorted.bam')
 
@@ -234,26 +243,35 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['picard', 'MarkDuplicates',
-                                    'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
-                                    'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
-                                    'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
-                                    'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt','TMP_DIR=',os.path.join(outdir,my_id)],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('picard markduplicates done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['picard', 'MarkDuplicates',
+                                        'I=' + os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam',
+                                        'O=' + os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
+                                        'REMOVE_DUPLICATES=true','VALIDATION_STRINGENCY=LENIENT',
+                                        'M=' + os.path.join(outdir,my_id) + '/' + my_id + '_metrics.txt','TMP_DIR=',os.path.join(outdir,my_id)],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('picard markduplicates done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('picard markduplicates failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam')
+                sys.exit(6)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('picard markduplicates failed with ' + my_id + '\n')
-            sys.exit(6)
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_ready.bam')
 
+    #удаление уже ненужных файлов
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_formatted.bam')
 
@@ -267,27 +285,34 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id +'.table'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['gatk', 'BaseRecalibrator',
-                                    '--java-options',javapars,
-                                    '-R', processed_ref,
-                                    '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
-                                    '--known-sites', ref_vcf,
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.table' ],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('gatk baserecalibrator done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['gatk', 'BaseRecalibrator',
+                                        '--java-options',javapars,
+                                        '-R', processed_ref,
+                                        '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
+                                        '--known-sites', ref_vcf,
+                                        '-O', os.path.join(outdir,my_id) + '/' + my_id +'.table' ],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('gatk baserecalibrator done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('gatk baserecalibrator failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.table')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.table')
+                sys.exit(7)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('gatk baserecalibrator failed with ' + my_id + '\n')
-            sys.exit(7)
-
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.table')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.table')
     # ______
 
     print('gatk applyBQSR')
@@ -298,27 +323,36 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'+' already exists, go further'+ '\n')
     else:
-        process = subprocess.Popen(['gatk', 'ApplyBQSR',
-                                    '-R',  processed_ref,
-                                    '--java-options', javapars,
-                                    '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
-                                    '--bqsr-recal-file', os.path.join(outdir,my_id) + '/' + my_id +'.table',
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('gatk applyBQSR done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['gatk', 'ApplyBQSR',
+                                        '-R',  processed_ref,
+                                        '--java-options', javapars,
+                                        '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
+                                        '--bqsr-recal-file', os.path.join(outdir,my_id) + '/' + my_id +'.table',
+                                        '-O', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam'],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('gatk applyBQSR done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('gatk applyBQSR failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_final.bam')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_final.bam')
+                sys.exit(9)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('gatk applyBQSR failed with ' + my_id + '\n')
-            sys.exit(9)
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '_final.bam')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '_final.bam')
 
+    # удаление уже ненужных файлов
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam')
 
@@ -331,27 +365,36 @@ def process_bam(my_id):
         with open(all_log, "a") as log:
             log.write(os.path.join(outdir,my_id) + '/' + my_id +'.vcf'+' already exists, complete'+ '\n')
     else:
-        process = subprocess.Popen(['gatk', 'HaplotypeCaller',
-                                    '--java-options', javapars,
-                                    '-R', processed_ref,
-                                    '-I', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam',
-                                    '--dbsnp', ref_vcf,
-                                    '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   universal_newlines=True)
-        stderr, stdout = process.communicate()
-        loggi(tmp_log, tmp_err, stdout, stderr, 'a')
-        print('done')
-        rc = process.returncode
-        if (rc == 0):
-            with open(all_log, "a") as log:
-                log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
-                log.write('processing done with ' + my_id + '\n')
-        else:
+        try:
+            process = subprocess.Popen(['gatk', 'HaplotypeCaller',
+                                        '--java-options', javapars,
+                                        '-R', processed_ref,
+                                        '-I', os.path.join(outdir,my_id) + '/' + my_id +'_final.bam',
+                                        '--dbsnp', ref_vcf,
+                                        '-O', os.path.join(outdir,my_id) + '/' + my_id +'.vcf'],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE,
+                                       universal_newlines=True)
+            stderr, stdout = process.communicate()
+            loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            print('done')
+            rc = process.returncode
+            if (rc == 0):
+                with open(all_log, "a") as log:
+                    log.write('gatk HaplotypeCaller done with ' + my_id + '\n')
+                    log.write('processing done with ' + my_id + '\n')
+            else:
+                with open(all_log, "a") as log:
+                    log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
+                if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+                    os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
+                sys.exit(10)
+        except Exception:
             with open(all_log, "a") as log:
                 log.write('gatk HaplotypeCaller failed with ' + my_id + '\n')
-            sys.exit(10)
+            if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')):
+                os.remove(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
+
 
     if (os.path.exists(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')):
         os.remove(os.path.join(outdir,my_id) + '/' + my_id + '_final.bam')
