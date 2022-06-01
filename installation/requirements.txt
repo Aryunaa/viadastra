@@ -5,7 +5,8 @@ _libgcc_mutex=0.1=main
 _openmp_mutex=4.5=1_gnu
 _r-mutex=1.0.0=anacondar_1
 adastra=1.0.0=pypi_0
-babachi=1.5.6=pypi_0
+argparse=1.4.0=pypi_0
+babachi=2.0.16=pypi_0
 bcftools=1.8=h4da6232_3
 bedtools=2.30.0=h7d7f7ad_1
 blas=1.0=mkl
@@ -19,6 +20,7 @@ configparser=5.0.1=py_0
 contextlib2=21.6.0=pypi_0
 curl=7.78.0=h1ccaba5_0
 cycler=0.10.0=pypi_0
+decorator=5.1.1=pypi_0
 docopt=0.6.2=pypi_0
 fontconfig=2.13.1=h6c09931_0
 freetype=2.10.4=h5ab3b9f_0
@@ -105,6 +107,8 @@ tk=8.6.10=hbc83047_0
 tmux=3.1=h1c4e50f_0
 tqdm=4.62.3=pypi_0
 urllib3=1.26.6=pypi_0
+validators=0.19.0=pypi_0
+vcfpy=0.13.4=pypi_0
 wheel=0.36.2=pyhd3eb1b0_0
 xz=5.2.5=h7b6447c_0
 zlib=1.2.11=h7b6447c_3

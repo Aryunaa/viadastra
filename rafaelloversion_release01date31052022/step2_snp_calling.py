@@ -537,19 +537,29 @@ def rm(my_id):
 
 def cp(my_id):
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
-       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')):
+       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != final_outdir + '/' + my_id + '.vcf')):
         shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
-                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf')
-    elif (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf'):
+                    final_outdir + '/' + my_id + '.vcf')
+
+        try:
+            shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
+                        os.path.join(final_outdir, my_id + '.vcf'))
+        except Exception:
+            pass
+    elif (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == final_outdir + '/' + my_id + '.vcf'):
         print(my_id + '.vcf is already in the directory')
     else:
         print(my_id + '.vcf does not exist to copy')
 
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx')
-       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx' == os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx')):
+       and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx' != final_outdir + '/' + my_id + '.vcf.idx')):
         shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx',
-                    os.path.join(final_outdir, my_id) + '/' + my_id + '.vcf.idx')
-
+                    final_outdir + '/' + my_id + '.vcf.idx')
+        try:
+            shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx',
+                        os.path.join(final_outdir, my_id + '.vcf.idx'))
+        except Exception:
+            pass
 
 
 ########my_id = 'BAM00030'#######################
@@ -562,13 +572,14 @@ def pipe_my_id(my_id):
         pass
     else:
         os.mkdir(tmp_path)
-    tmp_path = os.path.join(final_outdir,my_id)
+
+    tmp_path = os.path.join(final_outdir, my_id)
     if (os.path.exists(tmp_path)):
         pass
     else:
         os.mkdir(tmp_path)
     #делаем обработку
-    if(os.path.exists(os.path.join(final_outdir,my_id) + '/' + my_id + '.vcf')):
+    if(os.path.exists(os.path.join(final_outdir,my_id+ '.vcf'))):
         print(my_id + ' vcf file from gatk already exists in final directory, skip processing')
         stats(my_id, '.vcf')
         rm(my_id)
@@ -580,7 +591,7 @@ def pipe_my_id(my_id):
     else:
         print("Beginning processing with " + my_id)
 
-        process_bam_trimmed(my_id)
+        process_bam(my_id)
         cp(my_id)
         stats(my_id, '.vcf')
         rm(my_id)
@@ -596,18 +607,7 @@ def pipe_my_id(my_id):
 #path = "/media/ElissarDisk/ADASTRA/parameters/CONFIG.cfg"
 # reading config ------------------------------------------
 path = sys.argv[1]
-'''
-dicti = readConfig_SNP(path)
-maindir = dicti['maindir']
-indir = dicti['indir']
 
-processed_ref = dicti['processed_ref']
-ref_vcf = dicti['ref_vcf']
-outdir = dicti['outdir']
-logdir = dicti['logdir']
-javapars = dicti['javapars']
-met = dicti['metadata']
-'''
 config = configparser.ConfigParser()
 config.read(path)
 maindir = config["Directories"]["maindir"]

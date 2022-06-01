@@ -9,12 +9,6 @@ channels:
   - conda-forge
 dependencies:
   - python=3.6.*   # or 2.7
-  - numpy
-  - pandas
-  - scipy
-  - argparse
-  - subprocess32
-  - statsmodels
   - openjdk
   - samtools
   - pysam
@@ -29,7 +23,12 @@ dependencies:
   - pathlib
   - r-sys
   - pytest-shutil
-  - pip
-  - pip:
+  - pip3:
+      - argparse
+      - numpy
+      - pandas
+      - scipy
+      - subprocess32
+      - statsmodels
       - babachi
 
