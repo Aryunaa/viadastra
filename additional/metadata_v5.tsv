@@ -67,5 +67,4 @@ AAANKTKM5_Pool_ALF_210222_22s001054-1-1_Clouaire_lane1PATMDRB_rmdups.bam	BAM0006
 AAANKTKM5_Pool_ALF_210222_22s001054-1-1_Clouaire_lane1PATMNoDRB_rmdups.bam	BAM00067	chipseq	chipseq	ChIPseq	repair	PATMNoDRB	
 AAANKTKM5_Pool_ALF_210222_22s001054-1-1_Clouaire_lane1PATMsiCtrlDiVA_rmdups.bam	BAM00068	chipseq	chipseq	ChIPseq	repair	PATMsiCtrlDiVA	
 AAANKTKM5_Pool_ALF_210222_22s001054-1-1_Clouaire_lane1PATMSiSCC1DiVA_rmdups.bam	BAM00069	chipseq	chipseq	ChIPseq	repair	PATMSiSCC1DiVA	
-trimmed_BLESS_U2OS-Tam.sorted.bam	BAM00070	.	.	BLESS	break_mapping	BLESS_mOHT_June	
-HYG77BGX2_DRIP2_C1_DIVA_17s002460-1-1_Clouaire_lane117s002460_hg19.nodups.ba	BAM00071	.	.	DRIPseq	R-loop	DRIP_C1	
+trimmed_BLESS_U2OS-Tam.sorted.bam	BAM00070	.	.	BLESS	break_mapping	BLESS_mOHT_June
