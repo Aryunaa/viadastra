@@ -4,7 +4,6 @@
 _libgcc_mutex=0.1=main
 _openmp_mutex=4.5=1_gnu
 _r-mutex=1.0.0=anacondar_1
-adastra=1.0.0=pypi_0
 argparse=1.4.0=pypi_0
 babachi=2.0.16=pypi_0
 bcftools=1.8=h4da6232_3
