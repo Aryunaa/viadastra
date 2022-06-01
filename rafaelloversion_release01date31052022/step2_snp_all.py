@@ -8,7 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='script that launches snp calling')
 
-parser.add_argument("-h","--jobs", help="Number of jobs", default=4, required=False)
+parser.add_argument("-j","--jobs", help="Number of jobs", default=4, required=False)
 parser.add_argument("-m","--memfree", help="Memfree parameter for gnu parallel", default='40G', required=False)
 parser.add_argument("-c","--config", help="Path for cfg file", required=True)
 args = parser.parse_args()
