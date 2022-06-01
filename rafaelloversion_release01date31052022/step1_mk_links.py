@@ -91,8 +91,8 @@ for i in range(rna.shape[0]):
 # creating filtrating by headers + append to lists -------------
 for i in range(norna.shape[0]):
     print(source)
-    print(norna.iloc[i,9])
-    pathfile = os.path.join(source,norna.iloc[i,9])
+    print(norna.iloc[i,0])
+    pathfile = os.path.join(source,norna.iloc[i,0])
     print(pathfile)
     #pysam read -h
     bam = read_head(pathfile)
@@ -100,10 +100,10 @@ for i in range(norna.shape[0]):
     bam_inters = inters(bam)
     if(bam_inters>0):
         print('true')
-        to_process_bam.append(norna.iloc[i,9])
+        to_process_bam.append(norna.iloc[i,0])
         to_process_id.append(norna.iloc[i,1])
     else:
-        exceptions_bam.append(norna.iloc[i,9])
+        exceptions_bam.append(norna.iloc[i,0])
         exceptions_id.append(norna.iloc[i,1])
         exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
 
