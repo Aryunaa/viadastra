@@ -51,6 +51,8 @@ try:
         log.write(stdout)
     with open(all_log, "a") as err:
         err.write(stderr)
+    with open(all_log, "a") as log:
+        log.write("script has been performed successfully")
 
 except KeyboardInterrupt:
     with open(all_log, "a") as log:
@@ -61,7 +63,6 @@ except:
         log.write('Some exception emerged'+ '\n')
     sys.exit(10)
 
-with open(all_log, "a") as log:
-    log.write("script has been performed successfully")
+
 log.close()
 err.close()
