@@ -518,6 +518,7 @@ def stats(my_id,clause ):
                                     '-o',statfile])
 
 def rm(my_id):
+    all_log = os.path.join(maindir, 'logs/whole_log')
     rm_list = [os.path.join(outdir, my_id) + '/' + my_id + '_sortsam',
                os.path.join(outdir, my_id) + '/' + my_id + '_sortsam.bai',
                os.path.join(outdir, my_id) + '/' + my_id + '_chop.bam',
@@ -537,26 +538,34 @@ def rm(my_id):
             os.remove(i)
     try:
         os.rmdir(os.path.join(outdir, my_id))
+        with open(all_log, "a") as log:
+            log.write("Directory '% s' has been removed successfully" % os.path.join(outdir, my_id) + '\n')
         print("Directory '% s' has been removed successfully" % os.path.join(outdir, my_id))
     except OSError as error:
         print(error)
+        with open(all_log, "a") as log:
+            log.write("Directory '% s' can not be removed" % os.path.join(outdir, my_id) + '\n')
         print("Directory '% s' can not be removed" % os.path.join(outdir, my_id))
 
 
 def cp(my_id):
+    all_log = os.path.join(maindir, 'logs/whole_log')
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
        and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != final_outdir + '/' + my_id + '.vcf')):
-        shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
-                    final_outdir + '/' + my_id + '.vcf')
-
         try:
             shutil.copy(os.path.join(outdir, my_id) + '/' + my_id + '.vcf',
                         os.path.join(final_outdir, my_id + '.vcf'))
+            with open(all_log, "a") as log:
+                log.write(my_id + '.vcf has been copied successfully' + '\n')
         except Exception:
             pass
     elif (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' == final_outdir + '/' + my_id + '.vcf'):
+        with open(all_log, "a") as log:
+            log.write(my_id + '.vcf is already in the directory' + '\n')
         print(my_id + '.vcf is already in the directory')
     else:
+        with open(all_log, "a") as log:
+            log.write(my_id + '.vcf does not exist to copy' + '\n')
         print(my_id + '.vcf does not exist to copy')
 
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf.idx')
@@ -572,6 +581,9 @@ def cp(my_id):
 
 ########my_id = 'BAM00030'#######################
 def pipe_my_id(my_id):
+    all_log = os.path.join(maindir, 'logs/whole_log')
+    with open(all_log, "a") as log:
+        log.write( 'start SNP '+ my_id+'\n')
     print('start SNP '+ my_id)
     #my_id = 'BAM00030'
     tmp_path = os.path.join(outdir,my_id)
@@ -583,16 +595,21 @@ def pipe_my_id(my_id):
     #делаем обработку
     if(os.path.exists(os.path.join(final_outdir,my_id+ '.vcf'))):
         print(my_id + ' vcf file from gatk already exists in final directory, skip processing')
+        with open(all_log, "a") as log:
+            log.write(my_id + ' vcf file from gatk already exists in final directory, skip processing' + '\n')
         stats(my_id, '.vcf')
         rm(my_id)
     elif (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf') ):
         print(my_id+ ' vcf file from gatk already exists, skip processing, start to copy to final directory')
+        with open(all_log, "a") as log:
+            log.write(my_id+ ' vcf file from gatk already exists, skip processing, start to copy to final directory' + '\n')
         cp(my_id)
         stats(my_id, '.vcf')
         rm(my_id)
     else:
         print("Beginning processing with " + my_id)
-
+        with open(all_log, "a") as log:
+            log.write("Beginning processing with " + my_id + '\n')
         process_bam(my_id)
         cp(my_id)
         stats(my_id, '.vcf')
