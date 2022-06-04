@@ -502,7 +502,7 @@ def stats(my_id,clause ):
                              sep='\t', skiprows=n)
 
         with open(statfile, "a") as g:
-            g.write(my_id+'.vcf'+'\t' +str(vcf.shape[0]))
+            g.write(my_id+'.vcf'+'\t' +str(vcf.shape[0])+'\n')
         g.close()
 
 
