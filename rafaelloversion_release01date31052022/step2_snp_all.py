@@ -60,9 +60,8 @@ except KeyboardInterrupt:
     sys.exit(10)
 except Exception:
     with open(all_log, "a") as log:
+        log.write(str(Exception) + '\n')
         log.write('Some exception emerged'+ '\n')
     sys.exit(10)
-
-
 log.close()
 err.close()
