@@ -63,5 +63,3 @@ except Exception:
         log.write(str(Exception) + '\n')
         log.write('Some exception emerged'+ '\n')
     sys.exit(10)
-log.close()
-err.close()
