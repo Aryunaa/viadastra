@@ -39,19 +39,19 @@ script = os.path.join(dir,'step2_snp_calling.py')
 all_log = os.path.join(os.path.join(maindir, mainlogs), 'whole_log')
 with open(all_log, "w") as log:
     log.write('STARTING! all'+ '\n')
-try:
-    process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j', jobs,'python', script ,path ,'::::',processing_list],
+
+process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j', jobs,'python', script ,path ,'::::',processing_list],
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
                                 universal_newlines=True)
-    stderr, stdout = process.communicate()
-    with open(all_log, "a") as log:
-        log.write(stdout)
-    with open(all_log, "a") as err:
-        err.write(stderr)
-    with open(all_log, "a") as log:
-        log.write("script has been performed successfully")
-
+stderr, stdout = process.communicate()
+with open(all_log, "a") as log:
+    log.write(stdout)
+with open(all_log, "a") as err:
+    err.write(stderr)
+with open(all_log, "a") as log:
+    log.write("script has been performed successfully")
+'''
 except KeyboardInterrupt:
     with open(all_log, "a") as log:
         log.write('exception KeyboardInterrupt emerged'+ '\n')
@@ -61,3 +61,4 @@ except Exception:
         log.write(str(Exception) + '\n')
         log.write('Some exception emerged'+ '\n')
     sys.exit(10)
+'''
