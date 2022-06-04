@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6c9b390-0a9e-477e-aacd-e437eba2f520" name="Changes" comment="hh">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/viadastra_pretty.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/viadastra_pretty.iml" afterDir="false" />
+    <list default="true" id="a6c9b390-0a9e-477e-aacd-e437eba2f520" name="Changes" comment="comm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/123.txt" beforeDir="false" afterPath="$PROJECT_DIR$/new_stage/step3_fastfiltrate_vcf_get_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step1_mk_links.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step2_reference_processing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step2_snp_all.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step2_snp_calling.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step3_fastfiltrate_vcf_get_stats.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step4_pullby_bads_and_sort.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step4_to_babachi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_stage/step5_fit.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_calling.py" beforeDir="false" afterPath="$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_calling.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +42,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/rafaelloversion_release01date31052022" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty\rafaelloversion_release01date31052022" />
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty\installation" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -52,7 +69,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637770468891</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="comm">
+      <created>1637776669060</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1637776669060</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -82,6 +106,23 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="hh" />
-    <option name="LAST_COMMIT_MESSAGE" value="hh" />
+    <MESSAGE value="comm" />
+    <option name="LAST_COMMIT_MESSAGE" value="comm" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/additional/step1_mk_links.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_all.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

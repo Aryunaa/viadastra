@@ -462,6 +462,13 @@ def process_bam_trimmed(my_id):
 
 
 def stats(my_id,clause ):
+    tmp_path = os.path.join(outdir,'stats')
+    #делаем директории
+    if (os.path.exists(tmp_path)):
+        pass
+    else:
+        os.mkdir(tmp_path)
+
     if (clause == '_ready.bam' ):
         strf = os.path.join(outdir,my_id) + '/' + my_id +'_ready.bam'
         statfilecov = os.path.join(final_outdir,my_id) + '/'  + 'stats_nodup_cov.txt'
@@ -477,8 +484,8 @@ def stats(my_id,clause ):
         statfilecov = os.path.join(final_outdir,my_id) + '/' + 'stats_start_cov.txt'
         statfile = os.path.join(final_outdir,my_id) + '/' + 'stats_start_num.txt'
     elif (clause == '.vcf'): #vcf
-        strf = os.path.join(final_outdir,my_id) + '/' + my_id +'.vcf'
-        statfile = os.path.join(final_outdir,my_id) + '/' +'vcf_stats.txt'
+        strf = os.path.join(final_outdir,my_id+'.vcf')
+        statfile = os.path.join(tmp_path, 'number_of_peaks_vcf.tsv')
 
     ##########start#########################################
 
@@ -494,8 +501,9 @@ def stats(my_id,clause ):
         vcf = pd.read_csv(strf,
                              sep='\t', skiprows=n)
 
-        with open(statfile, "w") as g:
-            g.write('number of peaks '+ str(vcf.shape[0]))
+        with open(statfile, "a") as g:
+            g.write(my_id+'.vcf'+'\t' +str(vcf.shape[0]))
+        g.close()
 
 
     else:
@@ -568,12 +576,6 @@ def pipe_my_id(my_id):
     #my_id = 'BAM00030'
     tmp_path = os.path.join(outdir,my_id)
     #делаем директории
-    if (os.path.exists(tmp_path)):
-        pass
-    else:
-        os.mkdir(tmp_path)
-
-    tmp_path = os.path.join(final_outdir, my_id)
     if (os.path.exists(tmp_path)):
         pass
     else:
