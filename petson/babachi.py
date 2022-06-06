@@ -32,10 +32,10 @@ print(paths_rs)
 
 header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
 pulled_chips_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs])
-pulled_chips_rs.to_csv(os.path.join(tmp_path,'pulled_chipseq.tsv'),mode='w', header=False,index=False,sep='\t')
+pulled_chips_rs.to_csv(os.path.join(tmp_path,'ppulled_chipseq.tsv'),mode='w', header=False,index=False,sep='\t')
 print('chipseq pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'pulled_chipseq.tsv')],
+                            os.path.join(tmp_path,'ppulled_chipseq.tsv'),'>',os.path.join(tmp_path,'pulled_chipseq.tsv')],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
                            universal_newlines=True
@@ -52,10 +52,10 @@ for my_id in intersect:
         paths_rs.append(os.path.join(processed_data, my_id+'.snps.bed'))
 print(paths_rs)
 pulled_atac_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs])
-pulled_atac_rs.to_csv(os.path.join(tmp_path,'pulled_atacseq.tsv'),mode='w', header=False,index=False,sep='\t')
+pulled_atac_rs.to_csv(os.path.join(tmp_path,'ppulled_atacseq.tsv'),mode='w', header=False,index=False,sep='\t')
 print('atacseq pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'pulled_atacseq.tsv')],
+                            os.path.join(tmp_path,'ppulled_atacseq.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq.tsv')],
                            stdout=subprocess.PIPE,
                            stderr=subprocess.PIPE,
                            universal_newlines=True
