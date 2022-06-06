@@ -2,9 +2,6 @@ import subprocess32 as subprocess
 import os
 import pandas as pd
 
-
-#!babachi data/BAM00022_tobabachi.vcf --output data/BAM00022.bed --visualize
-#babachi /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022_tobabachi.vcf --output /media/ElissarDisk/ADASTRA/processed_data/BAM00022/BAM00022.bed --visualize
 print('start process')
 
 metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
@@ -73,13 +70,17 @@ print('atacseq sorted')
 
 
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
-                              '-O', tmp_path,
-                              '--visualize'
+                              '-O', tmp_path])
+process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
+                              '-O', tmp_path])
+
+#babachi visualize pulled_chipseq.tsv -b pulled_chipseq.badmap.bed
+process = subprocess.run(['babachi visualize', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
+                              '-b', os.path.join(tmp_path, 'pulled_chipseq.badmap.bed')
                               ])
 
-process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
-                              '-O', tmp_path,
-                              '--visualize'
+process = subprocess.run(['babachi visualize', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
+                              '-b', os.path.join(tmp_path, 'pulled_atacseq.badmap.bed')
                               ])
 
 
