@@ -42,7 +42,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
         annotated_vcf.to_csv(os.path.join(bedfiles, out_path+ '_annotated.tsv'),header=True,
                             index=False, sep='\t')
     except Exception:
-        with open(os.path.join(bedfiles, 'scorefiles/logs', "a")) as log:
+        with open(os.path.join(bedfiles, 'scorefiles/logs'), "a") as log:
             log.write('failed ' + i + '\t' + Exception +'\n')
         print(Exception)
 
@@ -57,7 +57,7 @@ lis=[k.split('.')[0] for k in bedlist]
 
 metadata = pd.read_csv(metapath, sep = '\t')
 
-with open(os.path.join(bedfiles,'scorefiles/logs', "w")) as log:
+with open(os.path.join(bedfiles,'scorefiles/logs'), "w") as log:
     log.write('start' + '\n')
 
 for i in bedlist:
