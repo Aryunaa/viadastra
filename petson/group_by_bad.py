@@ -51,7 +51,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
         temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/table.tsv'), header=True,
                         index=False, sep='\t')
         temp_grp_bad = (temp_bad.groupby(['ref','alt']).size().reset_index(name='counts'))
-        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/stats.tsv'), header=True,
+        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/stats.tsv'), header=False,
                         index=False, sep='\t')
 
 def negbinfit(out_path,badn,badt, threshold):
