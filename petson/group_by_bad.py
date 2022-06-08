@@ -47,7 +47,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
         temp_bad = temp_bad.drop(['BAD'],axis=1)
         df_list.append(temp_bad)
         if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + str(i + 1))) == False):
-            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + str(i + 1)))
+            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + str(i + 1)+'.00'))
         temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/table.tsv'), header=True,
                         index=False, sep='\t')
         temp_grp_bad = (temp_bad.groupby(['ref','alt']).size().reset_index(name='counts'))
