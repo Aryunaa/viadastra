@@ -31,6 +31,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
     annotations = BedTool(bed_list)
     i = test.intersect(annotations, wb=True)
     df = i.to_dataframe()
+    print(df.iloc[0,:])
     df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','chr','start','end','BAD']
 
     #annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
@@ -63,9 +64,10 @@ for i in bedlist:
     elif (a[0][4] == 'ATACseq'):
         group_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
     else:
-        group_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
+        group_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_' + j)
         group_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
 
-        
+
+
 
 print('end')
