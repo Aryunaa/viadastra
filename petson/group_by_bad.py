@@ -48,10 +48,10 @@ def group_by_bad(path_tsv, path_badmap, out_path):
         df_list.append(temp_bad)
         if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + str(i + 1))) == False):
             os.mkdir(os.path.join(processed_data, out_path + '/BAD' + str(i + 1)+'.00'))
-        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/table.tsv'), header=True,
+        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) +'.00'+ '/table.tsv'), header=True,
                         index=False, sep='\t')
         temp_grp_bad = (temp_bad.groupby(['ref','alt']).size().reset_index(name='counts'))
-        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) + '/stats.tsv'), header=False,
+        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) +'.00'+ '/stats.tsv'), header=False,
                         index=False, sep='\t')
 
 def negbinfit(out_path,badn,badt, threshold):
