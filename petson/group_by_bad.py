@@ -2,14 +2,11 @@ import pandas as pd
 import os
 import pysam
 import sys
-import configparser
 import pybedtools
 from pybedtools import BedTool
 import subprocess32 as subprocess
 
 processed_data = '/home/ariuna/rafaello/bedfiles/babachi'
-met = os.path.join(maindir,config["Files"]["metadata"])
-processing_list_path = os.path.join(maindir,config["Files"]["processing_list"])
 
 ######################################################
 def group_by_bad(path_tsv, path_badmap, out_path):
