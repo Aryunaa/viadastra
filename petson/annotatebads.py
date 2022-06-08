@@ -43,7 +43,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
                             index=False, sep='\t')
     except Exception:
         with open(os.path.join(bedfiles, 'scorefiles/logs'), "a") as log:
-            log.write('failed ' + path_tsv + '\t' + Exception +'\n')
+            log.write('failed ' + path_tsv + '\t' + str(Exception) +'\n')
         print(Exception)
 
 
