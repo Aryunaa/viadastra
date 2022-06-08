@@ -57,6 +57,8 @@ lis=[k.split('.')[0] for k in bedlist]
 
 metadata = pd.read_csv(metapath, sep = '\t')
 
+with open('scorefiles/logs', "w") as log:
+    log.write('start' + '\n')
 
 for i in bedlist:
     j = i.split('.')[0]
