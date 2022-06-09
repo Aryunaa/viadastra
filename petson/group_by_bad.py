@@ -42,17 +42,27 @@ def group_by_bad(path_tsv, path_badmap, out_path):
                         index=False, sep='\t')
 
     df_list = []
-    for i in range(6):
-        temp_bad = annotated_vcf[annotated_vcf.BAD == (i + 1)]
-        temp_bad = temp_bad.drop(['BAD'],axis=1)
+
+    grp_bad = (annotated_vcf.groupby(['BAD']).size().reset_index(name='counts'))
+    for j in range(grp_bad.shape[0]): #for i in range(6):
+        i = round(grp_bad.iloc[j, 0], 2)
+        k = grp_bad.iloc[j, 0]
+        print(i)
+        temp_bad = annotated_vcf[annotated_vcf.BAD == k ]
+        temp_bad = temp_bad.drop(['BAD'], axis=1)
         df_list.append(temp_bad)
-        if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) +'.00')) == False):
-            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + str(i + 1)+'.00'))
-        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) +'.00'+ '/table.tsv'), header=True,
+        if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + str(i))) == False):
+            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + str(i)))
+        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i) + '/table.tsv'),
+                        header=True,
                         index=False, sep='\t')
-        temp_grp_bad = (temp_bad.groupby(['ref','alt']).size().reset_index(name='counts'))
-        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i + 1) +'.00'+ '/stats.tsv'), header=False,
-                        index=False, sep='\t')
+        temp_grp_bad = (temp_bad.groupby(['ref', 'alt']).size().reset_index(name='counts'))
+        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i) + '/stats.tsv'),
+                            header=False,
+                            index=False, sep='\t')
+
+
+
 
 def negbinfit(out_path,badn,badt, threshold):
     #badt = '_BAD1.tsv'
