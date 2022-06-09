@@ -30,7 +30,7 @@ def group_by_bad(path_tsv, path_badmap, out_path):
     annotations = BedTool(bed_list)
     i = test.intersect(annotations, wb=True)
     df = i.to_dataframe()
-    df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'ref', 'alt','chr','start','end']
+    df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'ref', 'alt','#chr','start','end']
     df = pd.merge(df, bed_data_old[['#chr', 'start', 'end', 'BAD']], how='left', on=['#chr','start', 'end'])
     #annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
     #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
