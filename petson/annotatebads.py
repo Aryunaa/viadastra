@@ -24,8 +24,8 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         test = BedTool(vcf_list)
 
         #bed_data = pd.read_csv(os.path.join(processed_data,'pulled_atacseq_tobabachi.bed'),sep='\t')
-        bed_data = pd.read_csv(os.path.join(processed_data, path_badmap), sep='\t')
-        bed_data = bed_data[['#chr','start','end','BAD']]
+        bed_data_old = pd.read_csv(os.path.join(processed_data, path_badmap), sep='\t')
+        bed_data = bed_data_old[['#chr','start','end']]
         bed_data = bed_data[bed_data.end>=bed_data.start]
         bed_list = bed_data.values.tolist()
 
@@ -33,7 +33,8 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         i = test.intersect(annotations, wb=True)
         df = i.to_dataframe()
         #print(df.iloc[0,:])
-        df.columns = ['#CHROM', 'POS','POS2','ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS','chr','start','end','BAD']
+        df.columns = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt', '#chr', 'start', 'end']
+        df = pd.merge(df, bed_data_old[['#chr', 'start', 'end', 'BAD']], how='left', on=['#chr', 'start', 'end'])
 
         #annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
         #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
