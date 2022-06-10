@@ -63,8 +63,51 @@ process = subprocess.run(['bedtools', 'sort','-i',
 print('atacseq sorted')
 print(pulled_atac_rs.shape[0])
 
+#______________________
+pull_oht = metadata[ (metadata['Treatment']=='OHT') & (metadata['BADgroup']=='atacseq')]
+pull_nooht = metadata[ (metadata['Treatment']!='OHT') & (metadata['BADgroup']=='atacseq')]
+
+intersect_oht = list(pull_oht['ID'])
+paths_rs_oht = []
+for my_id in intersect_oht:
+    if(os.path.exists(os.path.join(processed_data, my_id+'.snps.bed'))):
+        paths_rs_oht.append(os.path.join(processed_data, my_id+'.snps.bed'))
+print(paths_rs_oht)
+pulled_atac_rs_oht = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs_oht])
+pulled_atac_rs_oht.to_csv(os.path.join(tmp_path,'ppulled_atacseq_oht.tsv'),mode='w', header=False,index=False,sep='\t')
+print('atacseqoht pulled')
+process = subprocess.run(['bedtools', 'sort','-i',
+                            os.path.join(tmp_path,'ppulled_atacseq_oht.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq_oht.tsv')],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE,
+                           universal_newlines=True
+                           )
+print('atacseqoht sorted')
+print(pulled_atac_rs_oht.shape[0])
 
 
+intersect_nooht = list(pull_nooht['ID'])
+paths_rs_nooht = []
+for my_id in intersect_nooht:
+    if(os.path.exists(os.path.join(processed_data, my_id+'.snps.bed'))):
+        paths_rs_nooht.append(os.path.join(processed_data, my_id+'.snps.bed'))
+print(paths_rs_nooht)
+pulled_atac_rs_nooht = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs_nooht])
+pulled_atac_rs_nooht.to_csv(os.path.join(tmp_path,'ppulled_atacseq_nooht.tsv'),mode='w', header=False,index=False,sep='\t')
+print('atacseqnooht pulled')
+process = subprocess.run(['bedtools', 'sort','-i',
+                            os.path.join(tmp_path,'ppulled_atacseq_nooht.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq_nooht.tsv')],
+                           universal_newlines=True
+                           )
+print('atacseqnooht sorted')
+print(pulled_atac_rs_oht.shape[0])
+
+
+
+
+#________________________________________
+
+'''
 
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
                               '-O', tmp_path])
@@ -79,6 +122,6 @@ process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_
 process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
                               '-b', os.path.join(tmp_path, 'pulled_atacseq.badmap.bed')
                               ])
-
+'''
 
 print('done')
