@@ -35,8 +35,8 @@ pulled_chips_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in 
 pulled_chips_rs.to_csv(os.path.join(tmp_path,'ppulled_chipseq.tsv'),mode='w', header=False,index=False,sep='\t')
 print('chipseq pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'ppulled_chipseq.tsv'),'>',os.path.join(tmp_path,'pulled_chipseq.tsv')],
-                           stdout=subprocess.PIPE,
+                            os.path.join(tmp_path,'ppulled_chipseq.tsv')],
+                           stdout=open(os.path.join(tmp_path,'pulled_chipseq.tsv'), "w"),
                            stderr=subprocess.PIPE,
                            universal_newlines=True
                            )
