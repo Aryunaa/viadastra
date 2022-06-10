@@ -55,8 +55,8 @@ pulled_atac_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in p
 pulled_atac_rs.to_csv(os.path.join(tmp_path,'ppulled_atacseq.tsv'),mode='w', header=False,index=False,sep='\t')
 print('atacseq pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'ppulled_atacseq.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq.tsv')],
-                           stdout=subprocess.PIPE,
+                            os.path.join(tmp_path,'ppulled_atacseq.tsv')],
+                           stdout=open(os.path.join(tmp_path,'pulled_atacseq.tsv'), "w"),
                            stderr=subprocess.PIPE,
                            universal_newlines=True
                            )
@@ -77,8 +77,8 @@ pulled_atac_rs_oht = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f 
 pulled_atac_rs_oht.to_csv(os.path.join(tmp_path,'ppulled_atacseq_oht.tsv'),mode='w', header=False,index=False,sep='\t')
 print('atacseqoht pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'ppulled_atacseq_oht.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq_oht.tsv')],
-                           stdout=subprocess.PIPE,
+                            os.path.join(tmp_path,'ppulled_atacseq_oht.tsv')],
+                           stdout=open(os.path.join(tmp_path,'pulled_atacseq_oht.tsv'), "w"),
                            stderr=subprocess.PIPE,
                            universal_newlines=True
                            )
@@ -96,8 +96,10 @@ pulled_atac_rs_nooht = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for 
 pulled_atac_rs_nooht.to_csv(os.path.join(tmp_path,'ppulled_atacseq_nooht.tsv'),mode='w', header=False,index=False,sep='\t')
 print('atacseqnooht pulled')
 process = subprocess.run(['bedtools', 'sort','-i',
-                            os.path.join(tmp_path,'ppulled_atacseq_nooht.tsv'),'>',os.path.join(tmp_path,'pulled_atacseq_nooht.tsv')],
-                           universal_newlines=True
+                            os.path.join(tmp_path,'ppulled_atacseq_nooht.tsv')],
+                        stdout= open(os.path.join(tmp_path,'pulled_atacseq_nooht.tsv'), "w"),
+                        stderr = subprocess.PIPE,
+                        universal_newlines=True
                            )
 print('atacseqnooht sorted')
 print(pulled_atac_rs_oht.shape[0])
@@ -107,8 +109,8 @@ print(pulled_atac_rs_oht.shape[0])
 
 #________________________________________
 
-'''
 
+'''
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
                               '-O', tmp_path])
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
@@ -122,6 +124,6 @@ process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_
 process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
                               '-b', os.path.join(tmp_path, 'pulled_atacseq.badmap.bed')
                               ])
+#babachi pulled_chipseq.tsv -j 4 -s 1,4/3,1.5,2,2.5,3,4,5,6 -p geometric -g 0.99 --visualize -e png -v 1>log1chip 2>log2chip
 '''
-
 print('done')
