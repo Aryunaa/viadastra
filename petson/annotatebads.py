@@ -68,6 +68,9 @@ for i in bedlist:
     a = row.values.tolist()
     print(a[0][8])
     if(a[0][8]=='yes'):
+        print(row)
+        print(i)
+        print(j)
         if (a[0][4]=='ChIPseq'):
             annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_yes'+ j)
         elif (a[0][4] == 'ATACseq'):
