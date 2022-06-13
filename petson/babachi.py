@@ -4,8 +4,8 @@ import pandas as pd
 
 print('start process')
 
-#metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
-metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
+metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
+#metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
 #processing_list_path = '/home/ariuna/rafaello/viadastra/additional/processing_list'
 processed_data = '/home/ariuna/rafaello/bedfiles'
 
@@ -15,20 +15,25 @@ if (os.path.exists(tmp_path)):
 else:
     os.mkdir(tmp_path)
 metadata = pd.read_csv(metadata_path,sep='\t')
-#metadata = metadata[metadata['ChipTFrepair']=='yes']
+metadata_yes = metadata[metadata['ChipTFrepair']=='yes']
 
 
 
 
 
 pull_chip = metadata[metadata['BADgroup']=='chipseq']
+pull_chip_yes = metadata_yes[metadata_yes['BADgroup']=='chipseq']
 
 intersect = list(pull_chip['ID'])
+intersect_yes = list(pull_chip_yes['ID'])
 paths_rs = []
+paths_rs_yes = []
 for my_id in intersect:
     if(os.path.exists(os.path.join(processed_data, my_id+'.snps.bed'))):
         paths_rs.append(os.path.join(processed_data, my_id+'.snps.bed'))
-
+for my_id in intersect_yes:
+    if(os.path.exists(os.path.join(processed_data, my_id+'.snps.bed'))):
+        paths_rs_yes.append(os.path.join(processed_data, my_id+'.snps.bed'))
 print(paths_rs)
 
 #читаем чипсеки, смотрим распределение
@@ -62,6 +67,20 @@ process = subprocess.run(['bedtools', 'sort','-i',
                            )
 print('chipseq sorted')
 print(pulled_chips_rs.shape[0])
+
+pulled_chips_rs_yes = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs_yes])
+pulled_chips_rs_yes.to_csv(os.path.join(tmp_path,'ppulled_chipseq_yes.tsv'),mode='w', header=False,index=False,sep='\t')
+print('chipseqyes pulled')
+process = subprocess.run(['bedtools', 'sort','-i',
+                            os.path.join(tmp_path,'ppulled_chipseq_yes.tsv')],
+                           stdout=open(os.path.join(tmp_path,'pulled_chipseq_yes.tsv'), "w"),
+                           stderr=subprocess.PIPE,
+                           universal_newlines=True
+                           )
+print('chipseqyes sorted')
+print(pulled_chips_rs_yes.shape[0])
+
+
 #_______________________________________________________________________________
 pull_atac = metadata[metadata['BADgroup']=='atacseq']
 
@@ -128,12 +147,12 @@ print(pulled_atac_rs_oht.shape[0])
 
 
 #________________________________________
-
+'''
 
 #babachi pulled_chipseq.tsv -j 8 --visualize -e png -v 1>nop/log1chip 2>nop/log2chip
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),'-j','8','--visualize','-e','png','-O',tmp_path])
 process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),'-j','8','--visualize','-e','png','-O',tmp_path])
-'''
+
 #babachi visualize pulled_chipseq.tsv -b pulled_chipseq.badmap.bed
 process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
                               '-b', os.path.join(tmp_path, 'pulled_chipseq.badmap.bed')
