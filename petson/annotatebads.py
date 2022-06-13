@@ -58,7 +58,7 @@ lis=[k.split('.')[0] for k in bedlist]
 
 
 metadata = pd.read_csv(metapath, sep = '\t')
-metadata['ChipTFrepair'] = df['ChipTFrepair'].replace(np.nan, 0)
+metadata['ChipTFrepair'] = metadata['ChipTFrepair'].replace(np.nan, 0)
 with open(os.path.join(bedfiles,'scorefiles/logs'), "w") as log:
     log.write('start' + '\n')
 
