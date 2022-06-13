@@ -65,7 +65,7 @@ for i in bedlist:
     j = i.split('.')[0]
     row = metadata[metadata.ID == j]
     a = row.values.tolist()
-
+    print(a[0][8])
     if(a[0][8]=='yes'):
         if (a[0][4]=='ChIPseq'):
             annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_yes'+ j)
