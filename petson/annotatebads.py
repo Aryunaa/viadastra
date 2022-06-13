@@ -33,7 +33,7 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
     i = test.intersect(annotations, wb=True)
     df = i.to_dataframe()
     # print(df.iloc[0,:])
-    df.columns = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt', '#chr', 'start', 'end']
+    df.columns = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', '#chr', 'start', 'end']
     df = pd.merge(df, bed_data_old[['#chr', 'start', 'end', 'BAD']], how='left', on=['#chr', 'start', 'end'])
     print(df.shape[0])
     # annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
