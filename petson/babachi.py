@@ -33,11 +33,14 @@ print(paths_rs)
 #читаем чипсеки, смотрим распределение
 #chip_list = []
 header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
-with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
+#with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
     #log.write('start' + '\n')
-    for i in paths_rs:
-        tempdf = pd.read_csv(i, sep= '\t', names=header_list )
-        log.write(i + '\t' + str(tempdf.shape[0]) + '\t' + '\n')
+for my_id in intersect:
+    if (os.path.exists(os.path.join(processed_data, my_id + '.snps.bed'))):
+        tempdf = pd.read_csv(os.path.join(processed_data, my_id + '.snps.bed'), sep= '\t', names=header_list )
+        metadata['bedshape'] = str(tempdf.shape[0])
+
+metadata.to_csv(os.path.join(tmp_path,'chipseqshapes.tsv'),index=False,sep='\t')
 
 
 
