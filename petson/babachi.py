@@ -32,15 +32,15 @@ print(paths_rs)
 
 #читаем чипсеки, смотрим распределение
 #chip_list = []
-
+header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
 with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
     #log.write('start' + '\n')
     for i in paths_rs:
-        tempdf = pd.read_csv(i, sep= '\t')
+        tempdf = pd.read_csv(i, sep= '\t', names=header_list )
         log.write(i + '\t' + str(tempdf.shape[0]) + '\t')
 
 
-header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
+
 pulled_chips_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs])
 pulled_chips_rs.to_csv(os.path.join(tmp_path,'ppulled_chipseq.tsv'),mode='w', header=False,index=False,sep='\t')
 print('chipseq pulled')
