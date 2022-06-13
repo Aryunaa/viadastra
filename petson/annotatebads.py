@@ -41,6 +41,7 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         #annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
         df['POS2'] = df['POS']+1
         annotated_vcf = df[['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
+        print('shape= '+annotated_vcf.shape[0])
         annotated_vcf.to_csv(os.path.join(bedfiles, out_path+ '_annotated.tsv'),header=True,
                             index=False, sep='\t')
     except Exception:
