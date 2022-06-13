@@ -4,7 +4,8 @@ import pandas as pd
 
 print('start process')
 
-metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
+#metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
+metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
 #processing_list_path = '/home/ariuna/rafaello/viadastra/additional/processing_list'
 processed_data = '/home/ariuna/rafaello/bedfiles'
 
@@ -14,7 +15,7 @@ if (os.path.exists(tmp_path)):
 else:
     os.mkdir(tmp_path)
 metadata = pd.read_csv(metadata_path,sep='\t')
-metadata = metadata[metadata['ChipTFrepair']=='yes']
+#metadata = metadata[metadata['ChipTFrepair']=='yes']
 
 
 
@@ -33,15 +34,20 @@ print(paths_rs)
 #читаем чипсеки, смотрим распределение
 #chip_list = []
 header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
-#with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
-    #log.write('start' + '\n')
+with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
+    for my_id in intersect:
+        if (os.path.exists(os.path.join(processed_data, my_id + '.snps.bed'))):
+            tempdf = pd.read_csv(os.path.join(processed_data, my_id + '.snps.bed'), sep='\t', names=header_list)
+            log.write(my_id +'\t'+ str(tempdf.shape[0]) +'\n')
+'''
 for my_id in intersect:
     if (os.path.exists(os.path.join(processed_data, my_id + '.snps.bed'))):
         tempdf = pd.read_csv(os.path.join(processed_data, my_id + '.snps.bed'), sep= '\t', names=header_list )
         metadata['bedshape'] = str(tempdf.shape[0])
+        metadata.iloc
+'''
 
-
-metadata.to_csv(os.path.join(tmp_path,'chipseqshapes.tsv'),index=False,sep='\t')
+#metadata.to_csv(os.path.join(tmp_path,'chipseqshapes.tsv'),index=False,sep='\t')
 
 
 
@@ -124,12 +130,10 @@ print(pulled_atac_rs_oht.shape[0])
 #________________________________________
 
 
+#babachi pulled_chipseq.tsv -j 8 --visualize -e png -v 1>nop/log1chip 2>nop/log2chip
+process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),'-j','8','--visualize','-e','png'])
+process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),'-j','8','--visualize','-e','png'])
 '''
-process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
-                              '-O', tmp_path])
-process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),
-                              '-O', tmp_path])
-
 #babachi visualize pulled_chipseq.tsv -b pulled_chipseq.badmap.bed
 process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
                               '-b', os.path.join(tmp_path, 'pulled_chipseq.badmap.bed')
