@@ -37,7 +37,7 @@ with open(os.path.join(tmp_path,'chipseqshapes'), "w") as log:
     #log.write('start' + '\n')
     for i in paths_rs:
         tempdf = pd.read_csv(i, sep= '\t', names=header_list )
-        log.write(i + '\t' + str(tempdf.shape[0]) + '\t')
+        log.write(i + '\t' + str(tempdf.shape[0]) + '\t' + '\n')
 
 
 
