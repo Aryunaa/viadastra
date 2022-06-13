@@ -100,7 +100,7 @@ group_by_bad('pulled_atacseq.tsv','pulled_atacseq.badmap.bed', 'grouped_bads/ata
 print('atac_end')
 print('chip start')
 group_by_bad('pulled_chipseq.tsv','pulled_chipseq.badmap.bed', 'grouped_bads/chipseq')
-group_by_bad('pulled_chipseq_yes.tsv','pulled_chipseq.badmap.bed', 'grouped_bads/chipseq')
+group_by_bad('pulled_chipseq_yes.tsv','pulled_chipseq.badmap.bed', 'grouped_bads/chipseq_yes')
 print('chip_end')
 
 ######################################################
