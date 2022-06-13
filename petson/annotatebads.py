@@ -66,13 +66,14 @@ for i in bedlist:
     row = metadata[metadata.ID == j]
     a = row.values.tolist()
 
-    if (a[0][4]=='ChIPseq'):
-        annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_'+ j)
-    elif (a[0][4] == 'ATACseq'):
-        annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
-    else:
-        annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_' + j)
-        annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
+    if(a[0][8]=='yes'):
+        if (a[0][4]=='ChIPseq'):
+            annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_yes'+ j)
+        elif (a[0][4] == 'ATACseq'):
+            annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_yes' + j)
+        else:
+            annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_yes' + j)
+            annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_yes' + j)
 
 
 
