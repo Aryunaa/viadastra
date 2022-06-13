@@ -66,8 +66,9 @@ for i in bedlist:
     j = i.split('.')[0]
     row = metadata[metadata.ID == j]
     a = row.values.tolist()
-    print(a[0][8])
+
     if(a[0][8]=='yes'):
+        print(a[0][8])
         print(row)
         print(i)
         print(j)
