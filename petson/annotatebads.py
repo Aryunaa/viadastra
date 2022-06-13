@@ -7,7 +7,7 @@ import subprocess32 as subprocess
 
 processed_data = '/home/ariuna/rafaello/bedfiles/babachi'
 bedfiles = '/home/ariuna/rafaello/bedfiles'
-metapath = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
+metapath = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
 
 ######################################################
 def annotate_by_bad(path_tsv, path_badmap, out_path):
