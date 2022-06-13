@@ -4,7 +4,7 @@ import pandas as pd
 
 print('start process')
 
-metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
+metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
 #processing_list_path = '/home/ariuna/rafaello/viadastra/additional/processing_list'
 processed_data = '/home/ariuna/rafaello/bedfiles'
 
@@ -14,7 +14,7 @@ if (os.path.exists(tmp_path)):
 else:
     os.mkdir(tmp_path)
 metadata = pd.read_csv(metadata_path,sep='\t')
-
+metadata = metadata[metadata['ChipTFrepair']=='yes']
 
 
 
@@ -39,6 +39,7 @@ for my_id in intersect:
     if (os.path.exists(os.path.join(processed_data, my_id + '.snps.bed'))):
         tempdf = pd.read_csv(os.path.join(processed_data, my_id + '.snps.bed'), sep= '\t', names=header_list )
         metadata['bedshape'] = str(tempdf.shape[0])
+
 
 metadata.to_csv(os.path.join(tmp_path,'chipseqshapes.tsv'),index=False,sep='\t')
 
