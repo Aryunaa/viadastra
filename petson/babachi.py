@@ -131,8 +131,8 @@ print(pulled_atac_rs_oht.shape[0])
 
 
 #babachi pulled_chipseq.tsv -j 8 --visualize -e png -v 1>nop/log1chip 2>nop/log2chip
-process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),'-j','8','--visualize','-e','png'])
-process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),'-j','8','--visualize','-e','png'])
+process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_chipseq.tsv'),'-j','8','--visualize','-e','png','-O',tmp_path])
+process = subprocess.run(['babachi', os.path.join(tmp_path, 'pulled_atacseq.tsv'),'-j','8','--visualize','-e','png','-O',tmp_path])
 '''
 #babachi visualize pulled_chipseq.tsv -b pulled_chipseq.badmap.bed
 process = subprocess.run(['babachi','visualize', os.path.join(tmp_path, 'pulled_chipseq.tsv'),
