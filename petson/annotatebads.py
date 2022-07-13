@@ -21,8 +21,8 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         # vcf_data_atac = pd.read_csv(os.path.join(processed_data,'pulled_atacseq_tobabachi.vcf'),sep='\t', names = header_list)
         vcf_data = pd.read_csv(os.path.join(bedfiles, path_tsv), sep='\t',
                                names=header_list)
-        vcf_data['POS2'] = vcf_data['POS']
-        vcf_data = vcf_data[['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt']]
+
+        #vcf_data = vcf_data[['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt']]
         vcf_list = vcf_data.values.tolist()
         test = BedTool(vcf_list)
         print(vcf_data.shape[0])
@@ -41,7 +41,7 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         print(df.shape[0])
         # annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
         # annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
-        df['POS2'] = df['POS'] + 1
+        #df['POS2'] = df['POS'] + 1
         annotated_vcf = df[['#CHROM', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
         print('shape= ' + str(annotated_vcf.shape[0]))
         annotated_vcf.to_csv(os.path.join(bedfiles, out_path + '_annotated.tsv'), header=True,
@@ -70,6 +70,18 @@ for i in bedlist:
     row = metadata[metadata.ID == j]
     a = row.values.tolist()
 
+    print(row)
+    print(i)
+    print(j)
+    if (a[0][4] == 'ChIPseq'):
+        annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_' + j)
+    elif (a[0][4] == 'ATACseq'):
+        annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
+    else:
+        annotate_by_bad(i, 'pulled_chipseq.badmap.bed', 'scorefiles/chipmap_' + j)
+        annotate_by_bad(i, 'pulled_atacseq.badmap.bed', 'scorefiles/atacmap_' + j)
+
+    #by condition
     if(a[0][8]=='yes'):
         print(a[0][8])
         print(row)
