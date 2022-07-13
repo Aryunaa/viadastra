@@ -17,7 +17,7 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
 
 
     try:
-        header_list = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt']
+        header_list = ['#CHROM', 'POS1', 'POS2', 'ID', 'REF', 'ALT', 'ref', 'alt']
         # vcf_data_atac = pd.read_csv(os.path.join(processed_data,'pulled_atacseq_tobabachi.vcf'),sep='\t', names = header_list)
         vcf_data = pd.read_csv(os.path.join(bedfiles, path_tsv), sep='\t',
                                names=header_list)
@@ -36,13 +36,14 @@ def annotate_by_bad(path_tsv, path_badmap, out_path):
         i = test.intersect(annotations, wb=True)
         df = i.to_dataframe()
         # print(df.iloc[0,:])
-        df.columns = ['#CHROM', 'POS', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', '#chr', 'start', 'end']
+        df.columns = ['#CHROM', 'POS1', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', '#chr', 'start', 'end']
         df = pd.merge(df, bed_data_old[['#chr', 'start', 'end', 'BAD']], how='left', on=['#chr', 'start', 'end'])
         print(df.shape[0])
         # annotated_vcf = annotated_vcf[(annotated_vcf.ref >= threshold) & (annotated_vcf.alt >=threshold)]
         # annotated_vcf = annotated_vcf[((annotated_vcf.ref + annotated_vcf.alt) >= threshold)]
         #df['POS2'] = df['POS'] + 1
-        annotated_vcf = df[['#CHROM', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
+        df['POS']=df['POS2']
+        annotated_vcf = df[['#CHROM','POS', 'ID', 'REF', 'ALT', 'REF_COUNTS', 'ALT_COUNTS', 'BAD']]
         print('shape= ' + str(annotated_vcf.shape[0]))
         annotated_vcf.to_csv(os.path.join(bedfiles, out_path + '_annotated.tsv'), header=True,
                              index=False, sep='\t')
