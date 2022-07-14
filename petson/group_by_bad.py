@@ -49,14 +49,14 @@ def group_by_bad(path_tsv, path_badmap, out_path):
         temp_bad = annotated_vcf[annotated_vcf.BAD == k ]
         temp_bad = temp_bad.drop(['BAD'], axis=1)
         df_list.append(temp_bad)
-        floati = "{:.2f}".format(float(i))
-        if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + floati)) == False):
-            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + floati))
-        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i) + '/table.tsv'),
+        stri = "{:.2f}".format(float(i))
+        if (os.path.exists(os.path.join(processed_data, out_path + '/BAD' + stri)) == False):
+            os.mkdir(os.path.join(processed_data, out_path + '/BAD' + stri))
+        temp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + stri + '/table.tsv'),
                         header=True,
                         index=False, sep='\t')
         temp_grp_bad = (temp_bad.groupby(['ref', 'alt']).size().reset_index(name='counts'))
-        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + str(i) + '/stats.tsv'),
+        temp_grp_bad.to_csv(os.path.join(processed_data, out_path + '/BAD' + stri + '/stats.tsv'),
                             header=False,
                             index=False, sep='\t')
 
