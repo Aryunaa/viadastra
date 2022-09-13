@@ -161,8 +161,7 @@ for my_id in processing_list:
     print(a_series)
 
     # get alt ref table
-    rs_filtered_t
-    able = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.tsv'), sep='\t')
+    rs_filtered_table = pd.read_csv(os.path.join(processed_data, my_id + '/' + my_id + '_bad_rs_nucli_getero_filtrated.tsv'), sep='\t')
     #rs_filtered_table.columns = header_list
     ref_alt = rs_filtered_table[['REF_COUNTS','ALT_COUNTS']]
     ref_alt.columns = ['ref','alt']

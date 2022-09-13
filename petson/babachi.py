@@ -41,7 +41,7 @@ print(paths_rs)
 
 #читаем чипсеки, смотрим распределение
 #chip_list = []
-header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT']
+header_list = ['#CHROM', 'POS1','POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT','COV']
 with open(os.path.join(tmp_path,'bedshapes'), "w") as log:
     for my_id in list(metadata['ID']):
         if (os.path.exists(os.path.join(processed_data, my_id + '.snps.bed'))):
