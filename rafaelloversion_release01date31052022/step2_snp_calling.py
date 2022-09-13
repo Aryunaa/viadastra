@@ -377,6 +377,12 @@ def process_bam(my_id):
                                        universal_newlines=True)
             stderr, stdout = process.communicate()
             loggi(tmp_log, tmp_err, stdout, stderr, 'a')
+            '''
+            можно добавить этот параметр
+            --base-quality-score-threshold / NA
+            Base qualities below this threshold will be reduced to the minimum (6)
+            '''
+
             print('done')
             rc = process.returncode
             if (rc == 0):

@@ -7,9 +7,12 @@ print('start process')
 metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_yes_no.tsv'
 #metadata_path = '/home/ariuna/rafaello/viadastra/additional/metadata_v5.tsv'
 #processing_list_path = '/home/ariuna/rafaello/viadastra/additional/processing_list'
-processed_data = '/home/ariuna/rafaello/bedfiles'
+#processed_data = '/home/ariuna/rafaello/bedfiles'
+test_rssnps = '/home/ariuna/rafaello/testbabachi/rssnps'
+processed_data = test_rssnps
+testdir = '/home/ariuna/rafaello/testbabachi'
 
-tmp_path = os.path.join(processed_data,'babachi')
+tmp_path = os.path.join(testdir,'babachi')
 if (os.path.exists(tmp_path)):
     pass
 else:
