@@ -80,7 +80,6 @@ for dir in dirs:
             print("Directory '%s' can not be created")
 
 
-'''
 source = os.path.join(maindir,config["Directories"]["bam"])
 print(source)
 dest = os.path.join(maindir,config["Directories"]["data_in"])
@@ -161,4 +160,3 @@ print('symlinks created')
 
 
 
-'''
