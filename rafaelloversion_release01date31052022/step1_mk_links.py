@@ -68,9 +68,10 @@ config.read(path)
 dirs = config["Directories"]
 for dir in dirs:
     print(dir)
-    if(os.path.exists==False):
+    dirp = config["Directories"][dir]
+    if(os.path.exists(dirp)==False):
         try:
-            os.makedirs(dir, exist_ok=True)
+            os.makedirs(dirp, exist_ok=True)
             print("Directory '%s' created successfully" % directory)
         except OSError as error:
             print("Directory '%s' can not be created")
