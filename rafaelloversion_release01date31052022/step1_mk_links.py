@@ -67,6 +67,7 @@ config = configparser.ConfigParser()
 config.read(path)
 dirs = config["Directories"]
 for dir in dirs:
+    print(dir)
     if(os.path.exists==False):
         try:
             os.makedirs(dir, exist_ok=True)
