@@ -72,7 +72,7 @@ for dir in dirs:
     if(os.path.exists(dirp)==False):
         try:
             os.makedirs(dirp, exist_ok=True)
-            print("Directory '%s' created successfully" % directory)
+            print("Directory '%s' created successfully" % dirp)
         except OSError as error:
             print("Directory '%s' can not be created")
 
