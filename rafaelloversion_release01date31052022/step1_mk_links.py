@@ -66,19 +66,21 @@ create directories from config file
 config = configparser.ConfigParser()
 config.read(path)
 dirs = config["Directories"]
+maindir = config["Directories"]["maindir"]
+print(maindir)
 for dir in dirs:
     print(dir)
-    dirp = config["Directories"][dir]
-    if(os.path.exists(dirp)==False):
+    dirp = os.path.join(maindir, config["Directories"][dir])
+
+    if (os.path.exists(dirp) == False):
         try:
             os.makedirs(dirp, exist_ok=False)
             print("Directory '%s' created successfully" % dirp)
         except OSError as error:
             print("Directory '%s' can not be created")
 
+
 '''
-maindir = config["Directories"]["maindir"]
-print(maindir)
 source = os.path.join(maindir,config["Directories"]["bam"])
 print(source)
 dest = os.path.join(maindir,config["Directories"]["data_in"])
