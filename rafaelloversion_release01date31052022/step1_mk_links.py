@@ -58,8 +58,23 @@ def inters(samfile):
 # reading config -----------------------------
 path = sys.argv[1]
 #path = 'CONFIG.cfg'
+'''
+create directories from config file
+'''
+
+
 config = configparser.ConfigParser()
 config.read(path)
+dirs = config["Directories"]
+for dir in dirs:
+    if(os.path.exists==False):
+        try:
+            os.makedirs(dir, exist_ok=True)
+            print("Directory '%s' created successfully" % directory)
+        except OSError as error:
+            print("Directory '%s' can not be created")
+
+
 maindir = config["Directories"]["maindir"]
 print(maindir)
 source = os.path.join(maindir,config["Directories"]["bam"])
