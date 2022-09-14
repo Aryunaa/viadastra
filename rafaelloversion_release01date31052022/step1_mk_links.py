@@ -76,7 +76,7 @@ for dir in dirs:
         except OSError as error:
             print("Directory '%s' can not be created")
 
-
+'''
 maindir = config["Directories"]["maindir"]
 print(maindir)
 source = os.path.join(maindir,config["Directories"]["bam"])
@@ -159,3 +159,4 @@ print('symlinks created')
 
 
 
+'''
