@@ -30,7 +30,7 @@ metadata['filtrated_snps']=0
 metadata['rssnps']=0
 for i in range(metadata.shape[0]):
 
-    strf = os.path.join(vcf_calls,i+'.vcf')
+    strf = os.path.join(vcf_calls,str(i)+'.vcf')
     file_rs = open(strf, "r")
     line_rs = file_rs.readline()
     n = 0
