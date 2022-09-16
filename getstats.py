@@ -28,9 +28,10 @@ statfile = os.path.join(tmp_path, 'stats.tsv')
 metadata['starting_snps']=0
 metadata['filtrated_snps']=0
 metadata['rssnps']=0
-for i in range(metadata.shape[0]):
+myids=list(metadata['ID'])
+for i in myids:
 
-    strf = os.path.join(vcf_calls,str(i)+'.vcf')
+    strf = os.path.join(vcf_calls,i+'.vcf')
     file_rs = open(strf, "r")
     line_rs = file_rs.readline()
     n = 0
