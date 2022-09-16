@@ -47,11 +47,10 @@ for i in myids:
     strfb = os.path.join(vcf_filtered, i + '.snps.bed')
     bedf = pd.read_csv(strfb,sep='\t')
 
-    try:
+    if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
-        bedrs = pd.read_csv(rss,sep='\t')
-    except OSError as error:
-        print(error)
+        bedrs = pd.read_csv(rss,sep='\t' )
+
 
     a = list(metadata.index[metadata['ID'] == i])
     loc = a[0]
