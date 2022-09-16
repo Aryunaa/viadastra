@@ -50,9 +50,12 @@ for i in myids:
     rss = os.path.join(rssnps, i + '.snps.bed')
     bedrs = pd.read_csv(rss,sep='\t')
 
-    metadata.iloc[i, 6] = vcf.shape[0]
-    metadata.iloc[i, 7] = bedf.shape[0]
-    metadata.iloc[i, 8] = bedrs.shape[0]
+    a = list(metadata.index[metadata['ID'] == i])
+    loc = a[0]
+
+    metadata.iloc[loc, 6] = vcf.shape[0]
+    metadata.iloc[loc, 7] = bedf.shape[0]
+    metadata.iloc[loc, 8] = bedrs.shape[0]
 
 metadata.to_csv(statfile, index=False, sep ='\t')
 
