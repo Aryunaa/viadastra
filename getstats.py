@@ -53,14 +53,17 @@ for i in myids:
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
         bedrs = pd.read_csv(rss,sep='\t' )
+        a = list(metadata.index[metadata['ID'] == i])
+        loc = a[0]
+        metadata.iloc[loc, 6] = vcf.shape[0]
+        metadata.iloc[loc, 7] = bedf.shape[0]
+        metadata.iloc[loc, 8] = bedrs.shape[0]
+    else:
+        a = list(metadata.index[metadata['ID'] == i])
+        loc = a[0]
 
-
-    a = list(metadata.index[metadata['ID'] == i])
-    loc = a[0]
-
-    metadata.iloc[loc, 6] = vcf.shape[0]
-    metadata.iloc[loc, 7] = bedf.shape[0]
-    metadata.iloc[loc, 8] = bedrs.shape[0]
+        metadata.iloc[loc, 6] = vcf.shape[0]
+        metadata.iloc[loc, 7] = bedf.shape[0]
 
 #############get bam size#####iloc[i,9]
 source = os.path.join(maindir,config["Directories"]["bam"])
