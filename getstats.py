@@ -28,7 +28,10 @@ statfile = os.path.join(tmp_path, 'stats.tsv')
 metadata['starting_snps']=0
 metadata['filtrated_snps']=0
 metadata['rssnps']=0
+metadata['bamsize MB']=0
 myids=list(metadata['ID'])
+
+#get shapes of dataframes
 for i in myids:
 
     strf = os.path.join(vcf_calls,i+'.vcf')
@@ -58,6 +61,18 @@ for i in myids:
     metadata.iloc[loc, 6] = vcf.shape[0]
     metadata.iloc[loc, 7] = bedf.shape[0]
     metadata.iloc[loc, 8] = bedrs.shape[0]
+
+#############get bam size#####iloc[i,9]
+source = os.path.join(maindir,config["Directories"]["bam"])
+bamsize = []
+for i in range(metadata.shape[0]):
+    print(source)
+    print(metadata.iloc[i,0])
+    pathfile = os.path.join(source,metadata.iloc[i,0])
+    metadata.iloc[i,9]= round(os.path.getsize(pathfile)/(1024*1024), 2)
+
+
+
 
 metadata.to_csv(statfile, index=False, sep ='\t')
 
