@@ -55,7 +55,7 @@ for i in lst:
 
     pulledtmps_rs = pd.concat([pd.read_csv(f,sep='\t',names=header_list) for f in paths_rs])
     pulledtmps_rs.to_csv(os.path.join(tmp_path,'ppulled'+i+'.tsv'),mode='w', header=False,index=False,sep='\t')
-    print('chipseq pulled')
+    print(i+ ' pulled')
     process = subprocess.run(['bedtools', 'sort','-i',
                                 os.path.join(tmp_path,'ppulled'+i+'.tsv')],
                                stdout=open(os.path.join(tmp_path,'pulled'+i+'.tsv'), "w"),
