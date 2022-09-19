@@ -68,10 +68,10 @@ process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE,
                                     universal_newlines=True)
-    stderr, stdout = process.communicate()
-    with open(all_log, "a") as log:
-        log.write(stdout)
-    with open(all_log, "a") as err:
-        err.write(stderr)
-    with open(all_log, "a") as log:
-        log.write("script has been performed successfully")
+stderr, stdout = process.communicate()
+with open(all_log, "a") as log:
+    log.write(stdout)
+with open(all_log, "a") as err:
+    err.write(stderr)
+with open(all_log, "a") as log:
+    log.write("script has been performed successfully")
