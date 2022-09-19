@@ -31,8 +31,8 @@ myids=list(metadata['ID'])
 #get shapes of dataframes
 for i in myids:
 
-    strf = os.path.join(vcf_calls,i+'.vcf')
-    file_rs = open(strf, "r")
+    startvcf = os.path.join(vcf_calls,i+'.vcf')
+    file_rs = open(startvcf, "r")
     line_rs = file_rs.readline()
     n = 0
     while line_rs.startswith("##"):
@@ -40,7 +40,7 @@ for i in myids:
         line_rs = file_rs.readline()
     file_rs.close()
 
-    vcf = pd.read_csv(strf,
+    vcf = pd.read_csv(startvcf,
                       sep='\t', skiprows=n)
 
 
@@ -50,7 +50,7 @@ for i in myids:
     bedf = pd.read_csv(strfb,sep='\t', names=header_list)
     bedf['sample_id']=i
     print(i)
-    bedf.to_csv(strf, sep ='\t',index=False)
+    bedf.to_csv(strfb, sep ='\t',index=False)
 
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
