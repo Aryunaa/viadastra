@@ -21,7 +21,7 @@ second='whole_log'
 #########################
 curl -s -X POST https://api.telegram.org/bot$botToken/sendMessage -d chat_id=$chat_Id -d text="$texti"
 #curl -s -X POST https://api.telegram.org/bot$botToken/sendMessage -d chat_id=$chat_IdBelok -d text="$texti"
-echo sending $curdir/$first
-curl -F chat_id=$chat_Id -F document=$curdir/$first https://api.telegram.org/bot$botToken/sendDocument
-echo sending $curdir/$second
-curl -F chat_id=$chat_Id -F document=@$curdir/$second https://api.telegram.org/bot$botToken/sendDocument
+#echo sending $curdir/$first
+#curl -F chat_id=$chat_Id -F document=$curdir/$first https://api.telegram.org/bot$botToken/sendDocument
+#echo sending $curdir/$second
+#curl -F chat_id=$chat_Id -F document=@$curdir/$second https://api.telegram.org/bot$botToken/sendDocument
