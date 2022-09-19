@@ -49,6 +49,7 @@ for i in myids:
 
     bedf = pd.read_csv(strfb,sep='\t', names=header_list)
     bedf['sample_id']=i
+    print(i)
     bedf.to_csv(strf, sep ='\t',index=False)
 
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
