@@ -48,11 +48,13 @@ for i in myids:
 
     bedf = pd.read_csv(strfb,sep='\t')
     bedf['sample_id']==i
+    bedf.to_csv(strf, sep ='\t',index=False)
     header_list = ['#chr','start','end','ID','ref','alt','ref_counts','alt_counts','sample_id']
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
         bedrs = pd.read_csv(rss,sep='\t', names=header_list)
         bedrs['sample_id']==i
+        bedrs.to_csv(rss, sep='\t', index=False)
         a = list(metadata.index[metadata['ID'] == i])
         loc = a[0]
         metadata.iloc[loc, 6] = vcf.shape[0]
