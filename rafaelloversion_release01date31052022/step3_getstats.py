@@ -44,12 +44,13 @@ for i in myids:
                       sep='\t', skiprows=n)
 
 
+    header_list = ['#chr', 'start', 'end', 'ID', 'ref', 'alt', 'ref_counts', 'alt_counts', 'sample_id']
     strfb = os.path.join(vcf_filtered, i + '.snps.bed')
 
-    bedf = pd.read_csv(strfb,sep='\t')
+    bedf = pd.read_csv(strfb,sep='\t', names=header_list)
     bedf['sample_id']==i
     bedf.to_csv(strf, sep ='\t',index=False)
-    header_list = ['#chr','start','end','ID','ref','alt','ref_counts','alt_counts','sample_id']
+
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
         bedrs = pd.read_csv(rss,sep='\t', names=header_list)
