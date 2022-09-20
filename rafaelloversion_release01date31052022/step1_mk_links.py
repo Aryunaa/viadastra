@@ -58,10 +58,28 @@ def inters(samfile):
 # reading config -----------------------------
 path = sys.argv[1]
 #path = 'CONFIG.cfg'
+'''
+create directories from config file
+'''
+
+
 config = configparser.ConfigParser()
 config.read(path)
+dirs = config["Directories"]
 maindir = config["Directories"]["maindir"]
 print(maindir)
+for dir in dirs:
+    print(dir)
+    dirp = os.path.join(maindir, config["Directories"][dir])
+
+    if (os.path.exists(dirp) == False):
+        try:
+            os.makedirs(dirp, exist_ok=False)
+            print("Directory '%s' created successfully" % dirp)
+        except OSError as error:
+            print("Directory '%s' can not be created")
+
+
 source = os.path.join(maindir,config["Directories"]["bam"])
 print(source)
 dest = os.path.join(maindir,config["Directories"]["data_in"])
@@ -139,4 +157,6 @@ for bam in id_bam:
     else:
         os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
 print('symlinks created')
+
+
 
