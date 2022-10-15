@@ -6,7 +6,7 @@ import sys
 import configparser
 import pysam
 
-
+#читает заголовки у бамки
 def read_head(BAM):
     samfile = pysam.view("-H", BAM)
 
