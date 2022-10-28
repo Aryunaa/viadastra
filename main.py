@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description='viadastra pipeline, perfoms snp-ca
 parser.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
 helpm = "Define a processing step please.\n1 creates soft links and directories\n2.1 for reference processing"\
         + "\n2.2.1 snp calling for one file\n2.2 snp calling for all files "
-
+print(helpm)
 parser.add_argument("-s","--step",
         help=helpm
                     , required=True)
