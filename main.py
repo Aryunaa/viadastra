@@ -34,8 +34,8 @@ parser.parse_args(['-h'])
 args = parser.parse_args()
 
 jobs = args.jobs
-path = args.config
 memfree = args.memfree
-step = args.step
+path = requiredNamed.config
+step = requiredNamed.step
 print(step)
 print(path)
