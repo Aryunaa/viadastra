@@ -35,7 +35,7 @@ args = parser.parse_args()
 
 jobs = args.jobs
 memfree = args.memfree
-path = requiredNamed.config
+path = args.config
 step = requiredNamed.step
 print(step)
 print(path)
