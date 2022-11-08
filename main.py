@@ -7,7 +7,7 @@ import subprocess32 as subprocess
 import pathlib
 import argparse
 from argparse import RawTextHelpFormatter
-#from steps.step1_mk_links import *
+from steps.step1_mk_links import *
 
 
 
@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(description='viadastra pipeline, perfoms snp-ca
 parser.add_argument("-j","--jobs", help="Number of jobs", default='4', required=False)
 parser.add_argument("-m","--memfree", help="Memfree parameter for gnu parallel", default='40G', required=False)
 
-requiredNamed = parser.add_argument_group('required named arguments')
+requiredNamed = parser.add_argument_group('required arguments')
 requiredNamed.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
 helpm = "R|Define a processing step please.\n1 creates soft links and directories\n2 for reference processing"\
         + "\n3 snp calling for one file\n4 snp calling for all files "
@@ -39,3 +39,15 @@ path = args.config
 step = args.step
 print(step)
 print(path)
+
+if step=='1':
+    print('starting to create soft links and directories')
+    mklinks(path)
+
+elif (step=='2'):
+    print('reference processing')
+elif (step=='3'):
+    print('snp calling for one file')
+elif (step=='4'):
+    print('snp calling for all files')
+

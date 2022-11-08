@@ -55,109 +55,113 @@ def inters(samfile):
     print(inters)
     return (inters)
 
-def mklinks():# reading config -----------------------------
-    path = sys.argv[1]
-    #path = 'CONFIG.cfg'
-    '''
-    create directories from config file
-    '''
+def mklinks(parameter):# reading config -----------------------------
+    if(os.path.exists(parameter)):
+        try:
+            path = parameter
+            #path = 'CONFIG.cfg'
+            '''
+            create directories from config file
+            '''
 
 
-    config = configparser.ConfigParser()
-    config.read(path)
-    dirs = config["Directories"]
-    maindir = config["Directories"]["maindir"]
-    print(maindir)
-    for dir in dirs:
-        print(dir)
-        dirp = os.path.join(maindir, config["Directories"][dir])
+            config = configparser.ConfigParser()
 
-        if (os.path.exists(dirp) == False):
-            try:
-                os.makedirs(dirp, exist_ok=False)
-                print("Directory '%s' created successfully" % dirp)
-            except OSError as error:
-                print("Directory '%s' can not be created")
+            config.read(path)
+            dirs = config["Directories"]
+            maindir = config["Directories"]["maindir"]
+            print(maindir)
+            for dir in dirs:
+                print(dir)
+                dirp = os.path.join(maindir, config["Directories"][dir])
 
-
-    source = os.path.join(maindir,config["Directories"]["bam"])
-    print(source)
-    dest = os.path.join(maindir,config["Directories"]["data_in"])
-    print(dest)
-    met = os.path.join(maindir,config["Files"]["metadata"])
-    path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
-    path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
+                if (os.path.exists(dirp) == False):
+                    try:
+                        os.makedirs(dirp, exist_ok=False)
+                        print("Directory '%s' created successfully" % dirp)
+                    except OSError as error:
+                        print("Directory '%s' can not be created")
 
 
-    # creating exception list --------------------------
-    # creating processing list -------------------------
-    to_process_id = []
-    to_process_bam = []
-    exceptions_id = []
-    exceptions_bam = []
-    exceptions_cause = []
-    # reading metadata, filtrating by no RNA------------------------
-    print('met '+met)
-    metadata = pd.read_csv(met,sep='\t')
-    metadata['Extra1'] = metadata['Extra1'].apply(lambda x: x.lower())
-    norna = metadata[metadata["Extra1"] != 'rnaseq']
-    rna = metadata[metadata["Extra1"]=='rnaseq']
-    for i in range(rna.shape[0]):
-        exceptions_id.append(rna.iloc[i,1])
-        exceptions_bam.append(rna.iloc[i,0])
-        exceptions_cause.append('RNAseq data')
-    # creating filtrating by headers + append to lists -------------
-    for i in range(norna.shape[0]):
-        print(source)
-        print(norna.iloc[i,0])
-        pathfile = os.path.join(source,norna.iloc[i,0])
-        print(pathfile)
-        #pysam read -h
-        bam = read_head(pathfile)
-        #intersection by chr1,ch2 ...
-        bam_inters = inters(bam)
-        if(bam_inters>0):
-            print('true')
-            to_process_bam.append(norna.iloc[i,0])
-            to_process_id.append(norna.iloc[i,1])
-        else:
-            exceptions_bam.append(norna.iloc[i,0])
-            exceptions_id.append(norna.iloc[i,1])
-            exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
+            source = os.path.join(maindir,config["Directories"]["bam"])
+            print(source)
+            dest = os.path.join(maindir,config["Directories"]["data_in"])
+            print(dest)
+            met = os.path.join(maindir,config["Files"]["metadata"])
+            path_processing_list = os.path.join(maindir,config["Files"]["processing_list"])
+            path_exception_list = os.path.join(maindir,config["Files"]["exception_list"])
 
-    # to dicts, to dataframes
-    to_process = dict(zip(to_process_bam,to_process_id))
-    #exceptions = dict(zip(exceptions_bam,exceptions_id))
-    exceptions = pd.DataFrame(
-        {'ID': exceptions_id,
-         'cause': exceptions_cause,
-         'bam': exceptions_bam
-        })
 
-    # dataframes /  lists to files -------------------------------------
-    exceptions.to_csv(path_exception_list,sep='\t')
+            # creating exception list --------------------------
+            # creating processing list -------------------------
+            to_process_id = []
+            to_process_bam = []
+            exceptions_id = []
+            exceptions_bam = []
+            exceptions_cause = []
+            # reading metadata------------------------
+            print('met '+met)
+            metadata = pd.read_csv(met,sep='\t')
 
-    txt_processing_list = open(path_processing_list,"w")
-    for key in to_process:
-        txt_processing_list.write(to_process[key]+"\n")
-    txt_processing_list.close()
+            # creating filtrating by headers + append to lists -------------
+            for i in range(metadata.shape[0]):
+                print(source)
+                print(metadata.iloc[i,0])
+                pathfile = os.path.join(source,metadata.iloc[i,0])
+                print(pathfile)
+                #pysam read -h
+                bam = read_head(pathfile)
+                #intersection by chr1,ch2 ...
+                bam_inters = inters(bam)
+                if(bam_inters>0):
+                    print('true')
+                    to_process_bam.append(metadata.iloc[i,0])
+                    to_process_id.append(metadata.iloc[i,1])
+                else:
+                    exceptions_bam.append(metadata.iloc[i,0])
+                    exceptions_id.append(metadata.iloc[i,1])
+                    exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
 
-    # creating dict for symlinks ----------------------------------------------
-    id_bam = to_process
+            # to dicts, to dataframes
+            to_process = dict(zip(to_process_bam,to_process_id))
+            #exceptions = dict(zip(exceptions_bam,exceptions_id))
+            exceptions = pd.DataFrame(
+                {'ID': exceptions_id,
+                 'cause': exceptions_cause,
+                 'bam': exceptions_bam
+                })
 
-    print(id_bam)
-    print('start_cycle')
-    for bam in id_bam:
-        bai = bam.replace('.bam','.bai')
-        print('idbam '+id_bam[bam])
-        #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
-        if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
-            os.remove(dest + '/' + id_bam[bam]+'.bam')
-            os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-        else:
-            os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-    print('symlinks created')
-    return (0)
+            # dataframes /  lists to files -------------------------------------
+            exceptions.to_csv(path_exception_list,sep='\t')
+
+            txt_processing_list = open(path_processing_list,"w")
+            for key in to_process:
+                txt_processing_list.write(to_process[key]+"\n")
+            txt_processing_list.close()
+
+            # creating dict for symlinks ----------------------------------------------
+            id_bam = to_process
+
+            print(id_bam)
+            print('start_cycle')
+            for bam in id_bam:
+                bai = bam.replace('.bam','.bai')
+                print('idbam '+id_bam[bam])
+                #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
+                if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
+                    os.remove(dest + '/' + id_bam[bam]+'.bam')
+                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                else:
+                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+            print('symlinks created')
+            return (0)
+        except Exception:
+            print('failed to create ' + str(Exception))
+            return (2)
+    else:
+        print('config '+ parameter+ ' does not exist!')
+        return (2)
+
 
 
 
