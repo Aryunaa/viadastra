@@ -8,6 +8,7 @@ import pathlib
 import argparse
 from argparse import RawTextHelpFormatter
 from steps.step1_mk_links import *
+from steps.step2_snp_all import *
 
 
 
@@ -46,8 +47,13 @@ if step=='1':
 
 elif (step=='2'):
     print('reference processing')
+    print('it is not done yet')
 elif (step=='3'):
     print('snp calling for one file')
+    print('it is not done yet')
 elif (step=='4'):
     print('snp calling for all files')
+    ret = call_all(jobs,path,memfree)
+    print(ret)
+
 
