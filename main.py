@@ -27,9 +27,9 @@ parser.add_argument("-m","--memfree", help="Memfree parameter for gnu parallel",
 
 requiredNamed = parser.add_argument_group('required named arguments')
 requiredNamed.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
-helpm = "R|Define a processing step please.\n1 creates soft links and directories\n2.1 for reference processing"\
-        + "\n2.2.1 snp calling for one file\n2.2 snp calling for all files "
-requiredNamed.add_argument("-s","--step",choices=['1', '2.1', '2.2.1', '2.2', 'e'],help=helpm, required=True)
+helpm = "R|Define a processing step please.\n1 creates soft links and directories\n2 for reference processing"\
+        + "\n3 snp calling for one file\n4 snp calling for all files "
+requiredNamed.add_argument("-s","--step",choices=['1', '2', '3', '4', 'e'],help=helpm, required=True)
 #parser.parse_args(['-h'])
 args = parser.parse_args()
 
