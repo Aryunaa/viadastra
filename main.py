@@ -9,7 +9,7 @@ import argparse
 from argparse import RawTextHelpFormatter
 from steps.step1_mk_links import *
 from steps.step2_snp_all import *
-
+import requests
 
 
 class SmartFormatter(argparse.HelpFormatter):
@@ -19,6 +19,18 @@ class SmartFormatter(argparse.HelpFormatter):
             return text[2:].splitlines()
         # this is the RawTextHelpFormatter._split_lines
         return argparse.HelpFormatter._split_lines(self, text, width)
+
+
+def tgmessage(message):
+    apiToken = '1992203014:AAGXCU5ta31M-R10axejbBtxRJd0L1PNOow'
+    chatID = '639261746'
+    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage'
+
+    try:
+        response = requests.post(apiURL, json={'chat_id': chatID, 'text': message})
+        print(response.text)
+    except Exception as e:
+        print(e)
 
 parser = argparse.ArgumentParser(description='viadastra pipeline, perfoms snp-calling, filtrating and works with babachi and mixalime',
                                  formatter_class=SmartFormatter)
@@ -51,9 +63,11 @@ elif (step=='2'):
 elif (step=='3'):
     print('snp calling for one file')
     print('it is not done yet')
+    tgmessage("it is not done yet")
 elif (step=='4'):
     print('snp calling for all files')
     ret = call_all(jobs,path,memfree)
     print(ret)
+    tgmessage("snp calling was finished")
 
 
