@@ -1,9 +1,0 @@
-BAM	ID	BADgroup	ASBgroup	Extra1	Extra2
-sBLISS_performed_on_NES_cells_Rep1.sorted.bam	BAM00001	sbliss	sBLISS	sBLISS	sBLISS_NES_Rep1
-sBLISS_performed_on_NES_cells_Rep2.sorted.bam	BAM00002	sbliss	sBLISS	sBLISS	sBLISS_NES_Rep2
-sBLISS_performed_on_NEU_cells_Rep1.sorted.bam	BAM00003	sbliss	sBLISS	sBLISS	sBLISS_NEU_Rep1
-sBLISS_performed_on_NEU_cells_Rep2.sorted.bam	BAM00004	sbliss	sBLISS	sBLISS	sBLISS_NEU_Rep2
-sBLISS_performed_on_NPC_cells_Rep1.sorted.bam	BAM00005	sbliss	sBLISS	sBLISS	sBLISS_NPC_Rep1
-sBLISS_performed_on_NPC_cells_Rep2.sorted.bam	BAM00006	sbliss	sBLISS	sBLISS	sBLISS_NPC_Rep2
-WGS_performed_on_NES_cells_Rep1.sorted.bam	BAM00007	wgs	WGS	WGS	WGS_NES_Rep1
-WGS_performed_on_NEU_cells_Rep1.sorted.bam	BAM00008	wgs	WGS	WGS	WGS_NEU_Rep1
