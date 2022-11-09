@@ -72,6 +72,6 @@ elif (step=='4'):
 
 elif(step=='5'):
     print('badgroups')
-    
+
 
 
