@@ -148,11 +148,13 @@ def mklinks(parameter):# reading config -----------------------------
                 bai = bam.replace('.bam','.bai')
                 print('idbam '+id_bam[bam])
                 #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
-                if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
-                    os.remove(dest + '/' + id_bam[bam]+'.bam')
-                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-                else:
-                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                if(os.path.exists(source+bam)):
+                    if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
+                        os.remove(dest + '/' + id_bam[bam]+'.bam')
+                        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                    else:
+                        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                
             print('symlinks created')
             return (0)
         except Exception:
