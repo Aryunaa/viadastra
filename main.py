@@ -21,9 +21,7 @@ class SmartFormatter(argparse.HelpFormatter):
         return argparse.HelpFormatter._split_lines(self, text, width)
 
 
-def tgmessage(message):
-    apiToken = '1992203014:AAGXCU5ta31M-R10axejbBtxRJd0L1PNOow'
-    chatID = '639261746'
+def tgmessage(message,chatID, apiToken):
     apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage'
 
     try:
@@ -37,6 +35,8 @@ parser = argparse.ArgumentParser(description='viadastra pipeline, perfoms snp-ca
 
 parser.add_argument("-j","--jobs", help="Number of jobs", default='4', required=False)
 parser.add_argument("-m","--memfree", help="Memfree parameter for gnu parallel", default='40G', required=False)
+parser.add_argument("-tt",'--apitoken', help= "Telegram bot api token", default='1992203014:AAGXCU5ta31M-R10axejbBtxRJd0L1PNOow')
+parser.add_argument("-ti",'--chatid', help= "Telegram bot chat id", default='639261746')
 
 requiredNamed = parser.add_argument_group('required arguments')
 requiredNamed.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
@@ -50,6 +50,9 @@ jobs = args.jobs
 memfree = args.memfree
 path = args.config
 step = args.step
+chatid = args.chatid
+apitoken = args.apitoken
+
 print(step)
 print(path)
 
@@ -63,12 +66,12 @@ elif (step=='2'):
 elif (step=='3'):
     print('snp calling for one file')
     print('it is not done yet')
-    tgmessage("it is not done yet")
+    tgmessage("it is not done yet",chatid,apitoken)
 elif (step=='4'):
     print('snp calling for all files')
     ret = call_all(jobs,path,memfree)
     print(ret)
-    tgmessage("snp calling was finished")
+    tgmessage("snp calling was finished",chatid,apitoken)
 
 elif(step=='5'):
     print('badgroups')
