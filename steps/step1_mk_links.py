@@ -110,17 +110,19 @@ def mklinks(parameter):# reading config -----------------------------
                 pathfile = os.path.join(source,metadata.iloc[i,0])
                 print(pathfile)
                 #pysam read -h
-                bam = read_head(pathfile)
-                #intersection by chr1,ch2 ...
-                bam_inters = inters(bam)
-                if(bam_inters>0):
-                    print('true')
-                    to_process_bam.append(metadata.iloc[i,0])
-                    to_process_id.append(metadata.iloc[i,1])
-                else:
-                    exceptions_bam.append(metadata.iloc[i,0])
-                    exceptions_id.append(metadata.iloc[i,1])
-                    exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
+                if(os.path.exists(pathfile)):
+                    bam = read_head(pathfile)
+                    #intersection by chr1,ch2 ...
+
+                    bam_inters = inters(bam)
+                    if(bam_inters>0):
+                        print('true')
+                        to_process_bam.append(metadata.iloc[i,0])
+                        to_process_id.append(metadata.iloc[i,1])
+                    else:
+                        exceptions_bam.append(metadata.iloc[i,0])
+                        exceptions_id.append(metadata.iloc[i,1])
+                        exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
 
             # to dicts, to dataframes
             to_process = dict(zip(to_process_bam,to_process_id))
@@ -148,13 +150,12 @@ def mklinks(parameter):# reading config -----------------------------
                 bai = bam.replace('.bam','.bai')
                 print('idbam '+id_bam[bam])
                 #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
-                if(os.path.exists(source+bam)):
-                    if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
-                        os.remove(dest + '/' + id_bam[bam]+'.bam')
-                        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-                    else:
-                        os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
-                
+                if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
+                    os.remove(dest + '/' + id_bam[bam]+'.bam')
+                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                else:
+                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+
             print('symlinks created')
             return (0)
         except Exception:
