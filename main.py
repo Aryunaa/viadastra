@@ -70,4 +70,8 @@ elif (step=='4'):
     print(ret)
     tgmessage("snp calling was finished")
 
+elif(step=='5'):
+    print('badgroups')
+    
+
 
