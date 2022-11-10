@@ -209,10 +209,3 @@ def pullsort(configpath):
         print(pulledtmps_rs.shape[0])
 
 
-
-#def babachi(configpath):
-
-'''
-        with open(all_log, "a") as log:
-            log.write("script has been performed successfully")
-'''

@@ -10,6 +10,7 @@ from argparse import RawTextHelpFormatter
 from steps.step1_mk_links import *
 from steps.step2_snp_all import *
 from steps.step2_filter import *
+from steps.step3_babannotate_groupbybad import *
 import requests
 
 
@@ -77,14 +78,18 @@ elif (step=='4'):
     print(ret)
     tgmessage("snp calling was finished",chatid,apitoken)
 elif(step=='5'):
-    print('filtrate,pull,sort,babachi')
+    print('filtrate,pull,sort')
     threshold=args.allele_reads_tr
     filter(path,threshold,jobs)
     pullsort(path)
     print("done successfully")
 
 elif(step=='6'):
-    print('annotate,group by bads')
+    print('babachi,annotate,group by bads')
+    babachi(path)
+    #annotate_by_bads()
+    #group_by_bads()
+
 elif(step=='7'):
     print('mixalime')
 
