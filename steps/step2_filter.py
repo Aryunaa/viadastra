@@ -91,7 +91,7 @@ def filter(configpath,trs,jobs): #filter and get stats
 
         # make bed file with rs
         bedrs = bedf[bedf['ID'].str.contains("rs",na=False)]
-        bedrs.to_csv(os.path.join(filt_bed_rs, i + '.snps.bed'))
+        bedrs.to_csv(os.path.join(filt_bed_rs, i + '.snps.bed'),index=False, sep='\t', header=False)
 
         # get stats
         a = list(metadata.index[metadata['ID'] == i])
@@ -219,7 +219,7 @@ def pullsortv2(configpath):
     config.read(configpath)
     maindir = config["Directories"]["maindir"]
     filt_bed_rs = os.path.join(maindir, config["Directories"]["rssnps"])
-    tmp_path = os.path.join(maindir, config["Directories"], ["babachi"])
+    tmp_path = os.path.join(maindir, config["Directories"]["babachi"])
     mainlogs = os.path.join(maindir, config["Directories"]["mainlogs"])
     all_log = os.path.join(mainlogs, 'babachilogs')
     met = os.path.join(maindir, config["Files"]["metadata"])
