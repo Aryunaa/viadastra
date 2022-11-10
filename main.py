@@ -79,6 +79,9 @@ elif (step=='4'):
 elif(step=='5'):
     print('filtrate,pull,sort,babachi')
     threshold=args.allele_reads_tr
+    filter(path,threshold,jobs)
+    pullsort(path)
+    print("done successfully")
 
 elif(step=='6'):
     print('annotate,group by bads')
