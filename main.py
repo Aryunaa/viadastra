@@ -40,7 +40,7 @@ parser.add_argument("-tt",'--apitoken', help= "Telegram bot api token", default=
 parser.add_argument("-ti",'--chatid', help= "Telegram bot chat id", default='639261746')
 parser.add_argument("-a", '--allele_reads_tr',
                     help= "Allelic reads threshold. Input SNPs will be filtered by ref_read_count >= x and alt_read_count >= x",
-                    default=5,required=False)
+                    default='5',required=False)
 
 requiredNamed = parser.add_argument_group('required arguments')
 requiredNamed.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
