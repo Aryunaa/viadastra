@@ -27,7 +27,7 @@ def babachi(configpath):
     # list of bads
     for i in lst:
         process = subprocess.Popen(
-            shlex.split('babachi '+os.path.join(tmp_path,'pulled'+i+'.tsv')+' -j 8 --visualize -e png'),
+            shlex.split('babachi '+os.path.join(tmp_path,'pulled'+i+'.tsv')+' -j 8 --visualize -e png -O '+tmp_path),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             universal_newlines=True)
