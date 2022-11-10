@@ -206,7 +206,7 @@ def process_bam(my_id):
         try:
             process = subprocess.Popen(['picard', 'AddOrReplaceReadGroups', 'I=' + os.path.join(outdir,my_id) +'/'+my_id+'_sorted.bam',
                                         'O=' + os.path.join(outdir,my_id) +'/'+my_id+'_formatted.bam', 'VALIDATION_STRINGENCY=LENIENT',
-                                        'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=20', 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
+                                        'RGLB=lib1', 'RGPL=seq1', 'RGPU=unit1','RGSM=',my_id, 'RGID=1','TMP_DIR=',os.path.join(outdir,my_id)],
                                        stdout=subprocess.PIPE,
                                        stderr=subprocess.PIPE,
                                        universal_newlines=True)
