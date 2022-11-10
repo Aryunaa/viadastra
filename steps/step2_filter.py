@@ -205,6 +205,8 @@ def pullsortv2(configpath):
         sorteddf = test.sort().to_dataframe()
         sorteddf.to_csv(os.path.join(tmp_path,'pulled'+i+'.tsv'), header=False, index=False,
                              sep='\t')
+        print(i + ' sorted')
+        print(pulledtmps_rs.shape[0])
 
 
 
