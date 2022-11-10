@@ -90,7 +90,7 @@ def filter(configpath,trs,jobs): #filter and get stats
         bedf.to_csv(strfb, sep='\t', index=False, header=None)
 
         # make bed file with rs
-        bedrs = bedf[bedf['ID'].str.contains("rs")]
+        bedrs = bedf[bedf['ID'].str.contains("rs",na=False)]
         bedrs.to_csv(os.path.join(filt_bed_rs, i + '.snps.bed'))
 
         # get stats
