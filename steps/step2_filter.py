@@ -49,9 +49,9 @@ def filter(configpath,trs,jobs): #filter and get stats
     metadata['starting_snps'] = 0
     metadata['filtrated_snps'] = 0
     metadata['rssnps'] = 0
-    st_index = metadata.get_loc("starting_snps")
-    filt_index = metadata.get_loc("filtrated_snps")
-    rs_index = metadata.get_loc("rssnps")
+    st_index = metadata.columns.get_loc("starting_snps")
+    filt_index = metadata.columns.get_loc("filtrated_snps")
+    rs_index = metadata.columns.get_loc("rssnps")
     #metadata['bamsize MB'] = 0
     try:
         #parallel -j 8 babachi filter -O /media/ElissarDisk/ADASTRA/neuro/processed_neuro/vcf_filtered
