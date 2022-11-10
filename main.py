@@ -80,7 +80,7 @@ elif(step=='5'):
     print('filtrate,pull,sort,babachi')
     threshold=args.allele_reads_tr
     filter(path,threshold,jobs)
-    pullsortv2(path)
+    pullsort(path)
     print("done successfully")
 
 elif(step=='6'):
