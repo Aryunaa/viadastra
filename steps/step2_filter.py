@@ -5,7 +5,7 @@ import sys as sys
 import pathlib
 import pandas as pd
 from pybedtools import BedTool
-
+import shlex
 def read_cfg(configpath):
     config = configparser.ConfigParser()
     config.read(configpath)
@@ -57,7 +57,7 @@ def filter(configpath,trs,jobs): #filter and get stats
     # parallel -j 8 babachi filter -O /media/ElissarDisk/ADASTRA/neuro/processed_neuro/vcf_filtered
     os.chdir(source_vcf)
     process = subprocess.Popen(
-        ['find -type f -name "*.vcf"', '|', 'parallel', '-j', jobs, 'babachi filter', '-a', trs, '-O', filt_bed],
+        [shlex.split('find -type f -name "*.vcf" | parallel -j'), jobs, 'babachi','filter', '-a', trs, '-O', filt_bed],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         universal_newlines=True)
