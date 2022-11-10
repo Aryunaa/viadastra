@@ -4,7 +4,7 @@ import configparser
 import sys as sys
 import pathlib
 import pandas as pd
-
+from pybedtools import BedTool
 
 def read_cfg(configpath):
     config = configparser.ConfigParser()
@@ -159,6 +159,53 @@ def pullsort(configpath):
             log.write(stderr)
         print(i + ' sorted')
         print(pulledtmps_rs.shape[0])
+
+def pullsortv2(configpath):
+    #vcf_list = vcf_data.values.tolist()
+    #test = BedTool(vcf_list)
+    config = configparser.ConfigParser()
+    config.read(configpath)
+    maindir = config["Directories"]["maindir"]
+    filt_bed_rs = os.path.join(maindir, config["Directories"]["rssnps"])
+    tmp_path = os.path.join(maindir, config["Directories"], ["babachi"])
+    mainlogs = os.path.join(maindir, config["Directories"]["mainlogs"])
+    all_log = os.path.join(mainlogs, 'babachilogs')
+    met = os.path.join(maindir, config["Files"]["metadata"])
+    metadata = pd.read_csv(met, sep='\t')
+    lst = metadata.BADgroup.unique()
+    lst[0]
+    header_list = ['#CHROM', 'POS1', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT', 'SAMPLEID']
+    # list of bads
+    for i in lst:
+        pulltmp = metadata[metadata['BADgroup'] == i]
+
+        intersect = list(pulltmp['ID'])
+        paths_rs = []
+        for my_id in intersect:
+            if (os.path.exists(os.path.join(filt_bed_rs, my_id + '.snps.bed'))):
+                paths_rs.append(os.path.join(filt_bed_rs, my_id + '.snps.bed'))
+        print(paths_rs)
+
+        # читаем чипсеки, смотрим распределение
+        # chip_list = []
+
+        with open(os.path.join(tmp_path, 'bedshapes'), "w") as log:
+            for my_id in list(metadata['ID']):
+                if (os.path.exists(os.path.join(filt_bed_rs, my_id + '.snps.bed'))):
+                    tempdf = pd.read_csv(os.path.join(filt_bed_rs, my_id + '.snps.bed'), sep='\t', names=header_list)
+                    log.write(my_id + '\t' + str(int(tempdf.shape[0])) + '\n')
+
+        pulledtmps_rs = pd.concat([pd.read_csv(f, sep='\t', names=header_list) for f in paths_rs])
+        pulledtmps_rs.to_csv(os.path.join(tmp_path, 'ppulled' + i + '.tsv'), mode='w', header=False, index=False,
+                             sep='\t')
+        print(i + ' pulled')
+
+        bed_list = pulledtmps_rs.values.tolist()
+        test = BedTool(bed_list)
+        sorteddf = test.sort().to_dataframe()
+        sorteddf.to_csv(os.path.join(tmp_path,'pulled'+i+'.tsv'), header=False, index=False,
+                             sep='\t')
+
 
 
 #def babachi(configpath):
