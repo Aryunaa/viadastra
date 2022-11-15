@@ -49,7 +49,7 @@ helpm = "R|Define a processing step please.\n1 creates soft links and directorie
         + "\n3 snp calling for one file\n4 snp calling for all files \n5 filtrate,pull,sort"\
         + "\n6 babachi,annotate,groupbybads"
 
-requiredNamed.add_argument("-s","--step",choices=['1', '2', '3', '4', '5','6','7'],help=helpm, required=True)
+requiredNamed.add_argument("-s","--step",choices=['1', '2', '3', '4', '5','5.1','5.2','6','7'],help=helpm, required=True)
 #parser.parse_args(['-h'])
 args = parser.parse_args()
 
