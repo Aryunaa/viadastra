@@ -180,6 +180,12 @@ def pullsort(configpath):
     lst[0]
     header_list = ['#CHROM', 'POS1', 'POS2', 'ID', 'REF', 'ALT', 'REF_COUNT', 'ALT_COUNT', 'SAMPLEID']
     # list of bads
+    with open(os.path.join(tmp_path, 'bedshapes'), "w") as log:
+        for my_id in list(metadata['ID']):
+            if (os.path.exists(os.path.join(filt_bed_rs, my_id + '.snps.bed'))):
+                tempdf = pd.read_csv(os.path.join(filt_bed_rs, my_id + '.snps.bed'), sep='\t', names=header_list)
+                log.write(my_id + '\t' + str(int(tempdf.shape[0])) + '\n')
+
     for i in lst:
         pulltmp = metadata[metadata['BADgroup'] == i]
 
@@ -192,22 +198,17 @@ def pullsort(configpath):
 
         # читаем чипсеки, смотрим распределение
         # chip_list = []
+        if(len(paths_rs)>0 and os.path.exists(os.path.join(tmp_path,'pulled'+i+'.tsv'))==False):
+            pulledtmps_rs = pd.concat([pd.read_csv(f, sep='\t', names=header_list) for f in paths_rs])
+            print(i + ' pulled')
+            bed_list = pulledtmps_rs.values.tolist()
+            test = BedTool(bed_list)
+            sorteddf = test.sort().to_dataframe()
+            sorteddf.to_csv(os.path.join(tmp_path, 'pulled' + i + '.tsv'), header=False, index=False,
+                            sep='\t')
+            print(i + ' sorted')
+            print(pulledtmps_rs.shape[0])
 
-        with open(os.path.join(tmp_path, 'bedshapes'), "w") as log:
-            for my_id in list(metadata['ID']):
-                if (os.path.exists(os.path.join(filt_bed_rs, my_id + '.snps.bed'))):
-                    tempdf = pd.read_csv(os.path.join(filt_bed_rs, my_id + '.snps.bed'), sep='\t', names=header_list)
-                    log.write(my_id + '\t' + str(int(tempdf.shape[0])) + '\n')
 
-        pulledtmps_rs = pd.concat([pd.read_csv(f, sep='\t', names=header_list) for f in paths_rs])
-        print(i + ' pulled')
-
-        bed_list = pulledtmps_rs.values.tolist()
-        test = BedTool(bed_list)
-        sorteddf = test.sort().to_dataframe()
-        sorteddf.to_csv(os.path.join(tmp_path,'pulled'+i+'.tsv'), header=False, index=False,
-                             sep='\t')
-        print(i + ' sorted')
-        print(pulledtmps_rs.shape[0])
 
 
