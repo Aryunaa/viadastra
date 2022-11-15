@@ -154,14 +154,14 @@ def mklinks(parameter):# reading config -----------------------------
                 #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
                 if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
                     os.remove(dest + '/' + id_bam[bam]+'.bam')
-                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                    os.symlink(os.path.join(source,bam), dest + '/' + id_bam[bam]+'.bam')
                 else:
-                    os.symlink(source + bam, dest + '/' + id_bam[bam]+'.bam')
+                    os.symlink(os.path.join(source,bam), dest + '/' + id_bam[bam]+'.bam')
 
             print('symlinks created')
             return (0)
         except Exception:
-            print('failed to create ' + str(Exception))
+            print('failed to create symlinks' + str(Exception))
             return (2)
     else:
         print('config '+ parameter+ ' does not exist!')
