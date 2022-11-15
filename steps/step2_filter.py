@@ -55,6 +55,7 @@ def filter(configpath,trs,jobs): #filter and get stats
     #metadata['bamsize MB'] = 0
 
     # parallel -j 8 babachi filter -O /media/ElissarDisk/ADASTRA/neuro/processed_neuro/vcf_filtered
+
     os.chdir(source_vcf)
     process = subprocess.Popen(
         shlex.split('find -type f -name "*.vcf" | parallel -j '+ jobs+' babachi filter -a '+ trs, ' -O ', filt_bed),
@@ -68,38 +69,39 @@ def filter(configpath,trs,jobs): #filter and get stats
     myids = list(metadata['ID'])
     for i in myids:
         # get starting vcf
-        startvcf = os.path.join(source_vcf, i + '.vcf')
-        file_rs = open(startvcf, "r")
-        line_rs = file_rs.readline()
-        n = 0
-        while line_rs.startswith("##"):
-            n += 1
+        if(os.path.exists(os.path.join(source_vcf,i+'.vcf'))):
+            startvcf = os.path.join(source_vcf, i + '.vcf')
+            file_rs = open(startvcf, "r")
             line_rs = file_rs.readline()
-        file_rs.close()
+            n = 0
+            while line_rs.startswith("##"):
+                n += 1
+                line_rs = file_rs.readline()
+            file_rs.close()
 
-        vcf = pd.read_csv(startvcf,
-                          sep='\t', skiprows=n)
+            vcf = pd.read_csv(startvcf,
+                              sep='\t', skiprows=n)
 
-        # get bed file
-        header_list = ['#chr', 'start', 'end', 'ID', 'ref', 'alt', 'ref_counts', 'alt_counts', 'sample_id']
-        strfb = os.path.join(filt_bed, i + '.snps.bed')
+            # get bed file
+            header_list = ['#chr', 'start', 'end', 'ID', 'ref', 'alt', 'ref_counts', 'alt_counts', 'sample_id']
+            strfb = os.path.join(filt_bed, i + '.snps.bed')
 
-        bedf = pd.read_csv(strfb, sep='\t', names=header_list)
-        bedf['sample_id'] = i
-        print(i)
-        bedf.to_csv(strfb, sep='\t', index=False, header=None)
+            bedf = pd.read_csv(strfb, sep='\t', names=header_list)
+            bedf['sample_id'] = i
+            print(i)
+            bedf.to_csv(strfb, sep='\t', index=False, header=None)
 
-        # make bed file with rs
-        bedrs = bedf[bedf['ID'].str.contains("rs",na=False)]
-        bedrs.to_csv(os.path.join(filt_bed_rs, i + '.snps.bed'),index=False, sep='\t', header=False)
+            # make bed file with rs
+            bedrs = bedf[bedf['ID'].str.contains("rs",na=False)]
+            bedrs.to_csv(os.path.join(filt_bed_rs, i + '.snps.bed'),index=False, sep='\t', header=False)
 
-        # get stats
-        a = list(metadata.index[metadata['ID'] == i])
-        loc = a[0]
+            # get stats
+            a = list(metadata.index[metadata['ID'] == i])
+            loc = a[0]
 
-        metadata.iloc[loc, st_index] = vcf.shape[0]
-        metadata.iloc[loc, filt_index] = bedf.shape[0]
-        metadata.iloc[loc, rs_index] = bedrs.shape[0]
+            metadata.iloc[loc, st_index] = vcf.shape[0]
+            metadata.iloc[loc, filt_index] = bedf.shape[0]
+            metadata.iloc[loc, rs_index] = bedrs.shape[0]
 
     metadata.to_csv(statfile, index=False, sep='\t')
 
