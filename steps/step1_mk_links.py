@@ -154,11 +154,11 @@ def mklinks(parameter):# reading config -----------------------------
                 print('bam '+ os.path.join(source,bam))
                 print('exists: '+ str(os.path.exists(os.path.join(source,bam))))
                 #os.mkdir(dest + id_bam[bam],mode=0o777, dir_fd=None)
-                if(os.path.exists(dest + '/' + id_bam[bam]+'.bam')):
-                    os.remove(dest + '/' + id_bam[bam]+'.bam')
-                    os.symlink(os.path.join(source,bam), dest + '/' + id_bam[bam]+'.bam')
+                if(os.path.exists(os.path.join(dest,id_bam[bam]+'.bam'))):
+                    os.remove(os.path.join(dest,id_bam[bam]+'.bam'))
+                    os.symlink(os.path.join(source,bam), os.path.join(dest,id_bam[bam]+'.bam'))
                 else:
-                    os.symlink(os.path.join(source,bam), dest + '/' + id_bam[bam]+'.bam')
+                    os.symlink(os.path.join(source,bam), os.path.join(dest,id_bam[bam]+'.bam'))
 
             print('symlinks created')
             return (0)
