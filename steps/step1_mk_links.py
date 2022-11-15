@@ -119,10 +119,10 @@ def mklinks(parameter):# reading config -----------------------------
                     bam_inters = inters(bam)
                     if(bam_inters>0):
                         print('true')
-                        to_process_bam.append(metadata.iloc[i,idloc])
+                        to_process_bam.append(metadata.iloc[i,pathloc])
                         to_process_id.append(metadata.iloc[i,idloc])
                     else:
-                        exceptions_bam.append(metadata.iloc[i,idloc])
+                        exceptions_bam.append(metadata.iloc[i,pathloc])
                         exceptions_id.append(metadata.iloc[i,idloc])
                         exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
 
