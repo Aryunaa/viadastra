@@ -46,8 +46,10 @@ parser.add_argument("-a", '--allele_reads_tr',
 requiredNamed = parser.add_argument_group('required arguments')
 requiredNamed.add_argument("-c","--config", help="Path for cfg file, which contains all parameters", required=True)
 helpm = "R|Define a processing step please.\n1 creates soft links and directories\n2 for reference processing"\
-        + "\n3 snp calling for one file\n4 snp calling for all files "
-requiredNamed.add_argument("-s","--step",choices=['1', '2', '3', '4', '5','6'],help=helpm, required=True)
+        + "\n3 snp calling for one file\n4 snp calling for all files \n5 filtrate,pull,sort"\
+        + "\n6 babachi,annotate,groupbybads"
+
+requiredNamed.add_argument("-s","--step",choices=['1', '2', '3', '4', '5','6','7'],help=helpm, required=True)
 #parser.parse_args(['-h'])
 args = parser.parse_args()
 
