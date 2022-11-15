@@ -3,106 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a6c9b390-0a9e-477e-aacd-e437eba2f520" name="Changes" comment="comm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/AS_figure_ref_bias.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step3_fastfiltrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step4_pullby_bads_and_sort.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step4_to_babachi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Protorelease_date91221/step5_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/Release0_date201221.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step3_fastfiltrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step4_pullby_bads_and_sort.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step4_to_babachi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/Release0_date201221/step5_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/CONFIG_v1.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/CONFIG_v2.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/CONFIG_v3.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/CONFIG_v4.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/CONFIG_v5.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/another.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/idid" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/mcf10a_config.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/mcf10a_meta.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/metadata.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/metadata_v3.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/metadata_v5.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/metadata_yes_no.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/neuro_config.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/neuro_meta.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/new_metadata.tsv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/petson_config.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/processing_list" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/processing_list_nov" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/processing_list_old" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/step1_make_config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/tcga_wgs_config.cfg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/tgsender_no_logs.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/additional/viadastra_env.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/always_commit.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/babachi_1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/babachi_1_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/babachi_2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/babachi_2_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/config.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/ctcf_rad21.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/filter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/filter_rs_getero_ad_get_refalt_table.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/generate_ref_alt_count.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/getstats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/group_by_bad.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/installation/make_env.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/installation/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/installation/viadastra_env.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/petson/annotatebads.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/petson/babachi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/petson/group_by_bad.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/petson/nbfit_user.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step3_getstats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/rafaelloversion_release01date31052022/step4_pullsortgroupannotate.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step3_filtrate_vcf_get_stats_old.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step3_process_filtered_vcf.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/step4_before_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step3_fastfiltrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step4_pullby_bads_and_sort.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step4_to_babachi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tcga_adaptation/step5_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/temp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/tgsender_no_logs.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/trash.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/viadastra.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/step1_mk_links.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +32,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../viadastra_pretty" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -141,6 +41,7 @@
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty\installation" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra\steps" />
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra" />
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty" />
     </key>
@@ -213,6 +114,11 @@
           <url>file://$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_all.py</url>
           <line>28</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/steps/step1_mk_links.py</url>
+          <line>156</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
