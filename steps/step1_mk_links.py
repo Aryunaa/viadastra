@@ -103,11 +103,13 @@ def mklinks(parameter):# reading config -----------------------------
             print('met '+met)
             metadata = pd.read_csv(met,sep='\t')
 
+            pathloc = metadata.columns.get_loc("path")
+            idloc = metadata.columns.get_loc("ID")
             # creating filtrating by headers + append to lists -------------
             for i in range(metadata.shape[0]):
                 print(source)
-                print(metadata.iloc[i,0])
-                pathfile = os.path.join(source,metadata.iloc[i,0])
+                print(metadata.iloc[i,pathloc])
+                pathfile = os.path.join(source,metadata.iloc[i,pathloc])
                 print(pathfile)
                 #pysam read -h
                 if(os.path.exists(pathfile)):
@@ -117,11 +119,11 @@ def mklinks(parameter):# reading config -----------------------------
                     bam_inters = inters(bam)
                     if(bam_inters>0):
                         print('true')
-                        to_process_bam.append(metadata.iloc[i,0])
-                        to_process_id.append(metadata.iloc[i,1])
+                        to_process_bam.append(metadata.iloc[i,idloc])
+                        to_process_id.append(metadata.iloc[i,idloc])
                     else:
-                        exceptions_bam.append(metadata.iloc[i,0])
-                        exceptions_id.append(metadata.iloc[i,1])
+                        exceptions_bam.append(metadata.iloc[i,idloc])
+                        exceptions_id.append(metadata.iloc[i,idloc])
                         exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
 
             # to dicts, to dataframes
