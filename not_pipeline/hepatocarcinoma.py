@@ -95,7 +95,7 @@ babachi = '/home/ariuna/tcga_atacseq/babachi_all'
 rssnpsdir = os.path.join(config["Directories"]["maindir"], config["Directories"]["rssnps"])
 metapath = config["Files"]["metadata"]
 metadata = pd.read_csv(metapath, sep = '\t')
-cnvdata = pd.read_csv('/home/ariuna/viadastra_short/metas/stats_cnvstoo.tsv')
+cnvdata = pd.read_csv('/home/ariuna/viadastra_short/metas/stats_cnvstoo.tsv', sep = '\t')
 cnvdata = cnvdata[['ID', 'file_id_atac', 'case_id_x',
              'cases.0.samples.0.sample_type_cnv',
              'file_id_cnv', 'file_name_cnv',
