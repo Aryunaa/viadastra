@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a6c9b390-0a9e-477e-aacd-e437eba2f520" name="Changes" comment="comm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step1_mk_links.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step2_reference_processing.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step2_snp_all.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step2_snp_calling.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step3_fastfiltrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step3_filtrate_vcf_get_stats.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step4_pullby_bads_and_sort.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step4_to_babachi.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/new_stage/step5_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_calling.py" beforeDir="false" afterPath="$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_calling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,14 +33,17 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/rafaelloversion_release01date31052022" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../viadastra_pretty" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra\" />
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty\rafaelloversion_release01date31052022" />
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty\installation" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra\steps" />
+      <recent name="C:\Users\Aryuna\Desktop\IB\viadastra" />
       <recent name="C:\Users\Aryuna\Desktop\IB\viadastra_pretty" />
     </key>
   </component>
@@ -121,6 +115,16 @@
           <url>file://$PROJECT_DIR$/rafaelloversion_release01date31052022/step2_snp_all.py</url>
           <line>28</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/steps/step1_mk_links.py</url>
+          <line>156</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/steps/step1_mk_links.py</url>
+          <line>57</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
