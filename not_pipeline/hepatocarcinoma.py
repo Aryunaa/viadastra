@@ -88,13 +88,14 @@ def annotatebybadandad(rssnpspath, path_badmap, path_cnvs, out_path):
     return (annotated_snps)
 
 config = configparser.ConfigParser()
-config.read('../configs/petson_config.cfg')
+pwd = os.getcwd()
+config.read('/home/ariuna/viadastra_short/configs/petson_config.cfg')
 maindir = config["Directories"]["maindir"]
 babachi = '/home/ariuna/tcga_atacseq/babachi_all'
 rssnpsdir = os.path.join(config["Directories"]["maindir"], config["Directories"]["rssnps"])
 metapath = config["Files"]["metadata"]
 metadata = pd.read_csv(metapath, sep = '\t')
-cnvdata = pd.read_csv('../metas/stats_cnvstoo.tsv')
+cnvdata = pd.read_csv('/home/ariuna/viadastra_short/metas/stats_cnvstoo.tsv')
 cnvdata = cnvdata[['ID', 'file_id_atac', 'case_id_x',
              'cases.0.samples.0.sample_type_cnv',
              'file_id_cnv', 'file_name_cnv',
