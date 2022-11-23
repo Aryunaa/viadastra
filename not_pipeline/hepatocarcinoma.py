@@ -107,7 +107,7 @@ ploc = cnvdata.columns.get_loc("p_value")
 for i in range(cnvdata.shape[0]):
     print(cnvdata.iloc[i, idloc])
     id = cnvdata.iloc[i,idloc]
-    path_cnvs = cnvdata[i,ascid_loc]+'/'+cnvdata[i,aspath_loc]
+    path_cnvs = os.path.join(cnvs_dir,cnvdata[i,ascid_loc]+'/'+cnvdata[i,aspath_loc])
     rssnpspath = os.path.join(rssnpsdir,id + '.snps.bed')
     pathbadmap = os.path.join(babachi,id + '.snps.badmap.bed')
     outputpath = '/home/ariuna/tcga_atacseq/processed_data/annotated_snps/' + id + '.snps.annotated.bed'
