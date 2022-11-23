@@ -96,13 +96,6 @@ rssnpsdir = os.path.join(config["Directories"]["maindir"], config["Directories"]
 metapath = config["Files"]["metadata"]
 metadata = pd.read_csv(metapath, sep = '\t')
 cnvdata = pd.read_csv('/home/ariuna/viadastra_short/metas/stats_cnvstoo.tsv', sep = '\t')
-cnvdata = cnvdata[['ID', 'file_id_atac', 'case_id_x',
-             'cases.0.samples.0.sample_type_cnv',
-             'file_id_cnv', 'file_name_cnv',
-             'id_cnv','cases.0.samples.0.sample_type_ascnv',
-             'cases.0.samples.1.sample_type_ascnv', 'data_category_ascnv',
-             'data_type_ascnv', 'file_id_ascnv', 'file_name_ascnv', 'id_ascnv']]
-
 cnvs_dir = '/home/ariuna/tcga_atacseq/cnv_data/'
 idloc = cnvdata.columns.get_loc("ID")
 ascid_loc = cnvdata.columns.get_loc("file_id_ascnv")
