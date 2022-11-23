@@ -107,7 +107,8 @@ ploc = cnvdata.columns.get_loc("p_value")
 for i in range(cnvdata.shape[0]):
     print(cnvdata.iloc[i, idloc])
     id = cnvdata.iloc[i,idloc]
-    cnvsfile = cnvdata[i,ascid_loc]+'/'+cnvdata[i,aspath_loc]
+    print(cnvdata.shape[1] + ' '+ ascid_loc+ " " + aspath_loc)
+    cnvsfile = cnvdata.iloc[i,ascid_loc]+'/'+cnvdata.iloc[i,aspath_loc]
     path_cnvs = os.path.join(cnvs_dir,cnvsfile)
     print(path_cnvs)
     rssnpspath = os.path.join(rssnpsdir,id + '.snps.bed')
