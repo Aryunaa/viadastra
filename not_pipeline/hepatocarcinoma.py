@@ -107,7 +107,7 @@ ploc = cnvdata.columns.get_loc("p_value")
 for i in range(cnvdata.shape[0]):
     print(cnvdata.iloc[i, idloc])
     id = cnvdata.iloc[i,idloc]
-    print(cnvdata.shape[1] + ' '+ str(ascid_loc)+ " " + str(aspath_loc))
+    print(str(cnvdata.shape[1]) + ' '+ str(ascid_loc)+ " " + str(aspath_loc))
     cnvsfile = cnvdata.iloc[i,ascid_loc]+'/'+cnvdata.iloc[i,aspath_loc]
     path_cnvs = os.path.join(cnvs_dir,cnvsfile)
     print(path_cnvs)
