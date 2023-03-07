@@ -31,10 +31,11 @@ def call_all(jobs,path,memfree):
 
 
     try:
-        process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j', jobs,'python', script ,path ,'::::',processing_list],
+        process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j',jobs,'python',script,path,'::::',processing_list],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        universal_newlines=True)
+                                        universal_newlines=True,
+                                        shell = True)
         stderr, stdout = process.communicate()
         with open(all_log, "a") as log:
             log.write(stdout)
