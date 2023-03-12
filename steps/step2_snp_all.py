@@ -61,8 +61,8 @@ def call_all(jobs,path,memfree):
         return(2)
     '''
     process = subprocess.Popen(['parallel', '--memfree', memfree, '--retry-failed', '--joblog',
-                                    os.path.join( mainlogs, 'parallel_log'), '-j', jobs, '/home/adastra/miniconda3/envs/viadastra/bin/python',
-                                    'step2_snp_calling.py', path, '::::', processing_list],
+                                    os.path.join( mainlogs, 'parallel_log'),'::::','-j', jobs, '/home/adastra/miniconda3/envs/viadastra/bin/python',
+                                    'step2_snp_calling.py', path,  processing_list],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
