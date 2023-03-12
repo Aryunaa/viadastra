@@ -65,7 +65,7 @@ def call_all(jobs,path,memfree):
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
                                    universal_newlines=True)
-    '''
+
     stderr, stdout = process.communicate()
     with open(all_log, "a") as log:
         log.write(stdout)
@@ -73,6 +73,6 @@ def call_all(jobs,path,memfree):
             err.write(stderr)
     with open(all_log, "a") as log:
         log.write("script has been performed successfully")
-    '''
+    
     return (0)
 
