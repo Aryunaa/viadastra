@@ -23,7 +23,7 @@ def call_all(jobs,path,memfree):
     processing_list = os.path.join(maindir, config["Files"]["processing_list"])
 
     dir = pathlib.Path(__file__).parent.absolute()
-    script = os.path.join(dir,'steps/step2_snp_calling.py')
+    script = os.path.join(dir,'step2_snp_calling.py')
     print(script)
 
 
