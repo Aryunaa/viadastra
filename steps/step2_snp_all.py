@@ -22,9 +22,9 @@ def call_all(jobs,path,memfree):
     met = os.path.join(maindir,config["Files"]["metadata"])
     processing_list = os.path.join(maindir, config["Files"]["processing_list"])
 
-    #dir = pathlib.Path(__file__).parent.absolute()
-    #script = os.path.join(dir,'step2_snp_calling.py')
-    #print(script)
+    dir = pathlib.Path(__file__).parent.absolute()
+    script = os.path.join(dir,'step2_snp_calling.py')
+    print(script)
 
 
     all_log = os.path.join(os.path.join(maindir, mainlogs), 'whole_logplus')
@@ -61,7 +61,7 @@ def call_all(jobs,path,memfree):
         return(2)
     '''
     process = subprocess.Popen(['parallel', 'python',
-                                    'step2_snp_calling.py', path, '--memfree', memfree, '--retry-failed', '--joblog',
+                                    script, path, '--memfree', memfree, '--retry-failed', '--joblog',
                                     os.path.join( mainlogs, 'parallel_log'),'-j', jobs,'::::',processing_list],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
