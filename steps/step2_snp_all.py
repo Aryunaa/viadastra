@@ -65,7 +65,7 @@ def call_all(jobs,path,memfree):
                                     'step2_snp_calling.py', path, '::::', processing_list],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
-                                   universal_newlines=True)
+                                   universal_newlines=True, shell = True)
 
     stderr, stdout = process.communicate()
     with open(all_log, "a") as log:
