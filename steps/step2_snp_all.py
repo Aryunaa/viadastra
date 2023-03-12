@@ -61,7 +61,7 @@ def call_all(jobs,path,memfree):
         return(2)
     '''
     process = subprocess.Popen(['parallel', '--memfree', memfree, '--retry-failed', '--joblog',
-                                    os.path.join( mainlogs, 'parallel_log'), '-j', jobs, 'python',
+                                    os.path.join( mainlogs, 'parallel_log'), '-j', jobs, 'python3',
                                     'step2_snp_calling.py', path, '::::', processing_list],
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE,
