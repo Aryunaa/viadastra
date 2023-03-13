@@ -74,10 +74,10 @@ for i in myids:
 source = os.path.join(maindir,config["Directories"]["bam"])
 bamsize = []
 for i in range(metadata.shape[0]):
-    print(source)
-    print(metadata.iloc[i,0])
     pathfile = os.path.join(source,metadata.iloc[i,0])
+    print(pathfile)
     metadata.iloc[i,9]= round(os.path.getsize(pathfile)/(1024*1024), 2)
+    print(metadata.iloc[i,9])
 
 
 
