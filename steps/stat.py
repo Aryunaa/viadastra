@@ -26,6 +26,7 @@ metadata['starting_snps']=0
 metadata['filtrated_snps']=0
 metadata['rssnps']=0
 metadata['bamsize MB']=0
+metadata['readsnum'] = 0
 myids=list(metadata['ID'])
 
 pathloc = metadata.columns.get_loc("path")
@@ -33,7 +34,7 @@ startloc = metadata.columns.get_loc("starting_snps")
 filloc = metadata.columns.get_loc("filtrated_snps")
 rsloc = metadata.columns.get_loc("rssnps")
 sizeloc = metadata.columns.get_loc("bamsize MB")
-
+nreadsloc = metadata.columns.get_loc("reads number")
 
 
 #get shapes of dataframes
