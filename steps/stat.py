@@ -34,7 +34,17 @@ startloc = metadata.columns.get_loc("starting_snps")
 filloc = metadata.columns.get_loc("filtrated_snps")
 rsloc = metadata.columns.get_loc("rssnps")
 sizeloc = metadata.columns.get_loc("bamsize MB")
-nreadsloc = metadata.columns.get_loc("reads number")
+nreadsloc = metadata.columns.get_loc("readsnum")
+
+
+def readsnum_func(BAM):
+    readsnum = pysam.view("-c","-F","260", BAM)
+
+    # for row in samfile:
+    # print(row)
+
+    # print(samfile)
+    return (readsnum)
 
 
 #get shapes of dataframes
@@ -89,6 +99,8 @@ for i in range(metadata.shape[0]):
     metadata.iloc[i,sizeloc]= round(os.path.getsize(pathfile)/(1024*1024), 2)
     print(metadata.iloc[i,sizeloc])
 
+    metadata.iloc[i,nreadsloc] = readsnum_func(pathfile)
+    print(metadata.iloc[i,nreadsloc])
 
 
 
