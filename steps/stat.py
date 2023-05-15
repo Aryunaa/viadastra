@@ -4,6 +4,7 @@ import configparser
 import sys as sys
 import shutil
 import pandas as pd
+import pysam
 
 path = sys.argv[1]
 
