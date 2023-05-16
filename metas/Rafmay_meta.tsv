@@ -53,4 +53,4 @@ H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFalfOHT_sequence.rmdups
 H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFminus_sequence.rmdups.bam	BAM00052	chipseq		ChIP-seq	TF	CTCF	H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFminus_sequence.rmdups.bam
 H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFOHT_sequence.rmdups.bam	BAM00053	chipseq		ChIP-seq	TF	CTCF_OHT	H5HJKBGXC_ChIP-seq_thomas_19s003259-1-1_Clouaire_lane1CTCFOHT_sequence.rmdups.bam
 HKK2NBGX7_S2P_Pol2_OHT_18s002031-1-1_Clouaire_lane118s002031_sequence.rmdups.bam	BAM00054	chipseq		ChIP-seq	TF	S2P_OHT	HKK2NBGX7_S2P_Pol2_OHT_18s002031-1-1_Clouaire_lane118s002031_sequence.rmdups.bam
-bwa_aln_hg19_gh2ax.nodups.BAM	BAM00055
+bwa_aln_hg19_gh2ax.nodups.BAM	BAM00055					bwa_aln_hg19_gh2ax.nodups.BAM
