@@ -1,0 +1,29 @@
+name: viadastra
+channels:
+  - conda-forge
+  - menpo
+  - jmcmurray
+  - omnia
+  - au-eoed
+  - bioconda
+  - anaconda
+  - defaults
+dependencies:
+  - bcftools
+  - gatk4
+  - r-sys
+  - picard
+  - pytest-shutil
+  - gnu-parallel
+  - pyvcf
+  - samtools
+  - configparser
+  - os
+  - pybedtools
+  - openjdk
+  - python=3.8
+  - pathlib
+  - pysam
+  - subprocess32
+  - requests
+prefix: /home/adastra/miniconda3/envs/viadastra
