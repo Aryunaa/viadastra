@@ -121,6 +121,11 @@ def mklinks(parameter):# reading config -----------------------------
                     exceptions_bam.append(metadata.iloc[i, pathloc])
                     exceptions_id.append(metadata.iloc[i, idloc])
                     exceptions_cause.append('bams are not appropriate (not UCSC assembly)')
+            else:
+                print("bam does not exist")
+                exceptions_bam.append(metadata.iloc[i, pathloc])
+                exceptions_id.append(metadata.iloc[i, idloc])
+                exceptions_cause.append('bam does not exist in directory')
 
         # to dicts, to dataframes
         to_process = dict(zip(to_process_bam, to_process_id))

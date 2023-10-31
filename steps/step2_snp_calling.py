@@ -651,5 +651,5 @@ met = os.path.join(maindir,config["Files"]["metadata"])
 picard = config["Soft"]["picard"]
 # pipe ----------------------------------------------------
 my_id = sys.argv[2]
-
+print(my_id)
 pipe_my_id(my_id)

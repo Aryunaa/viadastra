@@ -24,17 +24,21 @@ def call_all(jobs,path,memfree):
 
     dir = pathlib.Path(__file__).parent.absolute()
     script = os.path.join(dir,'step2_snp_calling.py')
+    print(script)
+
 
     all_log = os.path.join(os.path.join(maindir, mainlogs), 'whole_logplus')
     with open(all_log, "w") as log:
         log.write('STARTING! all'+ '\n')
 
 
+    '''
     try:
-        process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j', jobs,'python', script ,path ,'::::',processing_list],
+        process = subprocess.Popen(['parallel', '--memfree',memfree,'--retry-failed','--joblog',os.path.join(os.path.join(maindir, mainlogs), 'parallel_log'),'-j',jobs,'python',script,path,'::::',processing_list],
                                         stdout=subprocess.PIPE,
                                         stderr=subprocess.PIPE,
-                                        universal_newlines=True)
+                                        universal_newlines=True,
+                                        shell = True)
         stderr, stdout = process.communicate()
         with open(all_log, "a") as log:
             log.write(stdout)
@@ -55,3 +59,21 @@ def call_all(jobs,path,memfree):
             log.write('Some exception emerged'+ '\n')
         sys.exit(10)
         return(2)
+    '''
+    process = subprocess.Popen(['parallel', '--memfree', memfree, '--retry-failed', '--joblog',
+                                    os.path.join( mainlogs, 'parallel_log'),'-j', jobs,'::::','python',
+                                    script, path,processing_list],
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   universal_newlines=True)
+
+    stderr, stdout = process.communicate()
+    with open(all_log, "a") as log:
+        log.write(stdout)
+    with open(all_log, "a") as err:
+            err.write(stderr)
+    with open(all_log, "a") as log:
+        log.write("script has been performed successfully")
+
+    return (0)
+

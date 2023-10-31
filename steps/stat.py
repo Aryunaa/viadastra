@@ -4,6 +4,7 @@ import configparser
 import sys as sys
 import shutil
 import pandas as pd
+import pysam
 
 path = sys.argv[1]
 
@@ -26,7 +27,25 @@ metadata['starting_snps']=0
 metadata['filtrated_snps']=0
 metadata['rssnps']=0
 metadata['bamsize MB']=0
+metadata['readsnum'] = 0
 myids=list(metadata['ID'])
+
+pathloc = metadata.columns.get_loc("path")
+startloc = metadata.columns.get_loc("starting_snps")
+filloc = metadata.columns.get_loc("filtrated_snps")
+rsloc = metadata.columns.get_loc("rssnps")
+sizeloc = metadata.columns.get_loc("bamsize MB")
+nreadsloc = metadata.columns.get_loc("readsnum")
+
+
+def readsnum_func(BAM):
+    readsnum = pysam.view("-c","-F","260", BAM)
+
+    # for row in samfile:
+    # print(row)
+
+    # print(samfile)
+    return (readsnum)
 
 
 #get shapes of dataframes
@@ -60,25 +79,29 @@ for i in myids:
         bedrs.to_csv(rss, sep='\t', index=False,header=None)
         a = list(metadata.index[metadata['ID'] == i])
         loc = a[0]
-        metadata.iloc[loc, 6] = vcf.shape[0]
-        metadata.iloc[loc, 7] = bedf.shape[0]
-        metadata.iloc[loc, 8] = bedrs.shape[0]
+        metadata.iloc[loc, startloc] = vcf.shape[0]
+        metadata.iloc[loc, filloc] = bedf.shape[0]
+        metadata.iloc[loc, rsloc] = bedrs.shape[0]
     else:
         a = list(metadata.index[metadata['ID'] == i])
         loc = a[0]
 
-        metadata.iloc[loc, 6] = vcf.shape[0]
-        metadata.iloc[loc, 7] = bedf.shape[0]
+        metadata.iloc[loc, startloc] = vcf.shape[0]
+        metadata.iloc[loc, filloc] = bedf.shape[0]
 
 #############get bam size#####iloc[i,9]
 source = os.path.join(maindir,config["Directories"]["bam"])
-bamsize = []
-for i in range(metadata.shape[0]):
-    print(source)
-    print(metadata.iloc[i,0])
-    pathfile = os.path.join(source,metadata.iloc[i,0])
-    metadata.iloc[i,9]= round(os.path.getsize(pathfile)/(1024*1024), 2)
 
+
+
+for i in range(metadata.shape[0]):
+    pathfile = os.path.join(source,metadata.iloc[i,0])
+    print(pathfile)
+    metadata.iloc[i,sizeloc]= round(os.path.getsize(pathfile)/(1024*1024), 2)
+    print(metadata.iloc[i,sizeloc])
+
+    metadata.iloc[i,nreadsloc] = readsnum_func(pathfile)
+    print(metadata.iloc[i,nreadsloc])
 
 
 
