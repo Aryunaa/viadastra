@@ -18,7 +18,7 @@ rssnps = os.path.join(maindir,config["Directories"]['rssnps'])
 
 
 met = os.path.join(maindir,config["Files"]["metadata"])
-metadata = pd.read_csv(met,sep='\t')
+metadata = pd.read_csv('/media/ElissarDisk/ADASTRA/oct23/logs/stats.tsv',sep='\t')
 #metadata['Extra1'] = metadata['Extra1'].apply(lambda x: x.lower())
 outdir = config["Directories"]['temp_data_out']
 tmp_path = os.path.join(outdir,'stats')
