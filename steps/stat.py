@@ -52,25 +52,26 @@ def readsnum_func(BAM):
 for i in myids:
 
     startvcf = os.path.join(vcf_calls,i+'.vcf')
-    file_rs = open(startvcf, "r")
-    line_rs = file_rs.readline()
-    n = 0
-    while line_rs.startswith("##"):
-        n += 1
+    if os.path.exists(startvcf):
+        file_rs = open(startvcf, "r")
         line_rs = file_rs.readline()
-    file_rs.close()
+        n = 0
+        while line_rs.startswith("##"):
+            n += 1
+            line_rs = file_rs.readline()
+        file_rs.close()
 
-    vcf = pd.read_csv(startvcf,
-                      sep='\t', skiprows=n)
+        vcf = pd.read_csv(startvcf,
+                          sep='\t', skiprows=n)
 
 
     header_list = ['#chr', 'start', 'end', 'ID', 'ref', 'alt', 'ref_counts', 'alt_counts', 'sample_id']
     strfb = os.path.join(vcf_filtered, i + '.snps.bed')
-
-    bedf = pd.read_csv(strfb,sep='\t', names=header_list)
-    bedf['sample_id']=i
-    print(i)
-    bedf.to_csv(strfb, sep ='\t',index=False, header=None)
+    if os.path.exists(strfb):
+        bedf = pd.read_csv(strfb,sep='\t', names=header_list)
+        bedf['sample_id']=i
+        print(i)
+        bedf.to_csv(strfb, sep ='\t',index=False, header=None)
 
     if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
         rss = os.path.join(rssnps, i + '.snps.bed')
