@@ -19,6 +19,11 @@ python3 main.py -c viadastra/configs/config.cfg -s 1
 ```php
 python3 main.py -c viadastra/configs/config.cfg -s 4
 ```
+or 
+```php
+parallel -j 4 python viadastra/steps/step2_snp_calling.py viadastra/configs/config.cfg :::: logs/processing_list ;  curl -s -X POST https://api.telegram.org/bot1992203014:AAGXCU5ta31M-R10axejbBtxRJd0L1PNOow/sendMessage -d chat_id=639261746 -d text="snp calling выполнен"
+```
+
 3. filtrate pull and sort 
 
 
