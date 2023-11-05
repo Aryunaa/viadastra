@@ -73,22 +73,23 @@ for i in myids:
         print(i)
         bedf.to_csv(strfb, sep ='\t',index=False, header=None)
 
-    if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
-        rss = os.path.join(rssnps, i + '.snps.bed')
-        bedrs = pd.read_csv(rss,sep='\t', names=header_list)
-        bedrs['sample_id']=i
-        bedrs.to_csv(rss, sep='\t', index=False,header=None)
-        a = list(metadata.index[metadata['ID'] == i])
-        loc = a[0]
-        metadata.iloc[loc, startloc] = vcf.shape[0]
-        metadata.iloc[loc, filloc] = bedf.shape[0]
-        metadata.iloc[loc, rsloc] = bedrs.shape[0]
-    else:
-        a = list(metadata.index[metadata['ID'] == i])
-        loc = a[0]
+    if os.path.exists(os.path.join(rssnps, i + '.snps.bed')):
+        if (os.stat(os.path.join(rssnps, i + '.snps.bed')).st_size != 0):
+            rss = os.path.join(rssnps, i + '.snps.bed')
+            bedrs = pd.read_csv(rss,sep='\t', names=header_list)
+            bedrs['sample_id']=i
+            bedrs.to_csv(rss, sep='\t', index=False,header=None)
+            a = list(metadata.index[metadata['ID'] == i])
+            loc = a[0]
+            metadata.iloc[loc, startloc] = vcf.shape[0]
+            metadata.iloc[loc, filloc] = bedf.shape[0]
+            metadata.iloc[loc, rsloc] = bedrs.shape[0]
+        else:
+            a = list(metadata.index[metadata['ID'] == i])
+            loc = a[0]
 
-        metadata.iloc[loc, startloc] = vcf.shape[0]
-        metadata.iloc[loc, filloc] = bedf.shape[0]
+            metadata.iloc[loc, startloc] = vcf.shape[0]
+            metadata.iloc[loc, filloc] = bedf.shape[0]
 
 #############get bam size#####iloc[i,9]
 source = os.path.join(maindir,config["Directories"]["bam"])
