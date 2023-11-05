@@ -23,9 +23,9 @@ metadata = pd.read_csv(met,sep='\t')
 outdir = config["Directories"]['temp_data_out']
 tmp_path = os.path.join(outdir,'stats')
 statfile = os.path.join(tmp_path, 'stats.tsv')
-metadata['starting_snps']=0
-metadata['filtrated_snps']=0
-metadata['rssnps']=0
+#metadata['starting_snps']=0
+#metadata['filtrated_snps']=0
+#metadata['rssnps']=0
 metadata['bamsize MB']=0
 metadata['readsnum'] = 0
 myids=list(metadata['ID'])
@@ -49,6 +49,7 @@ def readsnum_func(BAM):
 
 
 #get shapes of dataframes
+'''
 for i in myids:
 
     startvcf = os.path.join(vcf_calls,i+'.vcf')
@@ -90,20 +91,24 @@ for i in myids:
 
             metadata.iloc[loc, startloc] = vcf.shape[0]
             metadata.iloc[loc, filloc] = bedf.shape[0]
-
+'''
 #############get bam size#####iloc[i,9]
 source = os.path.join(maindir,config["Directories"]["bam"])
 
 
 
 for i in range(metadata.shape[0]):
-    pathfile = os.path.join(source,metadata.iloc[i,0])
-    print(pathfile)
-    metadata.iloc[i,sizeloc]= round(os.path.getsize(pathfile)/(1024*1024), 2)
-    print(metadata.iloc[i,sizeloc])
+    try:
+        pathfile = os.path.join(source,metadata.iloc[i,0])
+        print(pathfile)
+        metadata.iloc[i,sizeloc]= round(os.path.getsize(pathfile)/(1024*1024), 2)
+        print(metadata.iloc[i,sizeloc])
 
-    metadata.iloc[i,nreadsloc] = readsnum_func(pathfile)
-    print(metadata.iloc[i,nreadsloc])
+        metadata.iloc[i,nreadsloc] = readsnum_func(pathfile)
+        print(metadata.iloc[i,nreadsloc])
+    except:
+        pass
+
 
 
 
