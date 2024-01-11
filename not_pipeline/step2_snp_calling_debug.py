@@ -27,7 +27,7 @@ def loggi(tmp_log,tmp_err,stdout,stderr,k):
 def process_bam(my_id):
 
     print('start SNP')
-    all_log = os.path.join(maindir, 'logs/whole_log')
+    all_log = os.path.join(all_log, 'whole_log')
     with open(all_log, "a") as log:
         log.write('STARTING! '+ my_id + '\n')
 
@@ -287,7 +287,7 @@ def process_bam(my_id):
     else:
         try:
             process = subprocess.Popen(['gatk', 'BaseRecalibrator',
-                                        '--java-options',javapars,
+                                        '--java-options',javapars, '--maximum-cycle-value 5000',
                                         '-R', processed_ref,
                                         '-I', os.path.join(outdir,my_id) + '/' + my_id + '_ready.bam',
                                         '--known-sites', ref_vcf,
@@ -555,7 +555,7 @@ def rm(my_id):
 
 
 def cp(my_id):
-    all_log = os.path.join(maindir, 'logs/whole_log')
+    all_log = os.path.join(all_log, 'whole_log')
     if (os.path.exists(os.path.join(outdir, my_id) + '/' + my_id + '.vcf')
        and (os.path.join(outdir, my_id) + '/' + my_id + '.vcf' != final_outdir + '/' + my_id + '.vcf')):
         try:
@@ -633,12 +633,15 @@ def pipe_my_id(my_id):
 # reading config ------------------------------------------
 path = sys.argv[1]
 
+
 config = configparser.ConfigParser()
 config.read(path)
 maindir = config["Directories"]["maindir"]
 print(maindir)
 indir = os.path.join(maindir,config["Directories"]["data_in"])
 print(indir)
+all_log = os.path.join(maindir,config["Directories"]["mainlogs"])
+
 processed_ref = os.path.join(maindir,config["Files"]["ref_out1"])
 ref_vcf = os.path.join(maindir,config["Files"]["ref_vcf"])
 outdir = config["Directories"]["temp_data_out"]
