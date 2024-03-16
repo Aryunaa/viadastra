@@ -1,0 +1,19 @@
+BAM	ID	BADgroup	ASBgroup	Extra1	Extra2	Extra3	path
+DIvA_4OHT_1_indels.sorted.bam	DIvA_4OHT_1_indels	INDEL-Seq	.	OHT	Indels_OHT		DIvA_4OHT_1_indels.sorted.bam
+DIvA_4OHT_2_indels.sorted.bam	DIvA_4OHT_2_indels	INDEL-Seq	.	OHT	Indels_OHT		DIvA_4OHT_2_indels.sorted.bam
+DIvA_4OHT_3_indels.sorted.bam	DIvA_4OHT_3_indels	INDEL-Seq	.	OHT	Indels_OHT		DIvA_4OHT_3_indels.sorted.bam
+DIvA_4OHT_4_indels.sorted.bam	DIvA_4OHT_4_indels	INDEL-Seq	.	OHT	Indels_OHT		DIvA_4OHT_4_indels.sorted.bam
+DIvA_4OHT_amanitin_indels.sorted.bam	DIvA_4OHT_amanitin_indels	INDEL-Seq	.	OHT	Indels_OHT_amanitin		DIvA_4OHT_amanitin_indels.sorted.bam
+DIvA_4OHT_CK666_indels.sorted.bam	DIvA_4OHT_CK666_indels	INDEL-Seq	.	OHT	Indels_OHT_CK66		DIvA_4OHT_CK666_indels.sorted.bam
+DIvA_4OHT_eV_indels.sorted.bam	DIvA_4OHT_eV_indels	INDEL-Seq	.	OHT	Indels_OHT_EV		DIvA_4OHT_eV_indels.sorted.bam
+DIvA_4OHT_NU7441_1_indels.sorted.bam	DIvA_4OHT_NU7441_1_indels	INDEL-Seq	.	OHT	Indels_OHT_NU7441		DIvA_4OHT_NU7441_1_indels.sorted.bam
+DIvA_4OHT_NU7441_2_indels.sorted.bam	DIvA_4OHT_NU7441_2_indels	INDEL-Seq	.	OHT	Indels_OHT_NU7441		DIvA_4OHT_NU7441_2_indels.sorted.bam
+DIvA_4OHT_RNaseH1OE_indels.sorted.bam	DIvA_4OHT_RNaseH1OE_indels	INDEL-Seq	.	OHT	Indels_OHT_RNaseH1OE		DIvA_4OHT_RNaseH1OE_indels.sorted.bam
+DIvA_4OHT_siBLM_indels.sorted.bam	DIvA_4OHT_siBLM_indels	INDEL-Seq	.	OHT	Indels_OHT_siBLM		DIvA_4OHT_siBLM_indels.sorted.bam
+DIvA_4OHT_siLuc_2_indels.sorted.bam	DIvA_4OHT_siLuc_2_indels	INDEL-Seq	.	OHT	Indels_OHT_siLuc		DIvA_4OHT_siLuc_2_indels.sorted.bam
+DIvA_4OHT_siLuc_3_indels.sorted.bam	DIvA_4OHT_siLuc_3_indels	INDEL-Seq	.	OHT	Indels_OHT_siLuc		DIvA_4OHT_siLuc_3_indels.sorted.bam
+DIvA_4OHT_siLuc_indels.sorted.bam	DIvA_4OHT_siLuc_indels	INDEL-Seq	.	OHT	Indels_OHT_siLuc		DIvA_4OHT_siLuc_indels.sorted.bam
+DIvA_4OHT_siPARI_indels.sorted.bam	DIvA_4OHT_siPARI_indels	INDEL-Seq	.	OHT	Indels_OHT_siPARI		DIvA_4OHT_siPARI_indels.sorted.bam
+DIvA_4OHT_siRAD51_indels.sorted.bam	DIvA_4OHT_siRAD51_indels	INDEL-Seq	.	OHT	Indels_OHT_siRAD51		DIvA_4OHT_siRAD51_indels.sorted.bam
+DIvA_mock_1_indels.sorted.bam	DIvA_mock_1_indels	INDEL-Seq	.	DivA	Indels_mock		DIvA_mock_1_indels.sorted.bam
+DIvA_mock_2_indels.sorted.bam	DIvA_mock_2_indels	INDEL-Seq	.	DivA	Indels_mock		DIvA_mock_2_indels.sorted.bam
